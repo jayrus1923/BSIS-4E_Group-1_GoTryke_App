@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ServiceCo.Driver_RideRequest"
+    Title="Ride Requests"
+    BackgroundColor="#F4F6F8"
+    Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- GREEN HEADER -->
+        <Grid BackgroundColor="#2E7D32" HeightRequest="80" Padding="20,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Back Button -->
+            <Label Text="‹" 
+                   FontSize="32"
+                   TextColor="White"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center"
+                   Margin="0,0,10,0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnBackButtonClicked" />
+                </Label.GestureRecognizers>
+            </Label>
+
+            <!-- Title -->
+            <Label 
+                Text="Ride Requests"
+                Grid.Column="1"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                FontSize="20"
+                FontAttributes="Bold"
+                TextColor="White"/>
+
+            <!-- Online Status Indicator -->
+            <Frame Grid.Column="2"
+                   BackgroundColor="#E8F5E9"
+                   Padding="8,4"
+                   CornerRadius="10"
+                   VerticalOptions="Center"
+                   HorizontalOptions="End"
+                   HasShadow="False">
+                <HorizontalStackLayout Spacing="5">
+                    <BoxView x:Name="OnlineIndicator"
+                             Color="#4CAF50"
+                             BackgroundColor="Transparent"
+                             WidthRequest="10"
+                             HeightRequest="10"
+                             CornerRadius="5"
+                             VerticalOptions="Center"/>
+                    <Label x:Name="OnlineStatusLabel"
+                           Text="Online"
+                           FontSize="12"
+                           FontAttributes="Bold"
+                           TextColor="#2E7D32"
+                           VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+            </Frame>
+        </Grid>
+
+        <!-- MAIN CONTENT -->
+        <RefreshView x:Name="RefreshView"
+                     Grid.Row="1"
+                     RefreshColor="#2E7D32"
+                     Command="{Binding RefreshCommand}"
+                     IsRefreshing="{Binding IsRefreshing}"
+                     Margin="0,0,0,10">
+            <ScrollView>
+                <StackLayout Padding="20" Spacing="0">
+
+                    <!-- Driver Stats Summary -->
+                    <Border x:Name="StatsCard"
+                           BackgroundColor="White"
+                           Stroke="Transparent"
+                           StrokeShape="RoundRectangle 15"
+                           Padding="20"
+                           Margin="0,0,0,20">
+                        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="15">
+                            <!-- Total Rides -->
+                            <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                                <Label x:Name="TotalCompletedRidesLabel"
+                                       Text="0"
+                                       FontSize="24"
+                                       FontAttributes="Bold"
+                                       TextColor="#2E7D32"
+                                       HorizontalOptions="Center"/>
+                                <Label Text="Total Rides"
+                                       FontSize="12"
+                                       TextColor="#666666"
+                                       HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+
+                            <!-- Today's Rides -->
+                            <VerticalStackLayout Spacing="8" HorizontalOptions="Center" Grid.Column="1">
+                                <Label x:Name="TodayRidesLabel"
+                                       Text="0"
+                                       FontSize="24"
+                                       FontAttributes="Bold"
+                                       TextColor="#0288D1"
+                                       HorizontalOptions="Center"/>
+                                <Label Text="Today's Rides"
+                                       FontSize="12"
+                                       TextColor="#666666"
+                                       HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+
+                            <!-- Total Earnings -->
+                            <VerticalStackLayout Spacing="8" HorizontalOptions="Center" Grid.Column="2">
+                                <Label x:Name="TotalEarningsLabel"
+                                       Text="₱0.00"
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="#2E7D32"
+                                       HorizontalOptions="Center"/>
+                                <Label Text="Total Earnings"
+                                       FontSize="12"
+                                       TextColor="#666666"
+                                       HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+
+                    <!-- Capacity Filter -->
+                    <Border BackgroundColor="#E3F2FD"
+                           Stroke="Transparent"
+                           StrokeShape="RoundRectangle 10"
+                           Padding="15"
+                           Margin="0,0,0,15">
+                        <HorizontalStackLayout Spacing="10">
+                            <Image Source="tricycle.png"
+                                   WidthRequest="50"
+                                   HeightRequest="50"/>
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="Vehicle Seating Capacity"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#1976D2"/>
+                                <Label x:Name="CapacityFilterLabel"
+                                       Text="Loading..."
+                                       FontSize="12"
+                                       TextColor="#0D47A1"/>
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+                    </Border>
+
+                    <!-- Requests Counter -->
+                    <Border BackgroundColor="#E8F5E9"
+                           Stroke="Transparent"
+                           StrokeShape="RoundRectangle 10"
+                           Padding="15,10"
+                           Margin="0,0,0,15">
+                        <HorizontalStackLayout>
+                            <Label Text="📋"
+                                   FontSize="16"
+                                   VerticalOptions="Center"/>
+                            <Label x:Name="RequestsCounterLabel"
+                                   Text="0 Available Requests"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="#2E7D32"
+                                   VerticalOptions="Center"
+                                   Margin="10,0,0,0"/>
+                        </HorizontalStackLayout>
+                    </Border>
+
+                    <!-- Real-time Status Indicator -->
+                    <Border x:Name="RealtimeIndicator"
+                           BackgroundColor="#E8F5E9"
+                           Stroke="Transparent"
+                           StrokeShape="RoundRectangle 10"
+                           Padding="12,8"
+                           Margin="0,0,0,10"
+                           IsVisible="False">
+                        <HorizontalStackLayout Spacing="8">
+                            <BoxView Color="#4CAF50"
+                                     BackgroundColor="Transparent"
+                                     WidthRequest="8"
+                                     HeightRequest="8"
+                                     CornerRadius="4"
+                                     VerticalOptions="Center"/>
+                            <Label Text="Searching for new requests..."
+                                   FontSize="12"
+                                   TextColor="#2E7D32"/>
+                        </HorizontalStackLayout>
+                    </Border>
+
+                    <!-- No Requests Message -->
+                    <StackLayout 
+                        x:Name="NoRequestsLayout"
+                        Spacing="20"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Margin="0,50,0,0"
+                        IsVisible="False">
+
+                        <Frame CornerRadius="100"
+                               HeightRequest="120"
+                               WidthRequest="120"
+                               BackgroundColor="#E8F5E9"
+                               HorizontalOptions="Center"
+                               HasShadow="False">
+                            <Image
+                                Source="ride_request.png"
+                                HeightRequest="70"
+                                WidthRequest="70"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center" />
+                        </Frame>
+
+                        <Label 
+                            Text="No Ride Requests Available"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            TextColor="#666666"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center" />
+
+                        <Label 
+                            x:Name="NoRequestsMessage"
+                            Text="When commuters request rides that match your seating capacity, they will appear here for you to accept."
+                            FontSize="14"
+                            TextColor="#888888"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            LineBreakMode="WordWrap"
+                            LineHeight="1.4" />
+
+                    </StackLayout>
+
+                    <!-- Ride Requests List -->
+                    <StackLayout 
+                        x:Name="RideRequestsLayout"
+                        Spacing="15"
+                        IsVisible="False">
+
+                    </StackLayout>
+
+                </StackLayout>
+            </ScrollView>
+        </RefreshView>
+
+        <!-- Offline Mode Warning -->
+        <Border x:Name="OfflineWarning"
+               Grid.Row="2"
+               BackgroundColor="#FFF3E0"
+               Stroke="#FF9800"
+               StrokeThickness="1"
+               StrokeShape="RoundRectangle 10"
+               Padding="15"
+               Margin="15,5,15,15"
+               IsVisible="False">
+
+            <HorizontalStackLayout Spacing="10">
+                <Image Source="warning.png"
+                       WidthRequest="24"
+                       HeightRequest="24"
+                       VerticalOptions="Center"/>
+
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="You are currently offline."
+                           FontSize="13"
+                           FontAttributes="Bold"
+                           TextColor="#F57C00"
+                           LineBreakMode="WordWrap"/>
+                    <Label Text="Switch to online mode in the Home screen"
+                           FontSize="13"
+                           TextColor="#F57C00"
+                           LineBreakMode="WordWrap"
+                           LineHeight="1.3"/>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+        </Border>
+
+        <!-- Ride Request Details Modal -->
+        <Grid x:Name="RideDetailsModal"
+              Grid.RowSpan="3"
+              BackgroundColor="#80000000"
+              IsVisible="False"
+              VerticalOptions="FillAndExpand"
+              HorizontalOptions="FillAndExpand">
+
+            <Frame CornerRadius="20"
+                   Padding="0"
+                   WidthRequest="340"
+                   BackgroundColor="White"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center">
+
+                <VerticalStackLayout>
+                    <!-- Modal Header -->
+                    <Grid BackgroundColor="#2E7D32" 
+                          HeightRequest="60" 
+                          Padding="20,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Text="Ride Request Details"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               VerticalOptions="Center"/>
+
+                        <Button Text="✕"
+                                Grid.Column="1"
+                                BackgroundColor="Transparent"
+                                TextColor="White"
+                                FontSize="20"
+                                WidthRequest="30"
+                                HeightRequest="30"
+                                Padding="0"
+                                Clicked="OnCloseModalClicked"/>
+                    </Grid>
+
+                    <!-- Modal Content -->
+                    <ScrollView HeightRequest="400" Padding="20">
+                        <VerticalStackLayout x:Name="RideDetailsContent" Spacing="15">
+                            <!-- Details will be populated dynamically -->
+                        </VerticalStackLayout>
+                    </ScrollView>
+
+                    <!-- Modal Footer -->
+                    <Grid Padding="20,15,20,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="DeclineButton"
+                                Text="Cancel"
+                                BackgroundColor="#F5F5F5"
+                                TextColor="#424242"
+                                FontSize="14"
+                                FontAttributes="Bold"
+                                CornerRadius="10"
+                                HeightRequest="45"
+                                BorderColor="#E0E0E0"
+                                BorderWidth="1"
+                                Margin="0,0,5,0"
+                                Clicked="OnCloseModalClicked"/>
+                        <Button x:Name="AcceptButton"
+                                Grid.Column="1"
+                                Text="Accept Ride"
+                                BackgroundColor="#2E7D32"
+                                TextColor="White"
+                                FontSize="14"
+                                FontAttributes="Bold"
+                                CornerRadius="10"
+                                HeightRequest="45"
+                                Margin="5,0,0,0"
+                                Clicked="OnAcceptRideFromModalClicked"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+        </Grid>
+
+    </Grid>
+</ContentPage>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Shell
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:ServiceCo"
+    x:Class="ServiceCo.DriverShell"
+    Title="DriverShell"
+    Shell.NavBarIsVisible="False"
+    Shell.TabBarBackgroundColor="White"
+    Shell.TabBarTitleColor="#2E7D32"
+    Shell.TabBarUnselectedColor="#B0B0B0"
+    Shell.TabBarDisabledColor="#D3D3D3"
+    Shell.TabBarForegroundColor="#2E7D32">
+
+    <TabBar>
+        <!-- HOME -->
+        <ShellContent
+            Title="Home"
+            Icon="selected_home.png"
+            ContentTemplate="{DataTemplate local:Driver_Home}" />
+
+        <!-- NOTIFICATION -->
+        <ShellContent
+            Title="Message"
+            Icon="selected_message.png"
+            ContentTemplate="{DataTemplate local:Driver_Message}" />
+
+        <!-- RIDES -->
+        <ShellContent
+            Title="Rides"
+            Icon="selected_rides.png"
+            ContentTemplate="{DataTemplate local:Driver_Rides}" />
+
+        <!-- MENU -->
+        <ShellContent
+            Title="Menu"
+            Icon="menu.png"
+            ContentTemplate="{DataTemplate local:Driver_Menu}"/>
+    </TabBar>
+
+</Shell>

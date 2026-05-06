@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.Driver_RideSummary"
+             Title="Ride Summary"
+             BackgroundColor="White"
+             Shell.NavBarIsVisible="False">
+
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Spacing="20" Padding="20">
+
+                <Frame BackgroundColor="#2E7D32" CornerRadius="15" Padding="20" HasShadow="True">
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Label Text="✅ Ride Completed" 
+                               FontSize="24" 
+                               FontAttributes="Bold" 
+                               TextColor="White"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Thank you for the safe ride!" 
+                               FontSize="14" 
+                               TextColor="#E0E0E0"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame BackgroundColor="#F5F5F5" CornerRadius="15" Padding="20" HasShadow="True">
+                    <VerticalStackLayout Spacing="15">
+                        <Label Text="RIDE DETAILS" 
+                               FontSize="16" 
+                               FontAttributes="Bold" 
+                               TextColor="#333333"/>
+
+                        <Grid ColumnDefinitions="Auto,*" RowSpacing="10">
+                            <Label Text="📋 ID:" Grid.Row="0" Grid.Column="0" FontSize="14" TextColor="#666666"/>
+                            <Label x:Name="RideIdLabel" Text="TRC-20240922-1234" Grid.Row="0" Grid.Column="1" 
+                                   FontSize="14" TextColor="#333333" HorizontalOptions="End"/>
+
+                            <Label Text="👤 Passenger:" Grid.Row="1" Grid.Column="0" FontSize="14" TextColor="#666666"/>
+                            <Label x:Name="PassengerLabel" Text="Loading..." Grid.Row="1" Grid.Column="1" 
+                                   FontSize="14" TextColor="#333333" HorizontalOptions="End"/>
+
+                            <Label Text="📍 From:" Grid.Row="2" Grid.Column="0" FontSize="14" TextColor="#666666"/>
+                            <Label x:Name="PickupLabel" Text="Loading..." Grid.Row="2" Grid.Column="1" 
+                                   FontSize="14" TextColor="#333333" HorizontalOptions="End" LineBreakMode="WordWrap"/>
+
+                            <Label Text="🎯 To:" Grid.Row="3" Grid.Column="0" FontSize="14" TextColor="#666666"/>
+                            <Label x:Name="DropoffLabel" Text="Loading..." Grid.Row="3" Grid.Column="1" 
+                                   FontSize="14" TextColor="#333333" HorizontalOptions="End" LineBreakMode="WordWrap"/>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True">
+                    <VerticalStackLayout Spacing="15">
+                        <Label Text="PAYMENT SUMMARY" 
+                               FontSize="16" 
+                               FontAttributes="Bold" 
+                               TextColor="#333333"/>
+
+                        <Grid ColumnDefinitions="Auto,*" RowSpacing="10">
+                            <Label Text="💰 Fare:" Grid.Row="0" Grid.Column="0" FontSize="14" TextColor="#666666"/>
+                            <Label x:Name="FareLabel" Text="₱0" Grid.Row="0" Grid.Column="1" 
+                                   FontSize="16" FontAttributes="Bold" TextColor="#2E7D32" HorizontalOptions="End"/>
+
+                            <Label Text="💳 Method:" Grid.Row="1" Grid.Column="0" FontSize="14" TextColor="#666666"/>
+                            <Label x:Name="PaymentMethodLabel" Text="Cash" Grid.Row="1" Grid.Column="1" 
+                                   FontSize="14" TextColor="#333333" HorizontalOptions="End"/>
+
+                            <Label Text="✅ Status:" Grid.Row="2" Grid.Column="0" FontSize="14" TextColor="#666666"/>
+                            <Label x:Name="PaymentStatusLabel" Text="Paid" Grid.Row="2" Grid.Column="1" 
+                                   FontSize="14" FontAttributes="Bold" TextColor="#4CAF50" HorizontalOptions="End"/>
+
+                            <Label Text="⏰ Time:" Grid.Row="3" Grid.Column="0" FontSize="14" TextColor="#666666"/>
+                            <Label x:Name="TimeLabel" Text="Now" Grid.Row="3" Grid.Column="1" 
+                                   FontSize="14" TextColor="#333333" HorizontalOptions="End"/>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame BackgroundColor="#FFF3E0" CornerRadius="15" Padding="20" HasShadow="True">
+                    <VerticalStackLayout Spacing="15">
+                        <Label Text="📊 TODAY'S STATS" 
+                               FontSize="16" 
+                               FontAttributes="Bold" 
+                               TextColor="#E65100"/>
+
+                        <Grid ColumnDefinitions="*,*" RowSpacing="15">
+                            <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                                <Label Text="Rides Today" FontSize="12" TextColor="#666666"/>
+                                <Label x:Name="RidesTodayLabel" Text="0" FontSize="24" FontAttributes="Bold" TextColor="#E65100"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                                <Label Text="Earnings Today" FontSize="12" TextColor="#666666"/>
+                                <Label x:Name="EarningsTodayLabel" Text="₱0" FontSize="24" FontAttributes="Bold" TextColor="#2E7D32"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="15" Padding="0,10">
+                    <Button x:Name="DoneButton"
+                            Text="DONE"
+                            BackgroundColor="#2E7D32"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            CornerRadius="12"
+                            HeightRequest="55"
+                            Clicked="OnDoneClicked"/>
+
+                    <Button x:Name="ViewHistoryButton"
+                            Text="VIEW HISTORY"
+                            Grid.Column="1"
+                            BackgroundColor="White"
+                            TextColor="#2E7D32"
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            CornerRadius="12"
+                            HeightRequest="55"
+                            BorderColor="#2E7D32"
+                            BorderWidth="2"
+                            Clicked="OnViewHistoryClicked"/>
+                </Grid>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid x:Name="ProcessingOverlay" IsVisible="False" BackgroundColor="#CC000000">
+            <Frame BackgroundColor="White" CornerRadius="15" Padding="30" WidthRequest="200" HeightRequest="150" 
+                   HorizontalOptions="Center" VerticalOptions="Center">
+                <VerticalStackLayout Spacing="15" HorizontalOptions="Center">
+                    <ActivityIndicator x:Name="ProcessingIndicator" IsRunning="True" Color="#2E7D32"/>
+                    <Label x:Name="ProcessingLabel" Text="Loading..." FontSize="14" TextColor="#666666"/>
+                </VerticalStackLayout>
+            </Frame>
+        </Grid>
+    </Grid>
+</ContentPage>

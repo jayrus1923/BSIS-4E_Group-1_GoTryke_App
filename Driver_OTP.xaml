@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.Driver_OTP"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="White">
+
+    <Grid Padding="0" RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header Section - Fixed at Top -->
+        <StackLayout Grid.Row="0" Spacing="10" Padding="20,20,20,10" BackgroundColor="White">
+
+            <!-- Title -->
+            <Label x:Name="TitleLabel"
+                   Text="Enter One-Time PIN"
+                   FontAttributes="Bold"
+                   FontSize="26"
+                   TextColor="#2E7D32"
+                   HorizontalOptions="Center"/>
+
+            <!-- Subtitle -->
+            <Label x:Name="SubtitleLabel"
+                   Text=""
+                   FontSize="14"
+                   TextColor="#666666"
+                   HorizontalOptions="Center"
+                   Margin="0,5,0,0"
+                   IsVisible="False"/>
+        </StackLayout>
+
+        <!-- Main Content Section -->
+        <VerticalStackLayout Grid.Row="1" Spacing="25" Padding="20,0,20,0" VerticalOptions="Start">
+
+            <!-- Phone Number Info -->
+            <StackLayout Spacing="8" HorizontalOptions="Center">
+                <Label Text="We've sent a 6-digit code to"
+                       FontSize="15"
+                       TextColor="#666666"
+                       HorizontalOptions="Center"/>
+
+                <Label x:Name="PhoneNumberLabel"
+                       Text="+63 9XXXXXXXXX"
+                       FontSize="16"
+                       TextColor="#2E7D32"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"/>
+            </StackLayout>
+
+            <!-- OTP Entry Section -->
+            <VerticalStackLayout Spacing="20" HorizontalOptions="Center">
+
+                <!-- OTP Boxes -->
+                <StackLayout Spacing="12" HorizontalOptions="Center">
+                    <Label Text="Enter the code"
+                           FontSize="15"
+                           FontAttributes="Bold"
+                           TextColor="#2E7D32"
+                           HorizontalOptions="Center"/>
+
+                    <Grid HorizontalOptions="Center" ColumnSpacing="10" RowSpacing="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- OTP Box 1 -->
+                        <Border x:Name="Otp1Border"
+                                Grid.Column="0"
+                                Stroke="#CCCCCC"
+                                StrokeThickness="2"
+                                StrokeShape="RoundRectangle 10"
+                                Background="#F5F5F5"
+                                HeightRequest="55"
+                                WidthRequest="50">
+                            <Entry x:Name="Otp1Entry"
+                                   Text=""
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   HorizontalTextAlignment="Center"
+                                   Keyboard="Numeric"
+                                   MaxLength="1"
+                                   IsEnabled="False"
+                                   BackgroundColor="Transparent"
+                                   TextColor="Black"/>
+                        </Border>
+
+                        <!-- OTP Box 2 -->
+                        <Border x:Name="Otp2Border"
+                                Grid.Column="1"
+                                Stroke="#CCCCCC"
+                                StrokeThickness="2"
+                                StrokeShape="RoundRectangle 10"
+                                Background="#F5F5F5"
+                                HeightRequest="55"
+                                WidthRequest="50">
+                            <Entry x:Name="Otp2Entry"
+                                   Text=""
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   HorizontalTextAlignment="Center"
+                                   Keyboard="Numeric"
+                                   MaxLength="1"
+                                   IsEnabled="False"
+                                   BackgroundColor="Transparent"
+                                   TextColor="Black"/>
+                        </Border>
+
+                        <!-- OTP Box 3 -->
+                        <Border x:Name="Otp3Border"
+                                Grid.Column="2"
+                                Stroke="#CCCCCC"
+                                StrokeThickness="2"
+                                StrokeShape="RoundRectangle 10"
+                                Background="#F5F5F5"
+                                HeightRequest="55"
+                                WidthRequest="50">
+                            <Entry x:Name="Otp3Entry"
+                                   Text=""
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   HorizontalTextAlignment="Center"
+                                   Keyboard="Numeric"
+                                   MaxLength="1"
+                                   IsEnabled="False"
+                                   BackgroundColor="Transparent"
+                                   TextColor="Black"/>
+                        </Border>
+
+                        <!-- OTP Box 4 -->
+                        <Border x:Name="Otp4Border"
+                                Grid.Column="3"
+                                Stroke="#CCCCCC"
+                                StrokeThickness="2"
+                                StrokeShape="RoundRectangle 10"
+                                Background="#F5F5F5"
+                                HeightRequest="55"
+                                WidthRequest="50">
+                            <Entry x:Name="Otp4Entry"
+                                   Text=""
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   HorizontalTextAlignment="Center"
+                                   Keyboard="Numeric"
+                                   MaxLength="1"
+                                   IsEnabled="False"
+                                   BackgroundColor="Transparent"
+                                   TextColor="Black"/>
+                        </Border>
+
+                        <!-- OTP Box 5 -->
+                        <Border x:Name="Otp5Border"
+                                Grid.Column="4"
+                                Stroke="#CCCCCC"
+                                StrokeThickness="2"
+                                StrokeShape="RoundRectangle 10"
+                                Background="#F5F5F5"
+                                HeightRequest="55"
+                                WidthRequest="50">
+                            <Entry x:Name="Otp5Entry"
+                                   Text=""
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   HorizontalTextAlignment="Center"
+                                   Keyboard="Numeric"
+                                   MaxLength="1"
+                                   IsEnabled="False"
+                                   BackgroundColor="Transparent"
+                                   TextColor="Black"/>
+                        </Border>
+
+                        <!-- OTP Box 6 -->
+                        <Border x:Name="Otp6Border"
+                                Grid.Column="5"
+                                Stroke="#CCCCCC"
+                                StrokeThickness="2"
+                                StrokeShape="RoundRectangle 10"
+                                Background="#F5F5F5"
+                                HeightRequest="55"
+                                WidthRequest="50">
+                            <Entry x:Name="Otp6Entry"
+                                   Text=""
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   HorizontalTextAlignment="Center"
+                                   Keyboard="Numeric"
+                                   MaxLength="1"
+                                   IsEnabled="False"
+                                   BackgroundColor="Transparent"
+                                   TextColor="Black"/>
+                        </Border>
+                    </Grid>
+
+                    <!-- OTP Status Message -->
+                    <Label x:Name="OtpStatusLabel"
+                           Text=""
+                           FontSize="14"
+                           HorizontalOptions="Center"
+                           Margin="0,10,0,0"/>
+                </StackLayout>
+
+                <!-- Timer & Resend Section -->
+                <StackLayout Spacing="8" HorizontalOptions="Center">
+                    <!-- Countdown Timer -->
+                    <Label x:Name="TimerLabel"
+                           TextColor="#666666"
+                           FontSize="13"
+                           IsVisible="False"
+                           HorizontalOptions="Center"/>
+
+                    <!-- Resend OTP -->
+                    <Label x:Name="ResendLabel"
+                           HorizontalOptions="Center" 
+                           FontSize="14" 
+                           Margin="0,5,0,0">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Didn't receive the code? " TextColor="#666666"/>
+                                <Span x:Name="ResendSpan" Text="Resend OTP" TextColor="#2E7D32" FontAttributes="Bold">
+                                    <Span.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="ResendOTP"/>
+                                    </Span.GestureRecognizers>
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+            </VerticalStackLayout>
+
+            <!-- Validating/Error Message -->
+            <StackLayout x:Name="MessageStack" 
+                         Spacing="10" 
+                         HorizontalOptions="Center" 
+                         IsVisible="False">
+
+                <!-- Success Message -->
+                <Frame x:Name="SuccessMessage"
+                       CornerRadius="12"
+                       Padding="15,10"
+                       BackgroundColor="#E8F5E9"
+                       BorderColor="#C8E6C9"
+                       IsVisible="False"
+                       HorizontalOptions="Center">
+                    <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                        <Label Text="✓"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#2E7D32"
+                               VerticalOptions="Center"/>
+                        <Label x:Name="SuccessMessageLabel"
+                               Text="OTP verified successfully!"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#2E7D32"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <!-- Error Message -->
+                <Frame x:Name="ErrorMessage"
+                       CornerRadius="12"
+                       Padding="15,10"
+                       BackgroundColor="#FFEBEE"
+                       BorderColor="#FFCDD2"
+                       IsVisible="False"
+                       HorizontalOptions="Center">
+                    <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                        <Label Text="✗"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#DC3545"
+                               VerticalOptions="Center"/>
+                        <Label x:Name="ErrorMessageLabel"
+                               Text="Invalid OTP"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#DC3545"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <!-- Attempts Warning -->
+                <Frame x:Name="WarningMessage"
+                       CornerRadius="12"
+                       Padding="15,10"
+                       BackgroundColor="#FFF3E0"
+                       BorderColor="#FFE0B2"
+                       IsVisible="False"
+                       HorizontalOptions="Center">
+                    <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                        <Label Text="⚠"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#FF9800"
+                               VerticalOptions="Center"/>
+                        <Label x:Name="WarningMessageLabel"
+                               Text=""
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#FF9800"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Frame>
+            </StackLayout>
+
+            <!-- Processing Overlay -->
+            <Grid x:Name="ProcessingOverlay" 
+                  IsVisible="False"
+                  HorizontalOptions="Center"
+                  VerticalOptions="Center">
+                <StackLayout Spacing="15" HorizontalOptions="Center" VerticalOptions="Center">
+                    <ActivityIndicator x:Name="ProcessingIndicator"
+                                       Color="#2E7D32"
+                                       IsRunning="False"
+                                       HeightRequest="40"
+                                       WidthRequest="40"
+                                       HorizontalOptions="Center"/>
+                    <Label x:Name="ProcessingLabel"
+                           Text="Verifying..."
+                           FontSize="14"
+                           TextColor="#2E7D32"
+                           HorizontalOptions="Center"/>
+                </StackLayout>
+            </Grid>
+        </VerticalStackLayout>
+
+        <!-- Custom Number Keyboard -->
+        <Grid Grid.Row="2" Padding="10,0,10,20" BackgroundColor="White">
+            <VerticalStackLayout Spacing="8">
+                <!-- Row 1: 1 2 3 -->
+                <Grid ColumnSpacing="8" HorizontalOptions="Fill">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                            x:Name="Num1"
+                            Text="1"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="Black"
+                            Clicked="OnNumberClicked"/>
+
+                    <Button Grid.Column="1"
+                            x:Name="Num2"
+                            Text="2"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="Black"
+                            Clicked="OnNumberClicked"/>
+
+                    <Button Grid.Column="2"
+                            x:Name="Num3"
+                            Text="3"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="Black"
+                            Clicked="OnNumberClicked"/>
+                </Grid>
+
+                <!-- Row 2: 4 5 6 -->
+                <Grid ColumnSpacing="8" HorizontalOptions="Fill">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                            x:Name="Num4"
+                            Text="4"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="Black"
+                            Clicked="OnNumberClicked"/>
+
+                    <Button Grid.Column="1"
+                            x:Name="Num5"
+                            Text="5"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="Black"
+                            Clicked="OnNumberClicked"/>
+
+                    <Button Grid.Column="2"
+                            x:Name="Num6"
+                            Text="6"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="Black"
+                            Clicked="OnNumberClicked"/>
+                </Grid>
+
+                <!-- Row 3: 7 8 9 -->
+                <Grid ColumnSpacing="8" HorizontalOptions="Fill">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                            x:Name="Num7"
+                            Text="7"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="Black"
+                            Clicked="OnNumberClicked"/>
+
+                    <Button Grid.Column="1"
+                            x:Name="Num8"
+                            Text="8"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="Black"
+                            Clicked="OnNumberClicked"/>
+
+                    <Button Grid.Column="2"
+                            x:Name="Num9"
+                            Text="9"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="Black"
+                            Clicked="OnNumberClicked"/>
+                </Grid>
+
+                <!-- Row 4: Clear 0 Backspace -->
+                <Grid ColumnSpacing="8" HorizontalOptions="Fill">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                            x:Name="ClearButton"
+                            Text="Clear"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="#666666"
+                            Clicked="OnClearClicked"/>
+
+                    <Button Grid.Column="1"
+                            x:Name="Num0"
+                            Text="0"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="Black"
+                            Clicked="OnNumberClicked"/>
+
+                    <Button Grid.Column="2"
+                            x:Name="BackspaceButton"
+                            Text="⌫"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="#666666"
+                            Clicked="OnBackspaceClicked"/>
+                </Grid>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

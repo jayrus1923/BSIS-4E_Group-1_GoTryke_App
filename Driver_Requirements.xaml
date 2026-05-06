@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ServiceCo.Driver_Requirements"
+    BackgroundColor="#F4F6F8"
+    Shell.NavBarIsVisible="False">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ScrollView Grid.Row="0" Grid.RowSpan="2">
+            <StackLayout Spacing="20">
+
+                <Grid BackgroundColor="#2E7D32" HeightRequest="70" Padding="20">
+                    <Grid>
+                        <ImageButton 
+                            x:Name="BackButton"
+                            Source="white_back.png"
+                            HeightRequest="28" 
+                            WidthRequest="28"
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center"
+                            Clicked="OnBackButtonClicked"/>
+
+                        <Label 
+                            Text="Requirements"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            TextColor="White"/>
+                    </Grid>
+                </Grid>
+
+                <Frame BackgroundColor="White"
+                       Padding="20"
+                       CornerRadius="20"
+                       HasShadow="True"
+                       Margin="20,0,20,30">
+                    <StackLayout Spacing="15">
+
+                        <Label x:Name="StatusTitleLabel" 
+                               FontSize="16" 
+                               FontAttributes="Bold"
+                               TextColor="#2E7D32"/>
+
+                        <Label x:Name="StatusMessageLabel" 
+                               FontSize="13"
+                               TextColor="#666666"/>
+
+                        <Frame x:Name="RejectionFrame"
+                               BackgroundColor="#FFEBEE"
+                               Padding="15"
+                               CornerRadius="10"
+                               HasShadow="False"
+                               IsVisible="False">
+                            <StackLayout>
+                                <Label Text="Rejection Reason:"
+                                       FontSize="13"
+                                       FontAttributes="Bold"
+                                       TextColor="#D32F2F"/>
+                                <Label x:Name="RejectionReasonLabel"
+                                       FontSize="13"
+                                       TextColor="#D32F2F"/>
+                            </StackLayout>
+                        </Frame>
+
+                        <BoxView HeightRequest="1" BackgroundColor="#E2E8F0"/>
+
+                        <StackLayout x:Name="LoadingLayout" IsVisible="False" Spacing="10">
+                            <ActivityIndicator x:Name="LoadingIndicator" 
+                                              IsRunning="True" 
+                                              Color="#2E7D32"
+                                              HeightRequest="40"/>
+                            <Label Text="Loading your documents..." 
+                                   HorizontalOptions="Center"
+                                   FontSize="14"
+                                   TextColor="#666666"/>
+                        </StackLayout>
+
+                        <StackLayout x:Name="RequirementsList" Spacing="12">
+
+                            <Grid x:Name="Picture2x2Grid">
+                                <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 10" BackgroundColor="#F8F9FA" Padding="10">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Text="2x2 Picture" FontSize="14" TextColor="#000000" VerticalOptions="Center" Grid.Column="0"/>
+                                        <Grid Grid.Column="1">
+                                            <Label x:Name="Picture2x2Status" 
+                                                   FontSize="14" 
+                                                   FontAttributes="Bold" 
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="End"/>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+
+                            <Grid x:Name="CedulaGrid">
+                                <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 10" BackgroundColor="#F8F9FA" Padding="10">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Text="Cedula" FontSize="14" TextColor="#000000" VerticalOptions="Center" Grid.Column="0"/>
+                                        <Grid Grid.Column="1">
+                                            <Label x:Name="CedulaStatus" 
+                                                   FontSize="14" 
+                                                   FontAttributes="Bold" 
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="End"/>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+
+                            <Grid x:Name="BarangayClearanceGrid">
+                                <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 10" BackgroundColor="#F8F9FA" Padding="10">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Text="Barangay Clearance" FontSize="14" TextColor="#000000" VerticalOptions="Center" Grid.Column="0"/>
+                                        <Grid Grid.Column="1">
+                                            <Label x:Name="BarangayClearanceStatus" 
+                                                   FontSize="14" 
+                                                   FontAttributes="Bold" 
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="End"/>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+
+                            <Grid x:Name="DriversLicenseGrid">
+                                <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 10" BackgroundColor="#F8F9FA" Padding="10">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Text="Driver's License" FontSize="14" TextColor="#000000" VerticalOptions="Center" Grid.Column="0"/>
+                                        <Grid Grid.Column="1">
+                                            <Label x:Name="DriversLicenseStatus" 
+                                                   FontSize="14" 
+                                                   FontAttributes="Bold" 
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="End"/>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+
+                            <Grid x:Name="ORCRGrid">
+                                <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 10" BackgroundColor="#F8F9FA" Padding="10">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Text="OR/CR" FontSize="14" TextColor="#000000" VerticalOptions="Center" Grid.Column="0"/>
+                                        <Grid Grid.Column="1">
+                                            <Label x:Name="ORCRStatus" 
+                                                   FontSize="14" 
+                                                   FontAttributes="Bold" 
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="End"/>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+
+                            <Grid x:Name="PlateNumberGrid">
+                                <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 10" BackgroundColor="#F8F9FA" Padding="10">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Text="Plate Number" FontSize="14" TextColor="#000000" VerticalOptions="Center" Grid.Column="0"/>
+                                        <Grid Grid.Column="1">
+                                            <Label x:Name="PlateNumberStatus" 
+                                                   FontSize="14" 
+                                                   FontAttributes="Bold" 
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="End"/>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+
+                            <Grid x:Name="GcashQRGrid">
+                                <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 10" BackgroundColor="#F8F9FA" Padding="10">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Text="Gcash QR Code" FontSize="14" TextColor="#000000" VerticalOptions="Center" Grid.Column="0"/>
+                                        <Grid Grid.Column="1">
+                                            <Label x:Name="GcashQRStatus" 
+                                                   FontSize="14" 
+                                                   FontAttributes="Bold" 
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="End"/>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+
+                        </StackLayout>
+
+                        <Label x:Name="ErrorLabel" 
+                               TextColor="#D32F2F"
+                               FontSize="13"
+                               HorizontalOptions="Center"
+                               IsVisible="False"/>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </ScrollView>
+
+        <!-- ENHANCED MODAL DESIGN -->
+        <Grid x:Name="ImagePopupOverlay"
+              BackgroundColor="#CC000000"
+              IsVisible="False"
+              InputTransparent="False"
+              Grid.Row="0"
+              Grid.RowSpan="2">
+
+            <!-- Tap to close area -->
+            <Grid BackgroundColor="Transparent"
+                  InputTransparent="False">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnPopupOverlayTapped"/>
+                </Grid.GestureRecognizers>
+            </Grid>
+
+            <!-- Modal Container with Shadow and Animation -->
+            <Border Padding="0"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    WidthRequest="340"
+                    HeightRequest="520"
+                    StrokeThickness="0"
+                    BackgroundColor="Transparent"
+                    StrokeShape="RoundRectangle 28">
+                <Border.Shadow>
+                    <Shadow Brush="Black"
+                            Offset="0,8"
+                            Radius="20"
+                            Opacity="0.25"/>
+                </Border.Shadow>
+
+                <Border StrokeThickness="0"
+                        BackgroundColor="White"
+                        StrokeShape="RoundRectangle 28">
+
+                    <Grid RowDefinitions="Auto,*,Auto"
+                          BackgroundColor="White">
+
+                        <!-- Header with Gradient Effect -->
+                        <Grid BackgroundColor="#2E7D32" 
+                              Padding="18,14"
+                              Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Back button with subtle background -->
+                            <Frame CornerRadius="20"
+                                   Padding="8"
+                                   HasShadow="False"
+                                   WidthRequest="40"
+                                   BackgroundColor="#33FFFFFF"
+                                   Grid.Column="0"
+                                   IsClippedToBounds="True">
+                                <ImageButton Source="white_back.png"
+                                            HeightRequest="20"
+                                            WidthRequest="20"
+                                            BackgroundColor="Transparent"
+                                            Clicked="OnClosePopupClicked"/>
+                            </Frame>
+
+                            <Label x:Name="PopupTitleLabel"
+                                   Text="Document"
+                                   TextColor="White"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   Grid.Column="1"/>
+
+                            <!-- Close button with subtle background -->
+                            <Frame CornerRadius="20"
+                                   Padding="8,8,8,10"
+                                   HasShadow="False"
+                                   WidthRequest="40"
+                                   BackgroundColor="#33FFFFFF"
+                                   Grid.Column="2">
+                                <Label Text="✕" 
+                                       TextColor="White"
+                                       FontSize="18"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnClosePopupClicked"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </Frame>
+                        </Grid>
+
+                        <!-- Image Container with Card Effect -->
+                        <Grid Grid.Row="1"
+                              BackgroundColor="#F8F9FA"
+                              Padding="12">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Inner card for image -->
+                            <Frame CornerRadius="16"
+                                   Padding="8"
+                                   HasShadow="False"
+                                   BackgroundColor="White"
+                                   BorderColor="#E0E0E0">
+
+                                <!-- ScrollView for zoom functionality -->
+                                <ScrollView x:Name="PopupImageScrollView"
+                                            Orientation="Neither"
+                                            HorizontalOptions="Fill"
+                                            VerticalOptions="Fill">
+                                    <ScrollView.GestureRecognizers>
+                                        <PinchGestureRecognizer PinchUpdated="OnImagePinchUpdated"/>
+                                    </ScrollView.GestureRecognizers>
+
+                                    <Grid>
+                                        <Image x:Name="PopupImage"
+                                              Aspect="AspectFit"
+                                              HorizontalOptions="Center"
+                                              VerticalOptions="Center"
+                                              WidthRequest="280"
+                                              HeightRequest="330"
+                                              Margin="5"
+                                              Scale="1"
+                                              TranslationX="0"
+                                              TranslationY="0">
+                                            <Image.GestureRecognizers>
+                                                <PanGestureRecognizer PanUpdated="OnImagePanUpdated"/>
+                                                <TapGestureRecognizer Tapped="OnImageDoubleTapped" NumberOfTapsRequired="2"/>
+                                            </Image.GestureRecognizers>
+                                        </Image>
+                                    </Grid>
+                                </ScrollView>
+                            </Frame>
+
+                            <!-- Loading Indicator with better design -->
+                            <Grid IsVisible="False"
+                                  BackgroundColor="#CCFFFFFF"
+                                  HorizontalOptions="Fill"
+                                  VerticalOptions="Fill">
+                                <ActivityIndicator x:Name="PopupLoadingIndicator"
+                                                  IsRunning="False"
+                                                  Color="#2E7D32"
+                                                  Scale="1.5"/>
+                            </Grid>
+                        </Grid>
+
+                        <!-- Footer with better button design -->
+                        <Grid x:Name="PopupFooter"
+                              Grid.Row="2"
+                              BackgroundColor="White"
+                              Padding="18,15"
+                              RowSpacing="8">
+
+                            <!-- Reupload Button -->
+                            <Button x:Name="ReuploadButton"
+                                   Text="Upload New Document"
+                                   BackgroundColor="#2E7D32"
+                                   TextColor="White"
+                                   CornerRadius="25"
+                                   HeightRequest="50"
+                                   FontSize="15"
+                                   FontAttributes="Bold"
+                                   Clicked="OnReuploadClicked"
+                                   IsVisible="False">
+                                <Button.Shadow>
+                                    <Shadow Brush="#2E7D32"
+                                            Offset="0,4"
+                                            Radius="8"
+                                            Opacity="0.2"/>
+                                </Button.Shadow>
+                            </Button>
+
+                            <!-- Zoom instruction -->
+                            <Grid IsVisible="True"
+                                  HorizontalOptions="Center"
+                                  RowSpacing="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Label x:Name="NoActionLabel"
+                                      Grid.Row="1"
+                                      Text="Pinch or double-tap to zoom"
+                                      TextColor="#666666"
+                                      FontSize="13"
+                                      HorizontalOptions="Center"/>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

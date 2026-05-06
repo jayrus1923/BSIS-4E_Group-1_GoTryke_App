@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ServiceCo.Driver_TricycleProfile"
+    BackgroundColor="#F4F6F8"
+    Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+        <StackLayout Spacing="0">
+
+            <!-- HEADER -->
+            <Grid BackgroundColor="#2E7D32" HeightRequest="70" Padding="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Back Button -->
+                <ImageButton 
+                    Grid.Column="0"
+                    x:Name="BackButton"
+                    Source="white_back.png"
+                    HeightRequest="28" 
+                    WidthRequest="28"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    Clicked="OnBackButtonClicked"/>
+
+                <!-- Title -->
+                <Label 
+                    Grid.Column="1"
+                    Text="My Tricycle"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    FontSize="18"
+                    FontAttributes="Bold"
+                    TextColor="White"/>
+
+                <!-- Refresh Button -->
+                <ImageButton 
+                    Grid.Column="2"
+                    x:Name="RefreshButton"
+                    Source="refresh_white.png"
+                    HeightRequest="24" 
+                    WidthRequest="24"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    Clicked="OnRefreshButtonClicked"/>
+            </Grid>
+
+            <!-- PROFILE HEADER CARD -->
+            <Frame BackgroundColor="White"
+                   Padding="20"
+                   CornerRadius="20"
+                   HasShadow="True"
+                   Margin="20,20,20,10">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="15">
+                    <!-- Vehicle Image with Circle Mask -->
+                    <Grid Grid.Column="0" 
+                          HeightRequest="100" 
+                          WidthRequest="100"
+                          VerticalOptions="Start">
+                        <!-- Outer Border -->
+                        <Border 
+                            StrokeShape="RoundRectangle 50"
+                            StrokeThickness="0"
+                            BackgroundColor="#E8F5E9"
+                            HeightRequest="100"
+                            WidthRequest="100">
+                            <!-- Clipped Image Container -->
+                            <Border 
+                                StrokeShape="RoundRectangle 50"
+                                StrokeThickness="0"
+                                Padding="0">
+                                <Image 
+                                    x:Name="TricycleImage"
+                                    Source="gotryke_logo.png" 
+                                    Aspect="AspectFill"/>
+                            </Border>
+                        </Border>
+                        <!-- Status Badge -->
+                        <Border 
+                            HeightRequest="24"
+                            WidthRequest="24"
+                            StrokeShape="RoundRectangle 12"
+                            StrokeThickness="2"
+                            Stroke="#FFFFFF"
+                            BackgroundColor="#4CAF50"
+                            VerticalOptions="End"
+                            HorizontalOptions="End"
+                            Margin="0,0,5,5"
+                            IsVisible="False">
+                            <Label 
+                                Text="✓"
+                                FontSize="12"
+                                TextColor="White"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"/>
+                        </Border>
+                    </Grid>
+
+                    <!-- Vehicle Basic Info -->
+                    <StackLayout Grid.Column="1" VerticalOptions="Center" Spacing="8">
+                        <Label x:Name="TricycleNameLabel"
+                               Text="My Trycycle" 
+                               FontSize="20" 
+                               FontAttributes="Bold" 
+                               TextColor="#2E7D32"/>
+
+                        <!-- Status -->
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                            <BoxView 
+                                Grid.Column="0"
+                                x:Name="StatusIndicator"
+                                WidthRequest="10"
+                                HeightRequest="10"
+                                CornerRadius="5"
+                                VerticalOptions="Center"
+                                Color="#4CAF50"
+                                BackgroundColor="Transparent"/>
+                            <Label 
+                                Grid.Column="1"
+                                x:Name="TricycleStatusLabel"
+                                Text="Active" 
+                                FontSize="14" 
+                                FontAttributes="Bold"
+                                TextColor="#666666"/>
+                        </Grid>
+
+                        <!-- Vehicle Type -->
+                        <Label x:Name="VehicleTypeLabel"
+                               Text="Tricycle" 
+                               FontSize="14" 
+                               TextColor="#666666"
+                               IsVisible="False"/>
+                    </StackLayout>
+                </Grid>
+            </Frame>
+
+            <!-- VEHICLE DETAILS CARD -->
+            <Frame BackgroundColor="White"
+                   Padding="20"
+                   CornerRadius="20"
+                   HasShadow="True"
+                   Margin="20,10,20,10">
+                <StackLayout Spacing="20">
+                    <!-- Title -->
+                    <Label Text="Vehicle Details" 
+                           FontSize="18" 
+                           FontAttributes="Bold" 
+                           TextColor="#2E7D32"/>
+
+                    <!-- Vehicle Details Grid -->
+                    <VerticalStackLayout Spacing="20">
+                        <!-- Row 1: Plate Number & Body Number -->
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                            <!-- Plate Number -->
+                            <VerticalStackLayout Grid.Column="0" Spacing="5">
+                                <Label Text="Plate Number" 
+                                       FontSize="13" 
+                                       TextColor="#666666"/>
+                                <Label x:Name="PlateNumberLabel"
+                                       Text="ABCD-23123" 
+                                       FontSize="18" 
+                                       FontAttributes="Bold"
+                                       TextColor="#000000"/>
+                            </VerticalStackLayout>
+
+                            <!-- Body Number -->
+                            <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                <Label Text="Body Number" 
+                                       FontSize="13" 
+                                       TextColor="#666666"/>
+                                <Label x:Name="BodyNumberLabel"
+                                       Text="4802" 
+                                       FontSize="18" 
+                                       FontAttributes="Bold"
+                                       TextColor="#000000"/>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <!-- Row 2: Make & Model & Year -->
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                            <!-- Make & Model -->
+                            <VerticalStackLayout Grid.Column="0" Spacing="5">
+                                <Label Text="Make &amp; Model" 
+                                       FontSize="13" 
+                                       TextColor="#666666"/>
+                                <Label x:Name="MakeModelLabel"
+                                       Text="Honda TMX 155 Alpha" 
+                                       FontSize="16" 
+                                       FontAttributes="Bold"
+                                       TextColor="#000000"/>
+                            </VerticalStackLayout>
+
+                            <!-- Year Model -->
+                            <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                <Label Text="Year Model" 
+                                       FontSize="13" 
+                                       TextColor="#666666"/>
+                                <Label x:Name="YearModelLabel"
+                                       Text="2023" 
+                                       FontSize="16" 
+                                       FontAttributes="Bold"
+                                       TextColor="#000000"/>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <!-- Row 3: Color & Seating Capacity -->
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                            <!-- Color -->
+                            <VerticalStackLayout Grid.Column="0" Spacing="5">
+                                <Label Text="Color" 
+                                       FontSize="13" 
+                                       TextColor="#666666"/>
+                                <Label x:Name="ColorLabel"
+                                       Text="Red" 
+                                       FontSize="16" 
+                                       FontAttributes="Bold"
+                                       TextColor="#000000"/>
+                            </VerticalStackLayout>
+
+                            <!-- Seating Capacity -->
+                            <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                <Label Text="Seating Capacity" 
+                                       FontSize="13" 
+                                       TextColor="#666666"/>
+                                <Label x:Name="SeatingCapacityLabel"
+                                       Text="3-4 seater" 
+                                       FontSize="16" 
+                                       FontAttributes="Bold"
+                                       TextColor="#000000"/>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <!-- Row 4: Engine Number -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Engine Number" 
+                                   FontSize="13" 
+                                   TextColor="#666666"/>
+                            <Label x:Name="EngineNumberLabel"
+                                   Text="ENG123456789" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold"
+                                   TextColor="#000000"/>
+                        </VerticalStackLayout>
+
+                        <!-- Row 5: Chassis Number -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Chassis Number" 
+                                   FontSize="13" 
+                                   TextColor="#666666"/>
+                            <Label x:Name="ChassisNumberLabel"
+                                   Text="CHS123456789" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold"
+                                   TextColor="#000000"/>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </StackLayout>
+            </Frame>
+
+            <!-- DRIVER INFORMATION CARD -->
+            <Frame BackgroundColor="White"
+                   Padding="20"
+                   CornerRadius="20"
+                   HasShadow="True"
+                   Margin="20,10,20,10">
+                <StackLayout Spacing="20">
+                    <!-- Title -->
+                    <Label Text="Driver Information" 
+                           FontSize="18" 
+                           FontAttributes="Bold" 
+                           TextColor="#2E7D32"/>
+
+                    <!-- Driver Details Grid -->
+                    <VerticalStackLayout Spacing="20">
+                        <!-- Driver Name -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Driver Name" 
+                                   FontSize="13" 
+                                   TextColor="#666666"/>
+                            <Label x:Name="DriverNameLabel"
+                                   Text="Juan Dela Cruz" 
+                                   FontSize="18" 
+                                   FontAttributes="Bold"
+                                   TextColor="#000000"/>
+                        </VerticalStackLayout>
+
+                        <!-- Driver's License -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Driver's License" 
+                                   FontSize="13" 
+                                   TextColor="#666666"/>
+                            <Label x:Name="DriverLicenseLabel"
+                                   Text="D01-23-456789" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold"
+                                   TextColor="#000000"/>
+                        </VerticalStackLayout>
+
+                        <!-- Mobile Number -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Mobile Number" 
+                                   FontSize="13" 
+                                   TextColor="#666666"/>
+                            <Label x:Name="DriverMobileLabel"
+                                   Text="+63 912 345 6789" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold"
+                                   TextColor="#000000"/>
+                        </VerticalStackLayout>
+
+                        <!-- Email Address -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Email Address" 
+                                   FontSize="13" 
+                                   TextColor="#666666"/>
+                            <Label x:Name="DriverEmailLabel"
+                                   Text="qwerty@gmail.com" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold"
+                                   TextColor="#000000"/>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </StackLayout>
+            </Frame>
+
+            <!-- REQUIREMENTS STATUS CARD -->
+            <Frame BackgroundColor="White"
+                   Padding="20"
+                   CornerRadius="20"
+                   HasShadow="True"
+                   Margin="20,10,20,10"
+                   IsVisible="False">
+                <StackLayout Spacing="20">
+                    <!-- Title with Progress -->
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label 
+                            Text="Requirements Status" 
+                            FontSize="18" 
+                            FontAttributes="Bold" 
+                            TextColor="#2E7D32"/>
+                        <Label Grid.Column="1"
+                               x:Name="ProgressPercentageLabel"
+                               Text="0%"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="#4CAF50"
+                               VerticalOptions="Center"/>
+                    </Grid>
+
+                    <!-- Progress Bar -->
+                    <Grid x:Name="ProgressGrid" IsVisible="False">
+                        <ProgressBar 
+                            x:Name="RequirementsProgressBar"
+                            Progress="0"
+                            ProgressColor="#4CAF50"
+                            VerticalOptions="Center"
+                            HeightRequest="8"/>
+                    </Grid>
+
+                    <!-- Status Message -->
+                    <Label x:Name="RequirementsStatusLabel"
+                           Text="Checking requirements..." 
+                           FontSize="14" 
+                           TextColor="#666666"/>
+
+                    <BoxView HeightRequest="1" BackgroundColor="#E0E0E0" Margin="0,10,0,10"/>
+
+                    <!-- Requirements List -->
+                    <VerticalStackLayout x:Name="RequirementsList" Spacing="12">
+                        <!-- Content will be populated dynamically -->
+                    </VerticalStackLayout>
+
+                    <!-- View All Requirements Button -->
+                    <Button 
+                        x:Name="ViewRequirementsButton"
+                        Text="View All Requirements"
+                        BackgroundColor="#E8F5E9"
+                        TextColor="#2E7D32"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        CornerRadius="10"
+                        HeightRequest="45"
+                        Margin="0,10,0,0"
+                        Clicked="OnViewRequirementsClicked"/>
+                </StackLayout>
+            </Frame>
+
+            <!-- ACTION BUTTONS -->
+            <VerticalStackLayout Spacing="12" Padding="20" Margin="0,10,0,30">
+                <!-- Edit Trycycle Button -->
+                <Button 
+                    x:Name="EditTricycleButton"
+                    Text="✏️ Edit Trycycle Information"
+                    BackgroundColor="#2196F3"
+                    TextColor="White"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    CornerRadius="12"
+                    HeightRequest="55"
+                    Clicked="OnEditTricycleClicked"/>
+
+                <!-- View Documents Button -->
+                <Button 
+                    x:Name="ViewDocumentsButton"
+                    Text="📄 View Uploaded Documents"
+                    BackgroundColor="White"
+                    TextColor="#2196F3"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    CornerRadius="12"
+                    HeightRequest="55"
+                    BorderColor="#2196F3"
+                    BorderWidth="2"
+                    Clicked="OnViewDocumentsClicked"
+                    IsVisible="False"/>
+
+                <!-- Change Vehicle Photo Button -->
+                <Button 
+                    x:Name="ChangePhotoButton"
+                    Text="📷 Change Vehicle Photo"
+                    BackgroundColor="#F5F5F5"
+                    TextColor="#666666"
+                    FontSize="14"
+                    FontAttributes="Bold"
+                    CornerRadius="10"
+                    HeightRequest="45"
+                    BorderColor="#E0E0E0"
+                    BorderWidth="1"
+                    Clicked="OnChangePhotoClicked"/>
+            </VerticalStackLayout>
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ServiceCo.Driver_Profile"
+    BackgroundColor="#F4F6F8"
+    Shell.NavBarIsVisible="False">
+
+    <Grid>
+        <ScrollView>
+            <StackLayout Spacing="20">
+
+                <!-- GREEN HEADER -->
+                <Grid BackgroundColor="#2E7D32" HeightRequest="150" Padding="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Back Button and Title -->
+                    <Grid Grid.Row="0">
+                        <ImageButton 
+                            Source="white_back.png"
+                            HeightRequest="28" WidthRequest="28"
+                            BackgroundColor="Transparent"
+                            Clicked="OnBackButtonClicked"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center"/>
+
+                        <Label 
+                            Text="Driver Profile"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            TextColor="White"/>
+                    </Grid>
+
+                    <!-- Profile Image Section -->
+                    <StackLayout Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Frame 
+                            HeightRequest="100" WidthRequest="100"
+                            CornerRadius="50"
+                            BackgroundColor="White"
+                            HasShadow="True"
+                            Padding="0"
+                            HorizontalOptions="Center">
+
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnProfileImageTapped"/>
+                            </Frame.GestureRecognizers>
+
+                            <Image x:Name="ProfileImage"
+                                   Source="profile_icon.png"
+                                   Aspect="AspectFill"/>
+                        </Frame>
+
+                        <ImageButton 
+                            Source="camera_icon.png"
+                            HeightRequest="28" WidthRequest="28"
+                            BackgroundColor="#2E7D32"
+                            CornerRadius="14"
+                            Padding="5"
+                            Clicked="OnProfileImageTapped"
+                            HorizontalOptions="Center"
+                            Margin="0,-25,0,0"/>
+                    </StackLayout>
+                </Grid>
+
+                <!-- PERSONAL INFORMATION CARD -->
+                <Border BackgroundColor="White"
+                       Padding="20"
+                       StrokeShape="RoundRectangle 20"
+                       Stroke="Transparent"
+                       Margin="20,0,20,0">
+                    <StackLayout Spacing="15">
+
+                        <!-- Header only clickable -->
+                        <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnPersonalInfoEditClicked"/>
+                            </StackLayout.GestureRecognizers>
+                            <Label Text="PERSONAL INFORMATION" 
+                                   FontSize="14" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#2E7D32"
+                                   HorizontalOptions="StartAndExpand"/>
+                            <ImageButton Source="green_edit.png"
+                                         HeightRequest="20" WidthRequest="20"
+                                         BackgroundColor="Transparent"
+                                         VerticalOptions="Center"
+                                         Clicked="OnPersonalInfoEditClicked"/>
+                        </StackLayout>
+
+                        <BoxView HeightRequest="1" BackgroundColor="#E2E8F0"/>
+
+                        <StackLayout Spacing="5">
+                            <Label Text="Full Name" FontSize="12" TextColor="#666666"/>
+                            <Label x:Name="FullNameLabel"
+                                   Text="Loading..." 
+                                   FontSize="14" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#1A1A1A"/>
+                        </StackLayout>
+
+                        <BoxView HeightRequest="1" BackgroundColor="#E2E8F0"/>
+
+                        <StackLayout Spacing="5">
+                            <Label Text="Address" FontSize="12" TextColor="#666666"/>
+                            <Label x:Name="AddressLabel"
+                                   Text="Loading..." 
+                                   FontSize="14" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#1A1A1A"/>
+                        </StackLayout>
+
+                        <BoxView HeightRequest="1" BackgroundColor="#E2E8F0"/>
+
+                        <StackLayout Spacing="5">
+                            <Label Text="Gender" FontSize="12" TextColor="#666666"/>
+                            <Label x:Name="GenderLabel"
+                                   Text="Not specified" 
+                                   FontSize="14" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#1A1A1A"/>
+                        </StackLayout>
+                    </StackLayout>
+                </Border>
+
+                <!-- CONTACT INFORMATION CARD -->
+                <Border BackgroundColor="White"
+                       Padding="20"
+                       StrokeShape="RoundRectangle 20"
+                       Stroke="Transparent"
+                       Margin="20,0,20,0">
+                    <StackLayout Spacing="15">
+
+                        <!-- Header only clickable -->
+                        <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnContactInfoEditClicked"/>
+                            </StackLayout.GestureRecognizers>
+                            <Label Text="CONTACT INFORMATION" 
+                                   FontSize="14" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#2E7D32"
+                                   HorizontalOptions="StartAndExpand"/>
+                            <ImageButton Source="green_edit.png"
+                                         HeightRequest="20" WidthRequest="20"
+                                         BackgroundColor="Transparent"
+                                         VerticalOptions="Center"
+                                         Clicked="OnContactInfoEditClicked"/>
+                        </StackLayout>
+
+                        <BoxView HeightRequest="1" BackgroundColor="#E2E8F0"/>
+
+                        <StackLayout Spacing="5">
+                            <Label Text="Mobile Number" FontSize="12" TextColor="#666666"/>
+                            <Label x:Name="MobileNumberLabel"
+                                   Text="Loading..." 
+                                   FontSize="14" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#1A1A1A"/>
+                        </StackLayout>
+
+                        <BoxView HeightRequest="1" BackgroundColor="#E2E8F0"/>
+
+                        <StackLayout Spacing="5">
+                            <Label Text="Email Address" FontSize="12" TextColor="#666666"/>
+                            <Label x:Name="EmailLabel"
+                                   Text="Add an email address" 
+                                   FontSize="14" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#1A1A1A"/>
+                            <Label Text="Share your email to get receipts straight to your inbox"
+                                   FontSize="11" 
+                                   TextColor="#888888"/>
+                        </StackLayout>
+                    </StackLayout>
+                </Border>
+
+                <!-- CHANGE PIN CARD -->
+                <Border BackgroundColor="White"
+                       Padding="20"
+                       StrokeShape="RoundRectangle 20"
+                       Stroke="Transparent"
+                       Margin="20,0,20,0">
+                    <StackLayout Spacing="15">
+
+                        <!-- Header only clickable -->
+                        <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnChangePinClicked"/>
+                            </StackLayout.GestureRecognizers>
+                            <Label Text="SECURITY" 
+                                   FontSize="14" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#2E7D32"
+                                   HorizontalOptions="StartAndExpand"/>
+                            <ImageButton Source="green_edit.png"
+                                         HeightRequest="20" WidthRequest="20"
+                                         BackgroundColor="Transparent"
+                                         VerticalOptions="Center"
+                                         Clicked="OnChangePinClicked"/>
+                        </StackLayout>
+
+                        <BoxView HeightRequest="1" BackgroundColor="#E2E8F0"/>
+
+                        <StackLayout Spacing="5">
+                            <Label Text="PIN Code" FontSize="12" TextColor="#666666"/>
+                            <Label Text="••••••" 
+                                   FontSize="14" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#1A1A1A"/>
+                            <Label Text="Change your PIN to keep your account secure"
+                                   FontSize="11" 
+                                   TextColor="#888888"/>
+                        </StackLayout>
+                    </StackLayout>
+                </Border>
+
+                <!-- REQUIREMENTS CARD (View Only) -->
+                <Border BackgroundColor="White"
+                       Padding="20"
+                       StrokeShape="RoundRectangle 20"
+                       Stroke="Transparent"
+                       Margin="20,0,20,30">
+                    <StackLayout Spacing="15">
+
+                        <!-- Header only clickable -->
+                        <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnRequirementsClicked"/>
+                            </StackLayout.GestureRecognizers>
+                            <Label Text="REQUIREMENTS" 
+                                   FontSize="14" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#2E7D32"
+                                   HorizontalOptions="StartAndExpand"/>
+                            <ImageButton Source="greaterthan.png"
+                                         HeightRequest="20" WidthRequest="20"
+                                         BackgroundColor="Transparent"
+                                         VerticalOptions="Center"
+                                         Clicked="OnRequirementsClicked"/>
+                        </StackLayout>
+
+                        <BoxView HeightRequest="1" BackgroundColor="#E2E8F0"/>
+
+                        <StackLayout Spacing="5">
+                            <Label Text="Driver Documents" FontSize="12" TextColor="#666666"/>
+                            <Label Text="View your requirements" 
+                                   FontSize="14" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#1A1A1A"/>
+                            <Label Text="Check and view your submitted documents"
+                                   FontSize="11" 
+                                   TextColor="#888888"/>
+                        </StackLayout>
+                    </StackLayout>
+                </Border>
+
+            </StackLayout>
+        </ScrollView>
+
+        <!-- LOADING OVERLAY -->
+        <Grid x:Name="LoadingOverlay" 
+              IsVisible="False"
+              BackgroundColor="#80000000">
+            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                <Frame CornerRadius="20"
+                       BackgroundColor="White"
+                       Padding="30"
+                       WidthRequest="200">
+                    <StackLayout Spacing="20" HorizontalOptions="Center">
+                        <ActivityIndicator x:Name="LoadingIndicator"
+                                           Color="#2E7D32"
+                                           IsRunning="True"
+                                           Scale="1.5"/>
+                        <Label Text="Uploading..."
+                               FontSize="14"
+                               TextColor="#333333"
+                               HorizontalOptions="Center"/>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </Grid>
+
+    </Grid>
+</ContentPage>

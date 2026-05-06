@@ -1,0 +1,770 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.EditTricyclePage"
+             Title="Edit Tricycle"
+             BackgroundColor="White">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Header - Fixed at Top (Original Design) -->
+        <Frame Grid.Row="0"
+               BackgroundColor="White"
+               Padding="20,10,20,15"
+               Margin="0"
+               HasShadow="False">
+            <VerticalStackLayout HorizontalOptions="Center" Spacing="8">
+                <!-- Logo -->
+                <Image Source="gotryke_logo.png"
+                       HeightRequest="100"
+                       WidthRequest="100"
+                       Margin="0,-30,0,-40"
+                       HorizontalOptions="Center"
+                       Aspect="AspectFit"/>
+
+                <!-- Title -->
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="Edit Tricycle"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="#1A237E"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Update your vehicle details"
+                           FontSize="12"
+                           TextColor="#546E7A"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Scrollable Content -->
+        <ScrollView Grid.Row="1" BackgroundColor="#F0F4F8">
+            <VerticalStackLayout Padding="20,10,20,30" Spacing="15">
+
+                <!-- Form Card -->
+                <Frame BackgroundColor="White"
+                       CornerRadius="18"
+                       Padding="20"
+                       HasShadow="False">
+                    <VerticalStackLayout Spacing="16">
+
+                        <!-- Plate Number (Required) -->
+                        <VerticalStackLayout Spacing="6">
+                            <HorizontalStackLayout Spacing="4">
+                                <Label Text="Plate Number"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#2E7D32"/>
+                                <Label Text="*"
+                                       FontSize="14"
+                                       TextColor="#FF5252"/>
+                            </HorizontalStackLayout>
+                            <Frame BackgroundColor="#F8F9FA"
+                                   CornerRadius="10"
+                                   Padding="0"
+                                   BorderColor="#E0E0E0"
+                                   HeightRequest="50">
+                                <Entry x:Name="PlateNumberEntry"
+                                       Placeholder="e.g., ABC-1234"
+                                       PlaceholderColor="#90A4AE"
+                                       FontSize="15"
+                                       TextColor="#000000"
+                                       BackgroundColor="Transparent"
+                                       Margin="12,0"
+                                       ClearButtonVisibility="WhileEditing"
+                                       VerticalOptions="Center"
+                                       TextChanged="OnPlateNumberTextChanged"/>
+                            </Frame>
+                            <Label x:Name="PlateNumberErrorLabel"
+                                   Text=""
+                                   FontSize="11"
+                                   TextColor="#FF5252"
+                                   IsVisible="False"/>
+                            <Label Text="Format: ABC-123 or ABC-1234 (Letters then numbers)"
+                                   FontSize="10"
+                                   TextColor="#78909C"
+                                   Margin="5,0,0,0"/>
+                        </VerticalStackLayout>
+
+                        <!-- Body Number (Required) -->
+                        <VerticalStackLayout Spacing="6">
+                            <HorizontalStackLayout Spacing="4">
+                                <Label Text="Body Number"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#2E7D32"/>
+                                <Label Text="*"
+                                       FontSize="14"
+                                       TextColor="#FF5252"/>
+                            </HorizontalStackLayout>
+                            <Frame BackgroundColor="#F8F9FA"
+                                   CornerRadius="10"
+                                   Padding="0"
+                                   BorderColor="#E0E0E0"
+                                   HeightRequest="50">
+                                <Entry x:Name="BodyNumberEntry"
+                                       Placeholder="e.g., TR-123"
+                                       PlaceholderColor="#90A4AE"
+                                       FontSize="15"
+                                       TextColor="#000000"
+                                       BackgroundColor="Transparent"
+                                       Margin="12,0"
+                                       ClearButtonVisibility="WhileEditing"
+                                       VerticalOptions="Center"
+                                       TextChanged="OnBodyNumberTextChanged"/>
+                            </Frame>
+                            <Label x:Name="BodyNumberErrorLabel"
+                                   Text=""
+                                   FontSize="11"
+                                   TextColor="#FF5252"
+                                   IsVisible="False"/>
+                            <Label Text="Format: TR-123 (2 letters then 3 numbers)"
+                                   FontSize="10"
+                                   TextColor="#78909C"
+                                   Margin="5,0,0,0"/>
+                        </VerticalStackLayout>
+
+                        <!-- Make & Model (Optional) -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Make &amp; Model"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="#2E7D32"/>
+                            <Frame BackgroundColor="#F8F9FA"
+                                   CornerRadius="10"
+                                   Padding="0"
+                                   BorderColor="#E0E0E0"
+                                   HeightRequest="50">
+                                <Entry x:Name="MakeModelEntry"
+                                       Placeholder="e.g., Honda TMX 155"
+                                       PlaceholderColor="#90A4AE"
+                                       FontSize="15"
+                                       TextColor="#000000"
+                                       BackgroundColor="Transparent"
+                                       Margin="12,0"
+                                       ClearButtonVisibility="WhileEditing"
+                                       VerticalOptions="Center"/>
+                            </Frame>
+                        </VerticalStackLayout>
+
+                        <!-- Driver's License (Required) -->
+                        <VerticalStackLayout Spacing="6">
+                            <HorizontalStackLayout Spacing="4">
+                                <Label Text="Driver's License"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#2E7D32"/>
+                                <Label Text="*"
+                                       FontSize="14"
+                                       TextColor="#FF5252"/>
+                            </HorizontalStackLayout>
+                            <Frame BackgroundColor="#F8F9FA"
+                                   CornerRadius="10"
+                                   Padding="0"
+                                   BorderColor="#E0E0E0"
+                                   HeightRequest="50">
+                                <Entry x:Name="LicenseNumberEntry"
+                                       Placeholder="e.g., A12-34-567890"
+                                       PlaceholderColor="#90A4AE"
+                                       FontSize="15"
+                                       TextColor="#000000"
+                                       BackgroundColor="Transparent"
+                                       Margin="12,0"
+                                       ClearButtonVisibility="WhileEditing"
+                                       VerticalOptions="Center"
+                                       TextChanged="OnLicenseNumberTextChanged"/>
+                            </Frame>
+                            <Label x:Name="LicenseNumberErrorLabel"
+                                   Text=""
+                                   FontSize="11"
+                                   TextColor="#FF5252"
+                                   IsVisible="False"/>
+                            <Label Text="Format: A12-34-567890 (Letter + numbers - numbers - numbers)"
+                                   FontSize="10"
+                                   TextColor="#78909C"
+                                   Margin="5,0,0,0"/>
+                        </VerticalStackLayout>
+
+                        <!-- Year Model (Required) -->
+                        <VerticalStackLayout Spacing="6">
+                            <HorizontalStackLayout Spacing="4">
+                                <Label Text="Year Model"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#2E7D32"/>
+                                <Label Text="*"
+                                       FontSize="14"
+                                       TextColor="#FF5252"/>
+                            </HorizontalStackLayout>
+                            <Frame BackgroundColor="#F8F9FA"
+                                   CornerRadius="10"
+                                   Padding="0"
+                                   BorderColor="#E0E0E0"
+                                   HeightRequest="50">
+                                <Picker x:Name="YearPicker"
+                                        Title="Select Year"
+                                        FontSize="15"
+                                        Margin="10,0"
+                                        TextColor="#000000"
+                                        BackgroundColor="Transparent"
+                                        VerticalOptions="Center"/>
+                            </Frame>
+                            <Label x:Name="YearModelErrorLabel"
+                                   Text=""
+                                   FontSize="11"
+                                   TextColor="#FF5252"
+                                   IsVisible="False"/>
+                        </VerticalStackLayout>
+
+                        <!-- Color (Required) -->
+                        <VerticalStackLayout Spacing="6">
+                            <HorizontalStackLayout Spacing="4">
+                                <Label Text="Color"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#2E7D32"/>
+                                <Label Text="*"
+                                       FontSize="14"
+                                       TextColor="#FF5252"/>
+                            </HorizontalStackLayout>
+
+                            <Grid ColumnDefinitions="*,100" ColumnSpacing="12">
+                                <VerticalStackLayout Grid.Column="0" Spacing="8">
+                                    <Frame BackgroundColor="#F8F9FA"
+                                           CornerRadius="10"
+                                           Padding="0"
+                                           BorderColor="#E0E0E0"
+                                           HeightRequest="50">
+                                        <Picker x:Name="ColorPicker"
+                                                Title="Select Color"
+                                                FontSize="15"
+                                                Margin="10,0"
+                                                TextColor="#000000"
+                                                BackgroundColor="Transparent"
+                                                VerticalOptions="Center"
+                                                SelectedIndexChanged="OnColorPickerSelectedIndexChanged"/>
+                                    </Frame>
+
+                                    <VerticalStackLayout x:Name="CustomColorContainer" 
+                                                       IsVisible="False"
+                                                       Spacing="4">
+                                        <Frame BackgroundColor="#F8F9FA"
+                                               CornerRadius="10"
+                                               Padding="0"
+                                               BorderColor="#E0E0E0"
+                                               HeightRequest="50">
+                                            <Entry x:Name="CustomColorEntry"
+                                                   Placeholder="Enter color name or hex"
+                                                   PlaceholderColor="#90A4AE"
+                                                   FontSize="14"
+                                                   TextColor="#000000"
+                                                   BackgroundColor="Transparent"
+                                                   Margin="12,0"
+                                                   ClearButtonVisibility="WhileEditing"
+                                                   TextChanged="OnCustomColorTextChanged"/>
+                                        </Frame>
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="1" 
+                                                   Spacing="6"
+                                                   HorizontalOptions="Center">
+                                    <Label Text="Preview"
+                                           FontSize="11"
+                                           TextColor="#666666"
+                                           HorizontalOptions="Center"/>
+                                    <Frame x:Name="ColorDisplayFrame"
+                                           BackgroundColor="White"
+                                           CornerRadius="27.5"
+                                           Padding="0"
+                                           WidthRequest="55"
+                                           HeightRequest="55"
+                                           BorderColor="#B0BEC5"
+                                           HorizontalOptions="Center">
+                                        <BoxView x:Name="ColorDisplayBoxView"
+                                               BackgroundColor="Gray"
+                                               HeightRequest="50"
+                                               WidthRequest="50"
+                                               CornerRadius="25"/>
+                                    </Frame>
+                                    <Label x:Name="ColorNameLabel"
+                                           Text="No Color"
+                                           FontSize="11"
+                                           TextColor="#37474F"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                            <Label x:Name="ColorErrorLabel"
+                                   Text=""
+                                   FontSize="11"
+                                   TextColor="#FF5252"
+                                   IsVisible="False"/>
+                        </VerticalStackLayout>
+
+                        <!-- Engine Number (Optional) -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Engine Number"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="#2E7D32"/>
+                            <Frame BackgroundColor="#F8F9FA"
+                                   CornerRadius="10"
+                                   Padding="0"
+                                   BorderColor="#E0E0E0"
+                                   HeightRequest="50">
+                                <Entry x:Name="EngineNumberEntry"
+                                       Placeholder="Optional"
+                                       PlaceholderColor="#90A4AE"
+                                       FontSize="15"
+                                       TextColor="#000000"
+                                       BackgroundColor="Transparent"
+                                       Margin="12,0"
+                                       ClearButtonVisibility="WhileEditing"
+                                       VerticalOptions="Center"/>
+                            </Frame>
+                        </VerticalStackLayout>
+
+                        <!-- Chassis Number (Optional) -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Chassis Number"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="#2E7D32"/>
+                            <Frame BackgroundColor="#F8F9FA"
+                                   CornerRadius="10"
+                                   Padding="0"
+                                   BorderColor="#E0E0E0"
+                                   HeightRequest="50">
+                                <Entry x:Name="ChassisNumberEntry"
+                                       Placeholder="Optional"
+                                       PlaceholderColor="#90A4AE"
+                                       FontSize="15"
+                                       TextColor="#000000"
+                                       BackgroundColor="Transparent"
+                                       Margin="12,0"
+                                       ClearButtonVisibility="WhileEditing"
+                                       VerticalOptions="Center"/>
+                            </Frame>
+                        </VerticalStackLayout>
+
+                        <!-- Seating Capacity (Required) -->
+                        <VerticalStackLayout Spacing="6">
+                            <HorizontalStackLayout Spacing="4">
+                                <Label Text="Seating Capacity"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#2E7D32"/>
+                                <Label Text="*"
+                                       FontSize="14"
+                                       TextColor="#FF5252"/>
+                            </HorizontalStackLayout>
+                            <Frame BackgroundColor="#F8F9FA"
+                                   CornerRadius="10"
+                                   Padding="0"
+                                   BorderColor="#E0E0E0"
+                                   HeightRequest="50">
+                                <Picker x:Name="CapacityPicker"
+                                        Title="Select Capacity"
+                                        FontSize="15"
+                                        Margin="10,0"
+                                        TextColor="#000000"
+                                        BackgroundColor="Transparent"
+                                        VerticalOptions="Center"/>
+                            </Frame>
+                            <Label x:Name="SeatingCapacityErrorLabel"
+                                   Text=""
+                                   FontSize="11"
+                                   TextColor="#FF5252"
+                                   IsVisible="False"/>
+                        </VerticalStackLayout>
+
+                        <!-- Status (Required) -->
+                        <VerticalStackLayout Spacing="6">
+                            <HorizontalStackLayout Spacing="4">
+                                <Label Text="Status"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#2E7D32"/>
+                                <Label Text="*"
+                                       FontSize="14"
+                                       TextColor="#FF5252"/>
+                            </HorizontalStackLayout>
+                            <Frame BackgroundColor="#F8F9FA"
+                                   CornerRadius="10"
+                                   Padding="0"
+                                   BorderColor="#E0E0E0"
+                                   HeightRequest="50">
+                                <Picker x:Name="StatusPicker"
+                                        Title="Select Status"
+                                        FontSize="15"
+                                        Margin="10,0"
+                                        TextColor="#000000"
+                                        BackgroundColor="Transparent"
+                                        VerticalOptions="Center"/>
+                            </Frame>
+                            <Label x:Name="StatusErrorLabel"
+                                   Text=""
+                                   FontSize="11"
+                                   TextColor="#FF5252"
+                                   IsVisible="False"/>
+                        </VerticalStackLayout>
+
+                        <!-- Vehicle Type - Hidden -->
+                        <VerticalStackLayout IsVisible="False">
+                            <Label x:Name="VehicleTypeLabel" Text="Tricycle"/>
+                        </VerticalStackLayout>
+
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Action Buttons -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <Button x:Name="CancelButton"
+                            Grid.Column="0"
+                            Text="Cancel"
+                            BackgroundColor="#F5F5F5"
+                            TextColor="#666666"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            CornerRadius="12"
+                            HeightRequest="50"
+                            Clicked="OnCancelClicked"/>
+
+                    <Button x:Name="SaveButton"
+                            Grid.Column="1"
+                            Text="Save Changes"
+                            BackgroundColor="#2E7D32"
+                            TextColor="White"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            CornerRadius="12"
+                            HeightRequest="50"
+                            Clicked="OnSaveClicked"/>
+                </Grid>
+
+                <!-- Footer Note -->
+                <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                    <Label Text="* Required field"
+                           FontSize="11"
+                           TextColor="#78909C"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Modal Overlay -->
+        <Grid x:Name="ModalOverlay" 
+              Grid.RowSpan="2"
+              IsVisible="False"
+              BackgroundColor="#CC000000"
+              Opacity="0"/>
+
+        <!-- Validation Error Modal -->
+        <Frame x:Name="ValidationErrorModal"
+               Grid.RowSpan="2"
+               BackgroundColor="White"
+               CornerRadius="20"
+               Padding="25"
+               WidthRequest="300"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               IsVisible="False"
+               Opacity="0"
+               Scale="0.7">
+            <VerticalStackLayout Spacing="20">
+                <Image Source="sad.png"
+                       HeightRequest="60"
+                       WidthRequest="60"
+                       HorizontalOptions="Center"/>
+                <Label Text="Invalid Fields"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="#FF9800"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+
+                <Frame BackgroundColor="#FFF3E0"
+                       CornerRadius="10"
+                       Padding="15"
+                       HeightRequest="150"
+                       HasShadow="False">
+                    <ScrollView>
+                        <VerticalStackLayout x:Name="ValidationErrorSummary" Spacing="4"/>
+                    </ScrollView>
+                </Frame>
+
+                <Label Text="Please fix the fields above before saving."
+                       FontSize="12"
+                       TextColor="#666666"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+
+                <Button x:Name="ValidationErrorOkButton"
+                        Text="OK"
+                        BackgroundColor="#FF9800"
+                        TextColor="White"
+                        CornerRadius="10"
+                        HeightRequest="45"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        Clicked="OnValidationErrorOkClicked"/>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- No Changes Modal -->
+        <Frame x:Name="NoChangesModal"
+               Grid.RowSpan="2"
+               BackgroundColor="White"
+               CornerRadius="20"
+               Padding="25"
+               WidthRequest="280"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               IsVisible="False"
+               Opacity="0"
+               Scale="0.7">
+            <VerticalStackLayout Spacing="20">
+                <Image Source="document.png"
+                       HeightRequest="60"
+                       WidthRequest="60"
+                       HorizontalOptions="Center"/>
+                <Label Text="No Changes"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="#2196F3"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+                <Label Text="No changes were made to update."
+                       FontSize="14"
+                       TextColor="#666666"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+                <Button x:Name="NoChangesOkButton"
+                        Text="OK"
+                        BackgroundColor="#2196F3"
+                        TextColor="White"
+                        CornerRadius="10"
+                        HeightRequest="45"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        Clicked="OnNoChangesOkClicked"/>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Success Modal -->
+        <Frame x:Name="SuccessModal"
+               Grid.RowSpan="2"
+               BackgroundColor="White"
+               CornerRadius="20"
+               Padding="25"
+               WidthRequest="280"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               IsVisible="False"
+               Opacity="0"
+               Scale="0.7">
+            <VerticalStackLayout Spacing="20">
+                <Image Source="happy.png"
+                       HeightRequest="60"
+                       WidthRequest="60"
+                       HorizontalOptions="Center"/>
+                <Label Text="Success!"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="#2E7D32"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+                <Label x:Name="SuccessModalMessage"
+                       Text=""
+                       FontSize="14"
+                       TextColor="#666666"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+                <Button x:Name="SuccessOkButton"
+                        Text="OK"
+                        BackgroundColor="#2E7D32"
+                        TextColor="White"
+                        CornerRadius="10"
+                        HeightRequest="45"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        Clicked="OnSuccessOkClicked"/>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Error Modal -->
+        <Frame x:Name="ErrorModal"
+               Grid.RowSpan="2"
+               BackgroundColor="White"
+               CornerRadius="20"
+               Padding="25"
+               WidthRequest="280"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               IsVisible="False"
+               Opacity="0"
+               Scale="0.7">
+            <VerticalStackLayout Spacing="20">
+                <Image Source="sad.png"
+                       HeightRequest="60"
+                       WidthRequest="60"
+                       HorizontalOptions="Center"/>
+                <Label Text="Error"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="#DC3545"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+                <Label x:Name="ErrorModalMessage"
+                       Text=""
+                       FontSize="14"
+                       TextColor="#666666"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+                <Button x:Name="ErrorOkButton"
+                        Text="OK"
+                        BackgroundColor="#DC3545"
+                        TextColor="White"
+                        CornerRadius="10"
+                        HeightRequest="45"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        Clicked="OnErrorOkClicked"/>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Cancel Confirmation Modal -->
+        <Frame x:Name="CancelModal"
+               Grid.RowSpan="2"
+               BackgroundColor="White"
+               CornerRadius="20"
+               Padding="25"
+               WidthRequest="280"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               IsVisible="False"
+               Opacity="0"
+               Scale="0.7">
+            <VerticalStackLayout Spacing="20">
+                <Image Source="complaint.png"
+                       HeightRequest="60"
+                       WidthRequest="60"
+                       HorizontalOptions="Center"/>
+                <Label Text="Discard Changes?"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="#FF9800"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+                <Label Text="You have unsaved changes. Are you sure you want to exit?"
+                       FontSize="14"
+                       TextColor="#666666"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <Button x:Name="CancelKeepButton"
+                            Grid.Column="0"
+                            Text="No"
+                            BackgroundColor="#E0E0E0"
+                            TextColor="#666666"
+                            CornerRadius="10"
+                            HeightRequest="45"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            Clicked="OnModalKeepClicked"/>
+                    <Button x:Name="CancelDiscardButton"
+                            Grid.Column="1"
+                            Text="Yes, Exit"
+                            BackgroundColor="#FF9800"
+                            TextColor="White"
+                            CornerRadius="10"
+                            HeightRequest="45"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            Clicked="OnModalDiscardClicked"/>
+                </Grid>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Confirm Save Modal -->
+        <Frame x:Name="ConfirmModal"
+               Grid.RowSpan="2"
+               BackgroundColor="White"
+               CornerRadius="20"
+               Padding="25"
+               WidthRequest="300"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               IsVisible="False"
+               Opacity="0"
+               Scale="0.7">
+            <VerticalStackLayout Spacing="20">
+                <Image Source="document.png"
+                       HeightRequest="60"
+                       WidthRequest="60"
+                       HorizontalOptions="Center"/>
+                <Label Text="Confirm Update"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="#2196F3"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+
+                <Frame BackgroundColor="#F8F9FA"
+                       CornerRadius="10"
+                       Padding="15"
+                       HeightRequest="150"
+                       HasShadow="False">
+                    <ScrollView>
+                        <VerticalStackLayout x:Name="ChangesSummary" Spacing="4"/>
+                    </ScrollView>
+                </Frame>
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <Button x:Name="ConfirmCancelButton"
+                            Grid.Column="0"
+                            Text="Cancel"
+                            BackgroundColor="#E0E0E0"
+                            TextColor="#666666"
+                            CornerRadius="10"
+                            HeightRequest="45"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            Clicked="OnModalCancelClicked"/>
+                    <Button x:Name="ConfirmSaveButton"
+                            Grid.Column="1"
+                            Text="Save"
+                            BackgroundColor="#2196F3"
+                            TextColor="White"
+                            CornerRadius="10"
+                            HeightRequest="45"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            Clicked="OnModalSaveClicked"/>
+                </Grid>
+            </VerticalStackLayout>
+        </Frame>
+
+        <Grid x:Name="ProcessingOverlay" 
+              Grid.RowSpan="2"
+              IsVisible="False"
+              BackgroundColor="Transparent">
+            <VerticalStackLayout Spacing="15" 
+                                HorizontalOptions="Center" 
+                                VerticalOptions="Center">
+                <ActivityIndicator x:Name="ProcessingIndicator"
+                                   Color="#2E7D32"
+                                   IsRunning="False"
+                                   HeightRequest="40"
+                                   WidthRequest="40"/>
+                <Label x:Name="ProcessingLabel"
+                       Text="Saving..."
+                       FontSize="14"
+                       TextColor="#2E7D32"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </Grid>
+
+    </Grid>
+</ContentPage>

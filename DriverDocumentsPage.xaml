@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.DriverDocumentsPage"
+             Title="Uploaded Documents"
+             BackgroundColor="#F4F6F8">
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+
+            <!-- Header -->
+            <Label Text="Uploaded Documents"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   TextColor="#2E7D32"
+                   HorizontalOptions="Center"/>
+
+            <!-- Documents List -->
+            <StackLayout x:Name="DocumentsList" Spacing="10">
+                <!-- Content will be populated dynamically -->
+            </StackLayout>
+
+            <!-- Empty State -->
+            <StackLayout x:Name="EmptyState" 
+                         IsVisible="False" 
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center"
+                         Spacing="20"
+                         Padding="40">
+
+                <Image Source="document_empty.png"
+                       HeightRequest="100"
+                       WidthRequest="100"
+                       HorizontalOptions="Center"/>
+
+                <Label Text="No Documents Uploaded"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="#666666"
+                       HorizontalOptions="Center"/>
+
+                <Label Text="You haven't uploaded any documents yet."
+                       FontSize="14"
+                       TextColor="#999999"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+
+                <Button Text="Upload Documents"
+                        BackgroundColor="#2196F3"
+                        TextColor="White"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        CornerRadius="10"
+                        HeightRequest="45"
+                        HorizontalOptions="Center"
+                        WidthRequest="200"
+                        Clicked="OnUploadDocumentsClicked"/>
+            </StackLayout>
+
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>

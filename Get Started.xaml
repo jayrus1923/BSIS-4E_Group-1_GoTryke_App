@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.GetStarted"
+             Shell.TabBarIsVisible="False"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="White">
+
+    <Grid Padding="30"
+          VerticalOptions="Center"
+          HorizontalOptions="Center">
+
+        <StackLayout VerticalOptions="Center"
+                     HorizontalOptions="Center"
+                     Spacing="0">
+
+            <!-- Image Stack -->
+            <StackLayout x:Name="ImageStack"
+                         Spacing="-20"
+                         HorizontalOptions="Center">
+
+                <!-- Tricycle Logo -->
+                <Image x:Name="TricycleImage"
+                       Source="tricycle.png"
+                       WidthRequest="200"
+                       HeightRequest="200"
+                       HorizontalOptions="Center" />
+
+                <!-- GoTryke Logo -->
+                <Image x:Name="LogoImage"
+                       Source="gotryke_logo.png"
+                       WidthRequest="170"
+                       HeightRequest="170"
+                       Margin="-20,-70,0,-20"
+                       HorizontalOptions="Center" />
+            </StackLayout>
+
+            <!-- Spacer -->
+            <BoxView x:Name="SpacerBox"
+                     HeightRequest="20" 
+                     Margin="0,30,0,0"
+                     BackgroundColor="Transparent"/>
+
+            <!-- Get Started Button -->
+            <Button x:Name="GetStartedButton"
+                    Text="GET STARTED"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    Clicked="OnGetStartedClicked"
+                    FontFamily="sans-serif" 
+                    BackgroundColor="#2E7D32"
+                    CornerRadius="30"
+                    Padding="12"
+                    FontSize="16"
+                    WidthRequest="200"
+                    HorizontalOptions="Center"/>
+        </StackLayout>
+    </Grid>
+</ContentPage>

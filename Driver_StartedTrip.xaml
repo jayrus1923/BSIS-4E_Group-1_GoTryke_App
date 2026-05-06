@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ServiceCo.Driver_StartedTrip"
+    Title="Driver_StartedTrip"
+    BackgroundColor="White"
+    Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="*,Auto">
+
+        <!-- MAP AREA -->
+        <Grid Grid.Row="0">
+            <WebView x:Name="RideMapView"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="FillAndExpand" />
+
+            <!-- Loading Overlay -->
+            <Grid x:Name="MapBlurOverlay"
+                  BackgroundColor="#AA000000"
+                  IsVisible="False"
+                  HorizontalOptions="FillAndExpand"
+                  VerticalOptions="FillAndExpand">
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="20">
+                    <ActivityIndicator IsRunning="True" Color="White" HeightRequest="50" WidthRequest="50" />
+                    <Label Text="Setting Up Navigation..." 
+                           TextColor="White" 
+                           FontSize="16" 
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </Grid>
+        </Grid>
+
+        <!-- TOP HEADER - ABSOLUTE LAYOUT -->
+        <AbsoluteLayout Grid.Row="0">
+            <!-- Header Frame -->
+            <Frame
+                x:Name="HeaderFrame"
+                BackgroundColor="White"
+                Margin="20,110,20,0"
+                Padding="15"
+                CornerRadius="15"
+                HasShadow="True"
+                HeightRequest="75"
+                AbsoluteLayout.LayoutBounds="0.5,0,1,0"
+                AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional">
+
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnHeaderTapped"/>
+                </Frame.GestureRecognizers>
+
+                <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="10">
+                    <!-- Pickup -->
+                    <VerticalStackLayout Grid.Column="0" Spacing="2">
+                        <Label
+                            Text="FROM"
+                            FontSize="10"
+                            TextColor="#666666"
+                            FontAttributes="Bold"/>
+                        <Label
+                            x:Name="PickupDisplayLabel"
+                            Text="Loading..."
+                            FontSize="12"
+                            TextColor="Black"
+                            FontAttributes="Bold"
+                            MaxLines="1"
+                            LineBreakMode="TailTruncation"/>
+                    </VerticalStackLayout>
+
+                    <!-- Arrow -->
+                    <Label
+                        Grid.Column="1"
+                        Text="➔"
+                        FontSize="16"
+                        TextColor="#2E7D32"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Margin="0,3,0,0"/>
+
+                    <!-- Dropoff -->
+                    <VerticalStackLayout Grid.Column="2" Spacing="2">
+                        <Label
+                            Text="TO"
+                            FontSize="10"
+                            TextColor="#666666"
+                            FontAttributes="Bold"/>
+                        <Label
+                            x:Name="DropoffDisplayLabel"
+                            Text="Loading..."
+                            FontSize="12"
+                            TextColor="Black"
+                            FontAttributes="Bold"
+                            MaxLines="1"
+                            LineBreakMode="TailTruncation"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Frame>
+
+            <!-- ETA Display -->
+            <Frame
+                x:Name="EtaFrame"
+                BackgroundColor="White"
+                Padding="12"
+                CornerRadius="20"
+                HasShadow="True"
+                Margin="215,30,0,0"
+                AbsoluteLayout.LayoutBounds="0.5,0.15,-1,-1"
+                AbsoluteLayout.LayoutFlags="PositionProportional">
+                <VerticalStackLayout Spacing="3" HorizontalOptions="Center">
+                    <Label
+                        x:Name="EtaLabel"
+                        Text="ETA: -- mins"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        TextColor="Black" />
+                    <Label
+                        x:Name="DistanceLabel"
+                        Text="-.- km"
+                        FontSize="10"
+                        TextColor="#666666" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Back Button -->
+            <Frame
+                x:Name="BackButton"
+                BackgroundColor="White"
+                Padding="12"
+                CornerRadius="25"
+                HasShadow="True"
+                HeightRequest="50"
+                WidthRequest="50"
+                AbsoluteLayout.LayoutBounds="0.05,0.95,-1,-1"
+                AbsoluteLayout.LayoutFlags="PositionProportional">
+                <Image
+                    Source="green_back.png"
+                    HeightRequest="24"
+                    WidthRequest="24">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBackTapped"/>
+                    </Image.GestureRecognizers>
+                </Image>
+            </Frame>
+
+            <!-- 2D/3D Button -->
+            <Frame
+                x:Name="MapTypeButton"
+                BackgroundColor="White"
+                Padding="12"
+                CornerRadius="25"
+                HasShadow="True"
+                HeightRequest="50"
+                WidthRequest="50"
+                Margin="0,0,0,20"
+                AbsoluteLayout.LayoutBounds="0.95,0.85,-1,-1"
+                AbsoluteLayout.LayoutFlags="PositionProportional">
+                <Image
+                    x:Name="MapTypeIcon"
+                    Source="three_dimentional.png"
+                    HeightRequest="24"
+                    WidthRequest="24">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnMapTypeTapped"/>
+                    </Image.GestureRecognizers>
+                </Image>
+            </Frame>
+
+            <!-- Current Location Button -->
+            <Frame
+                x:Name="LocationButton"
+                BackgroundColor="White"
+                Padding="12"
+                CornerRadius="25"
+                HasShadow="True"
+                HeightRequest="50"
+                WidthRequest="50"
+                AbsoluteLayout.LayoutBounds="0.95,0.95,-1,-1"
+                AbsoluteLayout.LayoutFlags="PositionProportional">
+                <Image
+                    x:Name="LocationIcon"
+                    Source="selected_rides.png"
+                    HeightRequest="24"
+                    WidthRequest="24">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnLocationButtonTapped"/>
+                    </Image.GestureRecognizers>
+                </Image>
+            </Frame>
+        </AbsoluteLayout>
+
+        <!-- ACTION PANEL -->
+        <Frame
+            x:Name="ActionPanel"
+            Grid.Row="1"
+            BackgroundColor="White"
+            CornerRadius="25"
+            HasShadow="True"
+            Padding="20"
+            Margin="0,-20,0,0"
+            HeightRequest="180">
+
+            <VerticalStackLayout Spacing="15">
+
+                <!-- Status Display -->
+                <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                    <Label
+                        x:Name="StatusLabel"
+                        Text="Going to Pickup Location"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        TextColor="#2E7D32"
+                        HorizontalOptions="Center" />
+                    <Label
+                        x:Name="StatusSubLabel"
+                        Text="Follow the navigation route"
+                        FontSize="12"
+                        TextColor="#666666"
+                        HorizontalOptions="Center" />
+                </VerticalStackLayout>
+
+                <!-- Action Buttons -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+
+                    <!-- Left Button (Cancel/Arrived) -->
+                    <Button
+                        x:Name="LeftActionButton"
+                        Text="Cancel"
+                        BackgroundColor="#F44336"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        CornerRadius="12"
+                        HeightRequest="55"
+                        Clicked="OnLeftActionButtonClicked" />
+
+                    <!-- Right Button (Arrived/Start Ride/End Ride) -->
+                    <Button
+                        x:Name="RightActionButton"
+                        Grid.Column="1"
+                        Text="Arrived"
+                        BackgroundColor="#0288D1"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        CornerRadius="12"
+                        HeightRequest="55"
+                        Clicked="OnRightActionButtonClicked" />
+                </Grid>
+
+            </VerticalStackLayout>
+        </Frame>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.MapPickerPage"
+             BackgroundColor="White"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid Padding="0" RowSpacing="0">
+
+        <!-- Full Screen Map Container -->
+        <AbsoluteLayout>
+            <WebView x:Name="MapWebView"
+                     AbsoluteLayout.LayoutBounds="0,0,1,1"
+                     AbsoluteLayout.LayoutFlags="All"/>
+
+            <!-- Google-style Center Pin -->
+            <Frame x:Name="CenterPin"
+                   AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
+                   AbsoluteLayout.LayoutFlags="PositionProportional"
+                   TranslationY="-30"
+                   BackgroundColor="Transparent"
+                   Padding="0"
+                   HasShadow="False"
+                   BorderColor="Transparent"
+                   IsVisible="False">
+                <Image Source="google_pin.png" 
+                       WidthRequest="48" 
+                       HeightRequest="48"
+                       Aspect="AspectFit"/>
+            </Frame>
+
+            <!-- Pulsing dot animation for center pin -->
+            <Frame x:Name="PulsingDot"
+                   AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
+                   AbsoluteLayout.LayoutFlags="PositionProportional"
+                   TranslationY="-5"
+                   BackgroundColor="#401a73e8"
+                   CornerRadius="12"
+                   HeightRequest="24"
+                   WidthRequest="24"
+                   Padding="0"
+                   HasShadow="False"
+                   IsVisible="False"/>
+
+            <!-- Current Location Indicator Circle -->
+            <Frame x:Name="CurrentLocationIndicator"
+                   AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
+                   AbsoluteLayout.LayoutFlags="PositionProportional"
+                   BackgroundColor="#301a73e8"
+                   CornerRadius="100"
+                   HeightRequest="100"
+                   WidthRequest="100"
+                   Padding="0"
+                   HasShadow="False"
+                   BorderColor="#801a73e8"
+                   IsVisible="False"/>
+        </AbsoluteLayout>
+
+        <!-- Back Button - Top Left -->
+        <Frame Padding="16,20,0,0"
+               VerticalOptions="Start"
+               HorizontalOptions="Start"
+               BackgroundColor="Transparent">
+            <Frame BackgroundColor="White"
+                   CornerRadius="25"
+                   Padding="12"
+                   HasShadow="True"
+                   HeightRequest="44"
+                   WidthRequest="44">
+                <Image Source="black_back.png" 
+                       HeightRequest="20" 
+                       WidthRequest="20"
+                       Aspect="AspectFit">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBackTapped"/>
+                    </Image.GestureRecognizers>
+                </Image>
+            </Frame>
+        </Frame>
+
+        <!-- Control Buttons - Bottom Right -->
+        <VerticalStackLayout Padding="0,0,16,260"
+                            VerticalOptions="End"
+                            HorizontalOptions="End"
+                            Spacing="8">
+
+            <!-- Switch Mode Button -->
+            <Frame BackgroundColor="White"
+                   CornerRadius="25"
+                   Padding="12"
+                   HasShadow="True"
+                   HeightRequest="50"
+                   WidthRequest="50">
+                <Image Source="switch_icon.png" 
+                       HeightRequest="24" 
+                       WidthRequest="24"
+                       Aspect="AspectFit">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnSwitchModeClicked"/>
+                    </Image.GestureRecognizers>
+                </Image>
+            </Frame>
+
+            <!-- Current Location Button -->
+            <Frame BackgroundColor="White"
+                   CornerRadius="25"
+                   Padding="12"
+                   HasShadow="True"
+                   HeightRequest="50"
+                   WidthRequest="50">
+                <Image Source="pickup_pin.png" 
+                       HeightRequest="24" 
+                       WidthRequest="24"
+                       Aspect="AspectFit">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCurrentLocationTapped"/>
+                    </Image.GestureRecognizers>
+                </Image>
+            </Frame>
+        </VerticalStackLayout>
+
+        <!-- Bottom Panel - Floating Over Map -->
+        <Border Padding="20"
+                Margin="20"
+                BackgroundColor="#FAFFFFFF"
+                Stroke="#E0E0E0"
+                StrokeShape="RoundRectangle 20"
+                VerticalOptions="End"
+                HorizontalOptions="Fill">
+
+            <Border.Shadow>
+                <Shadow Brush="#40000000" Offset="0,4" Radius="12" />
+            </Border.Shadow>
+
+            <VerticalStackLayout Spacing="8">
+
+                <!-- Mode Indicator - Clean design without black background -->
+                <HorizontalStackLayout x:Name="ModeContainer"
+                                       Spacing="6"
+                                       HorizontalOptions="Center"
+                                       Margin="0,0,0,8">
+                    <Image x:Name="ModeIcon"
+                           Source="tap_icon.png"
+                           HeightRequest="16"
+                           WidthRequest="16"
+                           Aspect="AspectFit"
+                           VerticalOptions="Center"/>
+                    <Label x:Name="ModeIndicator"
+                           Text="Tap anywhere on map to select"
+                           TextColor="#666666"
+                           FontSize="13"
+                           FontAttributes="None"
+                           VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+
+                <!-- Coordinates with Icon -->
+                <HorizontalStackLayout Spacing="8">
+                    <Image Source="dropoff.png" 
+                           HeightRequest="20" 
+                           WidthRequest="20"
+                           Aspect="AspectFit"
+                           VerticalOptions="Center"/>
+                    <Label x:Name="CoordinatesLabel" 
+                           Text="14.8445° N, 120.8115° E"
+                           FontSize="14"
+                           TextColor="#1a73e8"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center"
+                           LineBreakMode="NoWrap"/>
+                </HorizontalStackLayout>
+
+                <!-- Address Line 1 (Street/Area) -->
+                <Label x:Name="AddressLine1Label"
+                       Text="Malolos"
+                       FontSize="16"
+                       TextColor="#212121"
+                       FontAttributes="Bold"
+                       MaxLines="1"
+                       LineBreakMode="TailTruncation"/>
+
+                <!-- Address Line 2 (City/Province) -->
+                <Label x:Name="AddressLine2Label"
+                       Text="Bulacan"
+                       FontSize="14"
+                       TextColor="#757575"
+                       MaxLines="1"
+                       LineBreakMode="TailTruncation"/>
+
+                <!-- Confirm Button -->
+                <Button x:Name="ConfirmButton"
+                        Text="Confirm Location"
+                        Clicked="OnConfirmClicked"
+                        BackgroundColor="#1a73e8"
+                        TextColor="White"
+                        CornerRadius="12"
+                        HeightRequest="44"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        Margin="0,8,0,0"/>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentPage>

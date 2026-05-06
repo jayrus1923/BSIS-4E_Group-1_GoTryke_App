@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.Driver_UploadRejected"
+             Title="Re-upload Documents"
+             BackgroundColor="#F8F9FA"
+             Shell.NavBarIsVisible="False">
+
+    <Grid>
+        <!-- FULL SCREEN PREVIEW MODAL -->
+        <Grid x:Name="FullScreenPreviewGrid"
+              IsVisible="False"
+              BackgroundColor="Black"
+              ZIndex="1000">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Image x:Name="FullScreenPreviewImage"
+                   Aspect="AspectFit"
+                   HorizontalOptions="Fill"
+                   VerticalOptions="Fill"/>
+
+            <Button Grid.Row="1"
+                    Text="Close Preview"
+                    BackgroundColor="#2E7D32"
+                    TextColor="White"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    CornerRadius="0"
+                    HeightRequest="50"
+                    Clicked="OnCloseFullScreenClicked"/>
+        </Grid>
+
+        <!-- Loading Overlay -->
+        <Grid x:Name="LoadingOverlay"
+              BackgroundColor="#80000000"
+              IsVisible="False"
+              ZIndex="999">
+            <VerticalStackLayout HorizontalOptions="Center" 
+                               VerticalOptions="Center" 
+                               Spacing="20">
+                <ActivityIndicator IsRunning="True" 
+                                 Color="#2E7D32" 
+                                 HeightRequest="50" 
+                                 WidthRequest="50" />
+                <Label Text="Uploading..." 
+                       TextColor="White" 
+                       FontSize="16" 
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" />
+                <Label x:Name="UploadStatusLabel"
+                       Text="Please wait..." 
+                       TextColor="White" 
+                       FontSize="14"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </Grid>
+
+        <ScrollView>
+            <VerticalStackLayout Padding="25" Spacing="25">
+
+                <!-- Header with Back Button -->
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <Frame Grid.Column="0"
+                           BackgroundColor="Transparent"
+                           Padding="5"
+                           CornerRadius="10"
+                           HeightRequest="40"
+                           WidthRequest="40">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnBackClicked"/>
+                        </Frame.GestureRecognizers>
+                        <Label Text="←"
+                               FontSize="28"
+                               TextColor="#2E7D32"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Frame>
+                    <Label Grid.Column="1"
+                           Text="Re-upload Documents"
+                           FontSize="22"
+                           FontAttributes="Bold"
+                           TextColor="#2E7D32"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                </Grid>
+
+                <!-- Rejection Reason -->
+                <Frame BackgroundColor="#FFEBEE"
+                       CornerRadius="10"
+                       Padding="15">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="❌ Reason for rejection:"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#D32F2F"/>
+                        <Label x:Name="RejectionReasonLabel"
+                               Text="Loading reason..."
+                               FontSize="13"
+                               TextColor="#666"
+                               LineBreakMode="WordWrap"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Progress Bar -->
+                <Frame BackgroundColor="White"
+                       CornerRadius="10"
+                       Padding="15">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Upload Progress"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#333"/>
+                        <ProgressBar x:Name="ProgressBar"
+                                     Progress="0"
+                                     HeightRequest="8"
+                                     BackgroundColor="#E0E0E0"/>
+                        <Grid>
+                            <Label x:Name="ProgressLabel"
+                                   Text="0 of 0 documents uploaded"
+                                   FontSize="13"
+                                   TextColor="#0288D1"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Start"/>
+                            <Label x:Name="ProgressPercentageLabel"
+                                   Text="0%"
+                                   FontSize="13"
+                                   FontAttributes="Bold"
+                                   TextColor="#0288D1"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="End"/>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Document List Header -->
+                <Label Text="Documents to re-upload:"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       TextColor="#333"/>
+
+                <!-- Document List -->
+                <CollectionView x:Name="DocumentsCollectionView"
+                                ItemsSource="{Binding Documents}"
+                                BackgroundColor="Transparent">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="15"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="White"
+                                   CornerRadius="12"
+                                   Padding="15"
+                                   BorderColor="#FFCDD2"
+                                   HasShadow="True">
+                                <VerticalStackLayout Spacing="12">
+
+                                    <!-- Document Header -->
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                                        <Frame Grid.Column="0"
+                                               BackgroundColor="{Binding IconBackgroundColor}"
+                                               Padding="8"
+                                               CornerRadius="8"
+                                               HeightRequest="45"
+                                               WidthRequest="45">
+                                            <Label Text="{Binding Icon}"
+                                                   FontSize="22"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Frame>
+
+                                        <VerticalStackLayout Grid.Column="1" 
+                                                             Spacing="2" 
+                                                             VerticalOptions="Center">
+                                            <Label Text="{Binding DisplayName}"
+                                                   FontSize="14"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#D32F2F"/>
+                                            <Label Text="{Binding StatusText}"
+                                                   FontSize="11"
+                                                   TextColor="{Binding StatusColor}"/>
+                                        </VerticalStackLayout>
+
+                                        <Frame Grid.Column="2"
+                                               BackgroundColor="{Binding UploadStatusColor}"
+                                               Padding="8,4"
+                                               CornerRadius="6"
+                                               IsVisible="{Binding IsUploaded}">
+                                            <Label Text="{Binding UploadStatusText}"
+                                                   FontSize="10"
+                                                   FontAttributes="Bold"
+                                                   TextColor="White"/>
+                                        </Frame>
+                                    </Grid>
+
+                                    <!-- Preview Section -->
+                                    <Border Stroke="{Binding PreviewBorderColor}"
+                                            StrokeThickness="1"
+                                            StrokeShape="RoundRectangle 8"
+                                            Padding="10"
+                                            IsVisible="{Binding HasSelectedFile}">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <Image Grid.Row="0"
+                                                   Source="{Binding SelectedFilePreview}"
+                                                   HeightRequest="120"
+                                                   Aspect="AspectFit"
+                                                   IsVisible="{Binding IsImage}"
+                                                   Margin="0,0,0,5">
+                                                <Image.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="OnImageTapped"
+                                                                          CommandParameter="{Binding .}"/>
+                                                </Image.GestureRecognizers>
+                                            </Image>
+
+                                            <HorizontalStackLayout Grid.Row="0" 
+                                                                   Spacing="8" 
+                                                                   HorizontalOptions="Center"
+                                                                   IsVisible="{Binding IsNotImage}">
+                                                <Image Source="{Binding FileIcon}"
+                                                       HeightRequest="40"
+                                                       WidthRequest="40"/>
+                                                <Label Text="{Binding SelectedFileName}"
+                                                       FontSize="13"
+                                                       TextColor="#333333"
+                                                       VerticalOptions="Center"/>
+                                            </HorizontalStackLayout>
+
+                                            <Label Grid.Row="1"
+                                                   Text="{Binding SelectedFileName}"
+                                                   FontSize="11"
+                                                   TextColor="#666666"
+                                                   HorizontalOptions="Center"
+                                                   IsVisible="{Binding IsImage}"/>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- Select File Button (Hindi Upload) -->
+                                    <Button Text="Select File"
+                                            BackgroundColor="#2196F3"
+                                            TextColor="White"
+                                            FontSize="14"
+                                            CornerRadius="10"
+                                            HeightRequest="45"
+                                            Command="{Binding SelectFileCommand}"
+                                            CommandParameter="{Binding .}"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Submit All Button -->
+                <Button x:Name="SubmitAllButton"
+                        Text="SUBMIT ALL FOR REVIEW"
+                        BackgroundColor="#B8C3B0"
+                        TextColor="#666"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        CornerRadius="25"
+                        HeightRequest="55"
+                        Clicked="OnSubmitAllClicked"
+                        IsEnabled="False"
+                        Margin="0,20,0,0"/>
+
+                <!-- Note -->
+                <Label Text="Select files first, then click SUBMIT ALL to upload everything at once."
+                       FontSize="12"
+                       TextColor="#666"
+                       HorizontalTextAlignment="Center"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

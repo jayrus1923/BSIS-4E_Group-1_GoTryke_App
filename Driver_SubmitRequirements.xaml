@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.Driver_SubmitRequirements"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F8F9FA">
+
+    <Grid>
+        <!-- ========== LOADING OVERLAY ========== -->
+        <Grid x:Name="LoadingOverlay"
+              BackgroundColor="#80000000"
+              IsVisible="False"
+              HorizontalOptions="FillAndExpand"
+              VerticalOptions="FillAndExpand"
+              ZIndex="999">
+            <VerticalStackLayout HorizontalOptions="Center" 
+                               VerticalOptions="Center" 
+                               Spacing="20">
+                <ActivityIndicator IsRunning="True" 
+                                 Color="#2E7D32" 
+                                 HeightRequest="50" 
+                                 WidthRequest="50" />
+                <Label Text="Uploading documents..." 
+                       TextColor="White" 
+                       FontSize="16" 
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" />
+                <Label x:Name="UploadStatusLabel"
+                       Text="Please wait..." 
+                       TextColor="White" 
+                       FontSize="14"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </Grid>
+
+        <!-- ========== MAIN CONTENT ========== -->
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="15">
+
+                <!-- Header -->
+                <VerticalStackLayout Spacing="5" Margin="0,10,0,10">
+                    <Label Text="Upload Required Documents"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           TextColor="#2E7D32"/>
+                    <Label Text="Please upload all required documents for verification"
+                           FontSize="14"
+                           TextColor="#666666"/>
+                </VerticalStackLayout>
+
+                <!-- Progress Section -->
+                <Frame BackgroundColor="#E8F5E9" 
+                       CornerRadius="10" 
+                       Padding="15"
+                       Margin="0,0,0,10">
+                    <VerticalStackLayout Spacing="10">
+                        <Label x:Name="progressLabel" 
+                               Text="0/7" 
+                               FontSize="24" 
+                               FontAttributes="Bold"
+                               TextColor="#2E7D32"
+                               HorizontalOptions="Center"/>
+                        <ProgressBar x:Name="UploadProgressBar"
+                                     Progress="0"
+                                     ProgressColor="#2E7D32"
+                                     HeightRequest="6"/>
+                        <Label x:Name="progressDesc"
+                               Text="0 out of 7 documents uploaded"
+                               FontSize="12"
+                               TextColor="#666666"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- ========== 7 DOCUMENTS ========== -->
+                <VerticalStackLayout Spacing="15">
+
+                    <!-- 1. 2x2 Picture -->
+                    <Frame BackgroundColor="White" 
+                           CornerRadius="10" 
+                           Padding="15"
+                           HasShadow="True">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="1. 2x2 Picture"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            <Label x:Name="Photo2x2Label"
+                                   Text="Upload recent 2x2 ID picture"
+                                   FontSize="12"
+                                   TextColor="#666666"/>
+                            <Button x:Name="Photo2x2Button"
+                                    Text="Upload"
+                                    BackgroundColor="#2E7D32"
+                                    TextColor="White"
+                                    FontSize="14"
+                                    HeightRequest="40"
+                                    CornerRadius="8"
+                                    Clicked="OnUpload2x2Clicked"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- 2. Cedula -->
+                    <Frame BackgroundColor="White" 
+                           CornerRadius="10" 
+                           Padding="15"
+                           HasShadow="True">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="2. Cedula"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            <Label x:Name="CedulaLabel"
+                                   Text="Upload community tax certificate"
+                                   FontSize="12"
+                                   TextColor="#666666"/>
+                            <Button x:Name="CedulaButton"
+                                    Text="Upload"
+                                    BackgroundColor="#2E7D32"
+                                    TextColor="White"
+                                    FontSize="14"
+                                    HeightRequest="40"
+                                    CornerRadius="8"
+                                    Clicked="OnUploadCedulaClicked"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- 3. Barangay Clearance -->
+                    <Frame BackgroundColor="White" 
+                           CornerRadius="10" 
+                           Padding="15"
+                           HasShadow="True">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="3. Barangay Clearance"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            <Label x:Name="ClearanceLabel"
+                                   Text="Upload barangay clearance"
+                                   FontSize="12"
+                                   TextColor="#666666"/>
+                            <Button x:Name="ClearanceButton"
+                                    Text="Upload"
+                                    BackgroundColor="#2E7D32"
+                                    TextColor="White"
+                                    FontSize="14"
+                                    HeightRequest="40"
+                                    CornerRadius="8"
+                                    Clicked="OnUploadClearanceClicked"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- 4. Driver's License -->
+                    <Frame BackgroundColor="White" 
+                           CornerRadius="10" 
+                           Padding="15"
+                           HasShadow="True">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="4. Driver's License"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            <Label x:Name="LicenseLabel"
+                                   Text="Upload valid driver's license"
+                                   FontSize="12"
+                                   TextColor="#666666"/>
+                            <Button x:Name="LicenseButton"
+                                    Text="Upload"
+                                    BackgroundColor="#2E7D32"
+                                    TextColor="White"
+                                    FontSize="14"
+                                    HeightRequest="40"
+                                    CornerRadius="8"
+                                    Clicked="OnUploadLicenseClicked"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- 5. OR/CR -->
+                    <Frame BackgroundColor="White" 
+                           CornerRadius="10" 
+                           Padding="15"
+                           HasShadow="True">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="5. OR/CR"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            <Label x:Name="ORCRLabel"
+                                   Text="Upload official receipt/certificate of registration"
+                                   FontSize="12"
+                                   TextColor="#666666"/>
+                            <Button x:Name="ORCRButton"
+                                    Text="Upload"
+                                    BackgroundColor="#2E7D32"
+                                    TextColor="White"
+                                    FontSize="14"
+                                    HeightRequest="40"
+                                    CornerRadius="8"
+                                    Clicked="OnUploadORCRClicked"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- 6. Plate Number -->
+                    <Frame BackgroundColor="White" 
+                           CornerRadius="10" 
+                           Padding="15"
+                           HasShadow="True">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="6. Plate Number"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            <Label x:Name="PlateNumberLabel"
+                                   Text="Upload photo of vehicle plate number"
+                                   FontSize="12"
+                                   TextColor="#666666"/>
+                            <Button x:Name="PlateNumberButton"
+                                    Text="Upload"
+                                    BackgroundColor="#2E7D32"
+                                    TextColor="White"
+                                    FontSize="14"
+                                    HeightRequest="40"
+                                    CornerRadius="8"
+                                    Clicked="OnUploadPlateNumberClicked"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- 7. GCash QR Code -->
+                    <Frame BackgroundColor="White" 
+                           CornerRadius="10" 
+                           Padding="15"
+                           HasShadow="True"
+                           BorderColor="#FFC107">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="7. Verified GCash QR Code"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            <Label x:Name="GcashLabel"
+                                   Text="Upload verified GCash QR Code for payments"
+                                   FontSize="12"
+                                   TextColor="#666666"/>
+                            <Label Text="⚠️ This will be displayed to commuters for payment scanning"
+                                   FontSize="10"
+                                   TextColor="#FFC107"
+                                   FontAttributes="Bold"/>
+                            <Button x:Name="GcashButton"
+                                    Text="Upload"
+                                    BackgroundColor="#2E7D32"
+                                    TextColor="White"
+                                    FontSize="14"
+                                    HeightRequest="40"
+                                    CornerRadius="8"
+                                    Clicked="OnUploadGcashClicked"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                </VerticalStackLayout>
+
+                <!-- Submit Button -->
+                <Button x:Name="submitButton"
+                        Text="Submit Application"
+                        BackgroundColor="#B8C3B0"
+                        TextColor="#666666"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        HeightRequest="50"
+                        CornerRadius="10"
+                        Margin="0,30,0,0"
+                        Clicked="OnSubmitClicked"
+                        IsEnabled="False"/>
+
+                <!-- Note -->
+                <Label Text="Note: All documents will be reviewed by our team. You will be notified once your application is approved."
+                       FontSize="11"
+                       TextColor="#666666"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       Margin="0,0,0,20"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

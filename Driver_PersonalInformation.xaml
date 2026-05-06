@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.Driver_PersonalInformation"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="White">
+
+    <Grid RowSpacing="0" ColumnSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0"
+                StrokeThickness="0"
+                Padding="20,15"
+                BackgroundColor="#2E7D32">
+            <Border.Shadow>
+                <Shadow Brush="#20000000" Offset="0,4" Radius="12" />
+            </Border.Shadow>
+
+            <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+                <Image Source="white_back.png" 
+                       HeightRequest="22" 
+                       WidthRequest="22"
+                       VerticalOptions="Center">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBackButtonClicked"/>
+                    </Image.GestureRecognizers>
+                </Image>
+                <Label Text="Edit Personal Information" 
+                       FontSize="22" 
+                       FontAttributes="Bold" 
+                       TextColor="White" 
+                       VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+        </Border>
+
+        <ScrollView Grid.Row="1" BackgroundColor="#F8F9FA">
+            <VerticalStackLayout Padding="20" Spacing="20">
+
+                <!-- NAME SECTION -->
+                <Frame BackgroundColor="White" 
+                       CornerRadius="12" 
+                       Padding="20" 
+                       HasShadow="False"
+                       BorderColor="Transparent">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="NAME" 
+                               FontSize="14" 
+                               FontAttributes="Bold" 
+                               TextColor="#000000"/>
+                        <Label Text="Your full name will help commuters recognize you." 
+                               FontSize="12" 
+                               TextColor="#666666"/>
+                        <BoxView HeightRequest="1" BackgroundColor="#E2E8F0" Margin="0,5,0,10"/>
+
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="First Name*" FontSize="12" TextColor="#666666"/>
+                                <Border Stroke="#E0E0E0"
+                                        StrokeThickness="1"
+                                        StrokeShape="RoundRectangle 10"
+                                        BackgroundColor="#F8F9FA"
+                                        Padding="10,0"
+                                        HeightRequest="50">
+                                    <Entry x:Name="FirstNameEntry"
+                                           Placeholder="First Name"
+                                           FontSize="14"
+                                           TextColor="#000000"
+                                           BackgroundColor="Transparent"
+                                           VerticalOptions="Center"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Spacing="5" Grid.Column="1">
+                                <Label Text="Middle Name" FontSize="12" TextColor="#666666"/>
+                                <Border Stroke="#E0E0E0"
+                                        StrokeThickness="1"
+                                        StrokeShape="RoundRectangle 10"
+                                        BackgroundColor="#F8F9FA"
+                                        Padding="10,0"
+                                        HeightRequest="50">
+                                    <Entry x:Name="MiddleNameEntry"
+                                           Placeholder="Optional"
+                                           FontSize="14"
+                                           TextColor="#000000"
+                                           BackgroundColor="Transparent"
+                                           VerticalOptions="Center"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <VerticalStackLayout Spacing="5" Margin="0,10,0,0">
+                            <Label Text="Last Name*" FontSize="12" TextColor="#666666"/>
+                            <Border Stroke="#E0E0E0"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 10"
+                                    BackgroundColor="#F8F9FA"
+                                    Padding="10,0"
+                                    HeightRequest="50">
+                                <Entry x:Name="LastNameEntry"
+                                       Placeholder="Last Name"
+                                       FontSize="14"
+                                       TextColor="#000000"
+                                       BackgroundColor="Transparent"
+                                       VerticalOptions="Center"/>
+                            </Border>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- GENDER SECTION -->
+                <Frame BackgroundColor="White" 
+                       CornerRadius="12" 
+                       Padding="20" 
+                       HasShadow="False"
+                       BorderColor="Transparent">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="GENDER" 
+                               FontSize="14" 
+                               FontAttributes="Bold" 
+                               TextColor="#000000"/>
+                        <Label Text="Select your gender." 
+                               FontSize="12" 
+                               TextColor="#666666"/>
+                        <BoxView HeightRequest="1" BackgroundColor="#E2E8F0" Margin="0,5,0,10"/>
+
+                        <VerticalStackLayout Spacing="15">
+
+                            <!-- Male Option -->
+                            <Grid ColumnDefinitions="*, Auto" 
+                                  HeightRequest="50"
+                                  VerticalOptions="Center">
+                                <Button x:Name="MaleButton"
+                                        BackgroundColor="Transparent"
+                                        BorderColor="Transparent"
+                                        BorderWidth="0"
+                                        Grid.ColumnSpan="2"
+                                        Clicked="OnMaleClicked"/>
+                                <Grid ColumnDefinitions="Auto, *, Auto" 
+                                      Grid.ColumnSpan="2"
+                                      Padding="10,0"
+                                      VerticalOptions="Center">
+                                    <Image Source="male.png" 
+                                           HeightRequest="24" 
+                                           WidthRequest="24" 
+                                           VerticalOptions="Center" 
+                                           HorizontalOptions="Start"
+                                           Grid.Column="0"/>
+                                    <Label Text="Male" 
+                                           FontSize="14" 
+                                           FontAttributes="Bold"
+                                           VerticalOptions="Center" 
+                                           HorizontalOptions="Start" 
+                                           TextColor="#000000"
+                                           Grid.Column="1"
+                                           Margin="17,0,0,0"/>
+                                    <RadioButton x:Name="MaleRadioButton"
+                                                 GroupName="Gender" 
+                                                 VerticalOptions="Center" 
+                                                 HorizontalOptions="End"
+                                                 Grid.Column="2"
+                                                 IsChecked="False"/>
+                                </Grid>
+                            </Grid>
+
+                            <!-- Female Option -->
+                            <Grid ColumnDefinitions="*, Auto" 
+                                  HeightRequest="50"
+                                  VerticalOptions="Center">
+                                <Button x:Name="FemaleButton"
+                                        BackgroundColor="Transparent"
+                                        BorderColor="Transparent"
+                                        BorderWidth="0"
+                                        Grid.ColumnSpan="2"
+                                        Clicked="OnFemaleClicked"/>
+                                <Grid ColumnDefinitions="Auto, *, Auto" 
+                                      Grid.ColumnSpan="2"
+                                      Padding="10,0"
+                                      VerticalOptions="Center">
+                                    <Image Source="female.png" 
+                                           HeightRequest="24" 
+                                           WidthRequest="24" 
+                                           VerticalOptions="Center" 
+                                           HorizontalOptions="Start"
+                                           Grid.Column="0"/>
+                                    <Label Text="Female" 
+                                           FontSize="14" 
+                                           FontAttributes="Bold"
+                                           VerticalOptions="Center" 
+                                           HorizontalOptions="Start" 
+                                           TextColor="#000000"
+                                           Grid.Column="1"
+                                           Margin="17,0,0,0"/>
+                                    <RadioButton x:Name="FemaleRadioButton"
+                                                 GroupName="Gender" 
+                                                 VerticalOptions="Center" 
+                                                 HorizontalOptions="End"
+                                                 Grid.Column="2"
+                                                 IsChecked="False"/>
+                                </Grid>
+                            </Grid>
+
+                            <!-- Prefer not to say Option -->
+                            <Grid ColumnDefinitions="*, Auto" 
+                                  HeightRequest="50"
+                                  VerticalOptions="Center">
+                                <Button x:Name="PreferNotToSayButton"
+                                        BackgroundColor="Transparent"
+                                        BorderColor="Transparent"
+                                        BorderWidth="0"
+                                        Grid.ColumnSpan="2"
+                                        Clicked="OnPreferNotToSayClicked"/>
+                                <Grid ColumnDefinitions="Auto, *, Auto" 
+                                      Grid.ColumnSpan="2"
+                                      Padding="10,0"
+                                      VerticalOptions="Center">
+                                    <Label Text="?" 
+                                           FontSize="16" 
+                                           FontAttributes="Bold"
+                                           VerticalOptions="Center" 
+                                           HorizontalOptions="Start" 
+                                           TextColor="#666666"
+                                           Grid.Column="0"
+                                           Margin="10,0,0,0"/>
+                                    <Label Text="Prefer not to say" 
+                                           FontSize="14" 
+                                           FontAttributes="Bold"
+                                           VerticalOptions="Center" 
+                                           HorizontalOptions="Start" 
+                                           TextColor="#000000"
+                                           Grid.Column="1"
+                                           Margin="25,0,0,0"/>
+                                    <RadioButton x:Name="PreferNotToSayRadioButton"
+                                                 GroupName="Gender" 
+                                                 VerticalOptions="Center" 
+                                                 HorizontalOptions="End"
+                                                 Grid.Column="2"
+                                                 IsChecked="False"/>
+                                </Grid>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- ADDRESS SECTION -->
+                <Frame BackgroundColor="White" 
+                       CornerRadius="12" 
+                       Padding="20" 
+                       HasShadow="False"
+                       BorderColor="Transparent">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="COMPLETE ADDRESS" 
+                               FontSize="14" 
+                               FontAttributes="Bold" 
+                               TextColor="#000000"/>
+                        <Label Text="Provide your complete address for verification purposes." 
+                               FontSize="12" 
+                               TextColor="#666666"/>
+                        <BoxView HeightRequest="1" BackgroundColor="#E2E8F0" Margin="0,5,0,10"/>
+
+                        <Grid ColumnDefinitions="*,2*" ColumnSpacing="10">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="House No.*" FontSize="12" TextColor="#666666"/>
+                                <Border Stroke="#E0E0E0"
+                                        StrokeThickness="1"
+                                        StrokeShape="RoundRectangle 10"
+                                        BackgroundColor="#F8F9FA"
+                                        Padding="10,0"
+                                        HeightRequest="50">
+                                    <Entry x:Name="HouseNumberEntry"
+                                           Placeholder="#No."
+                                           FontSize="14"
+                                           TextColor="#000000"
+                                           BackgroundColor="Transparent"
+                                           VerticalOptions="Center"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Spacing="5" Grid.Column="1">
+                                <Label Text="Street Name*" FontSize="12" TextColor="#666666"/>
+                                <Border Stroke="#E0E0E0"
+                                        StrokeThickness="1"
+                                        StrokeShape="RoundRectangle 10"
+                                        BackgroundColor="#F8F9FA"
+                                        Padding="10,0"
+                                        HeightRequest="50">
+                                    <Entry x:Name="StreetEntry"
+                                           Placeholder="Street"
+                                           FontSize="14"
+                                           TextColor="#000000"
+                                           BackgroundColor="Transparent"
+                                           VerticalOptions="Center"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <VerticalStackLayout Spacing="5" Margin="0,10,0,0">
+                            <Label Text="Barangay*" FontSize="12" TextColor="#666666"/>
+                            <Border Stroke="#E0E0E0"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 10"
+                                    BackgroundColor="#F8F9FA"
+                                    HeightRequest="50"
+                                    Padding="10,0">
+                                <Picker x:Name="BarangayPicker"
+                                        Title="Select Barangay"
+                                        FontSize="14"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#000000"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,10,0,0">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="City/Municipality*" FontSize="12" TextColor="#666666"/>
+                                <Border Stroke="#E0E0E0"
+                                        StrokeThickness="1"
+                                        StrokeShape="RoundRectangle 10"
+                                        BackgroundColor="#F8F9FA"
+                                        HeightRequest="50"
+                                        Padding="10,0">
+                                    <Picker x:Name="MunicipalityPicker"
+                                            Title="Select Municipality"
+                                            FontSize="14"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#000000"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Spacing="5" Grid.Column="1">
+                                <Label Text="Province*" FontSize="12" TextColor="#666666"/>
+                                <Border Stroke="#E0E0E0"
+                                        StrokeThickness="1"
+                                        StrokeShape="RoundRectangle 10"
+                                        BackgroundColor="#F8F9FA"
+                                        HeightRequest="50"
+                                        Padding="10,0">
+                                    <Picker x:Name="ProvincePicker"
+                                            Title="Select Province"
+                                            FontSize="14"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#000000"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Button x:Name="SaveButton"
+                        Text="Save Changes"
+                        BackgroundColor="#2E7D32"
+                        TextColor="White"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        HeightRequest="50"
+                        CornerRadius="12"
+                        Margin="0,10,0,30"
+                        Clicked="OnSaveChangesClicked"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid x:Name="ProcessingOverlay" 
+              IsVisible="False"
+              HorizontalOptions="Fill"
+              VerticalOptions="Fill"
+              BackgroundColor="Transparent">
+            <VerticalStackLayout Spacing="15" 
+                                HorizontalOptions="Center" 
+                                VerticalOptions="Center">
+                <ActivityIndicator x:Name="ProcessingIndicator"
+                                   Color="#2E7D32"
+                                   IsRunning="False"
+                                   HeightRequest="40"
+                                   WidthRequest="40"/>
+                <Label x:Name="ProcessingLabel"
+                       Text="Saving..."
+                       FontSize="14"
+                       TextColor="#2E7D32"/>
+            </VerticalStackLayout>
+        </Grid>
+
+    </Grid>
+</ContentPage>
