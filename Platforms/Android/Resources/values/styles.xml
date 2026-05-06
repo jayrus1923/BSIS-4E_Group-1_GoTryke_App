@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- Main App Theme -->
+	<style name="Maui.MainTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+		<!-- Status Bar -->
+		<item name="android:statusBarColor">#2E7D32</item>
+		<item name="android:windowLightStatusBar">false</item>
+
+		<!-- Navigation Bar -->
+		<item name="android:navigationBarColor">@android:color/white</item>
+		<item name="android:windowLightNavigationBar">true</item>
+
+		<!-- Primary Colors -->
+		<item name="colorPrimary">#2E7D32</item>
+		<item name="colorPrimaryDark">#1B5E20</item>
+		<item name="colorAccent">#4CAF50</item>
+
+		<!-- Material Fix -->
+		<item name="materialButtonStyle">@style/Widget.MaterialComponents.Button</item>
+		<item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Button</item>
+		<item name="android:textViewStyle">@style/Widget.MaterialComponents.TextView</item>
+	</style>
+
+	<!-- Splash Screen Theme -->
+	<style name="Maui.SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+		<item name="android:statusBarColor">#2E7D32</item>
+		<item name="android:windowBackground">@android:color/white</item>
+		<item name="android:windowLightStatusBar">false</item>
+	</style>
+</resources>
