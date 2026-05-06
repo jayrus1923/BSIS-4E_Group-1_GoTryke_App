@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.Commuter_IDVerification"
+             BackgroundColor="White"
+             Shell.NavBarIsVisible="False">
+
+    <Grid>
+
+        <!-- MAIN CONTENT -->
+        <Grid RowDefinitions="Auto,*">
+
+            <Border Grid.Row="0"
+                    StrokeThickness="0"
+                    Padding="20,15"
+                    BackgroundColor="#2E7D32">
+                <Border.Shadow>
+                    <Shadow Brush="#20000000" Offset="0,4" Radius="12" />
+                </Border.Shadow>
+
+                <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+                    <Image Source="white_back.png" 
+                           HeightRequest="22" 
+                           WidthRequest="22"
+                           VerticalOptions="Center">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnBackTapped"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <Label Text="ID Verification" 
+                           FontSize="22" 
+                           FontAttributes="Bold" 
+                           TextColor="White" 
+                           VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+            </Border>
+
+            <ScrollView Grid.Row="1" BackgroundColor="#F8F9FA">
+                <VerticalStackLayout Padding="20" Spacing="20">
+
+                    <Frame BackgroundColor="#E8F5E9" 
+                           CornerRadius="12" 
+                           Padding="15" 
+                           HasShadow="False"
+                           BorderColor="Transparent">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="Why verify your ID?" 
+                                   FontSize="15" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#2E7D32"/>
+                            <Label x:Name="DiscountInfoLabel" 
+                                   Text="Select an ID type to see your discount!" 
+                                   FontSize="13" 
+                                   TextColor="#333333"/>
+                            <Label Text="Accepted IDs:" 
+                                   FontSize="13" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#666666" 
+                                   Margin="0,5,0,0"/>
+                            <Label Text="• School ID (for students)" 
+                                   FontSize="12" 
+                                   TextColor="#666666"
+                                   Margin="10,0,0,0"/>
+                            <Label Text="• Senior Citizen ID" 
+                                   FontSize="12" 
+                                   TextColor="#666666"
+                                   Margin="10,0,0,0"/>
+                            <Label Text="• PWD ID" 
+                                   FontSize="12" 
+                                   TextColor="#666666"
+                                   Margin="10,0,0,0"/>
+                            <Label Text="• UMID / GSIS / SSS" 
+                                   FontSize="12" 
+                                   TextColor="#666666"
+                                   Margin="10,0,0,0"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="ID Type" 
+                               FontSize="14" 
+                               FontAttributes="Bold" 
+                               TextColor="#333333"
+                               Margin="5,0,0,0"/>
+
+                        <Frame BackgroundColor="#F5F5F5" 
+                               CornerRadius="12" 
+                               Padding="0" 
+                               HasShadow="False"
+                               BorderColor="#E0E0E0">
+                            <Picker x:Name="UserTypePicker" 
+                                    Title="Select ID Type"
+                                    TitleColor="#9E9E9E"
+                                    TextColor="#212121"
+                                    BackgroundColor="Transparent"
+                                    HeightRequest="50"
+                                    Margin="15,0">
+                            </Picker>
+                        </Frame>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Full Name (as shown on ID)" 
+                               FontSize="14" 
+                               FontAttributes="Bold" 
+                               TextColor="#333333"
+                               Margin="5,0,0,0"/>
+
+                        <Frame BackgroundColor="#F5F5F5" 
+                               CornerRadius="12" 
+                               Padding="0" 
+                               HasShadow="False"
+                               BorderColor="#E0E0E0">
+                            <Entry x:Name="FullNameEntry" 
+                                   Placeholder="Enter your full name"
+                                   PlaceholderColor="#9E9E9E"
+                                   TextColor="#212121"
+                                   BackgroundColor="Transparent"
+                                   HeightRequest="50"
+                                   Margin="15,0"/>
+                        </Frame>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="ID Number" 
+                               FontSize="14" 
+                               FontAttributes="Bold" 
+                               TextColor="#333333"
+                               Margin="5,0,0,0"/>
+
+                        <Frame BackgroundColor="#F5F5F5" 
+                               CornerRadius="12" 
+                               Padding="0" 
+                               HasShadow="False"
+                               BorderColor="#E0E0E0">
+                            <Entry x:Name="IDNumberEntry" 
+                                   Placeholder="Enter ID number"
+                                   PlaceholderColor="#9E9E9E"
+                                   TextColor="#212121"
+                                   BackgroundColor="Transparent"
+                                   HeightRequest="50"
+                                   Margin="15,0"/>
+                        </Frame>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Upload ID (Front)" 
+                               FontSize="14" 
+                               FontAttributes="Bold" 
+                               TextColor="#333333"
+                               Margin="5,0,0,0"/>
+
+                        <Frame x:Name="IDFrontFrame" 
+                               BackgroundColor="#F5F5F5" 
+                               CornerRadius="12" 
+                               Padding="15"
+                               HeightRequest="140"
+                               BorderColor="#E0E0E0"
+                               HasShadow="False">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnIDFrontTapped"/>
+                            </Frame.GestureRecognizers>
+
+                            <Grid>
+                                <VerticalStackLayout x:Name="IDFrontPlaceholder" 
+                                                     Spacing="8" 
+                                                     HorizontalOptions="Center" 
+                                                     VerticalOptions="Center">
+                                    <Image Source="front_id.png" 
+                                           HeightRequest="35" 
+                                           WidthRequest="35" 
+                                           Opacity="0.5"/>
+                                    <Label Text="Tap to take photo of ID front" 
+                                           FontSize="12" 
+                                           TextColor="#999999"/>
+                                </VerticalStackLayout>
+
+                                <Image x:Name="IDFrontImage" 
+                                       Aspect="AspectFill" 
+                                       IsVisible="False"
+                                       HeightRequest="110"/>
+                            </Grid>
+                        </Frame>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout x:Name="IDBackSection" 
+                                         Spacing="8"
+                                         IsVisible="False">
+                        <Label Text="Upload ID (Back)" 
+                               FontSize="14" 
+                               FontAttributes="Bold" 
+                               TextColor="#333333"
+                               Margin="5,0,0,0"/>
+
+                        <Frame x:Name="IDBackFrame" 
+                               BackgroundColor="#F5F5F5" 
+                               CornerRadius="12" 
+                               Padding="15"
+                               HeightRequest="140"
+                               BorderColor="#E0E0E0"
+                               HasShadow="False">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnIDBackTapped"/>
+                            </Frame.GestureRecognizers>
+
+                            <Grid>
+                                <VerticalStackLayout x:Name="IDBackPlaceholder" 
+                                                     Spacing="8" 
+                                                     HorizontalOptions="Center" 
+                                                     VerticalOptions="Center">
+                                    <Image Source="back_id.png" 
+                                           HeightRequest="35" 
+                                           WidthRequest="35" 
+                                           Opacity="0.5"/>
+                                    <Label Text="Tap to take photo of ID back" 
+                                           FontSize="12" 
+                                           TextColor="#999999"/>
+                                </VerticalStackLayout>
+
+                                <Image x:Name="IDBackImage" 
+                                       Aspect="AspectFill" 
+                                       IsVisible="False"
+                                       HeightRequest="110"/>
+                            </Grid>
+                        </Frame>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Take Selfie (holding ID)" 
+                               FontSize="14" 
+                               FontAttributes="Bold" 
+                               TextColor="#333333"
+                               Margin="5,0,0,0"/>
+
+                        <Frame x:Name="SelfieFrame" 
+                               BackgroundColor="#F5F5F5" 
+                               CornerRadius="12" 
+                               Padding="15"
+                               HeightRequest="140"
+                               BorderColor="#E0E0E0"
+                               HasShadow="False">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnSelfieTapped"/>
+                            </Frame.GestureRecognizers>
+
+                            <Grid>
+                                <VerticalStackLayout x:Name="SelfiePlaceholder" 
+                                                     Spacing="8" 
+                                                     HorizontalOptions="Center" 
+                                                     VerticalOptions="Center">
+                                    <Image Source="camera.png" 
+                                           HeightRequest="35" 
+                                           WidthRequest="35" 
+                                           Opacity="0.5"/>
+                                    <Label Text="Tap to take selfie with ID" 
+                                           FontSize="12" 
+                                           TextColor="#999999"/>
+                                </VerticalStackLayout>
+
+                                <Image x:Name="SelfieImage" 
+                                       Aspect="AspectFill" 
+                                       IsVisible="False"
+                                       HeightRequest="110"/>
+                            </Grid>
+                        </Frame>
+                    </VerticalStackLayout>
+
+                    <Frame BackgroundColor="#F5F5F5" 
+                           CornerRadius="12" 
+                           Padding="12" 
+                           BorderColor="#E0E0E0"
+                           HasShadow="False">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                            <CheckBox x:Name="AgreementCheck" 
+                                      Grid.Column="0" 
+                                      Color="#2E7D32"/>
+                            <Label Grid.Column="1" 
+                                   Text="I confirm that the information and images provided are true and correct" 
+                                   FontSize="12" 
+                                   TextColor="#666666" 
+                                   VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+
+                    <Button x:Name="SubmitButton"
+                            Text="SUBMIT VERIFICATION"
+                            BackgroundColor="#2E7D32"
+                            TextColor="White"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            CornerRadius="12"
+                            HeightRequest="55"
+                            Margin="0,10,0,30"
+                            Clicked="OnSubmitClicked"
+                            IsEnabled="False"/>
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+
+        <!-- LOADING OVERLAY - NAKA-CENTER TULAD SA PAYMENT OPTION -->
+        <Grid x:Name="ProcessingOverlay"
+              BackgroundColor="#80000000"
+              IsVisible="False"
+              HorizontalOptions="FillAndExpand"
+              VerticalOptions="FillAndExpand"
+              InputTransparent="True">
+            <VerticalStackLayout HorizontalOptions="Center" 
+                                VerticalOptions="Center" 
+                                Spacing="20">
+                <Frame BackgroundColor="White"
+                       CornerRadius="20"
+                       Padding="30"
+                       WidthRequest="200"
+                       HasShadow="True">
+                    <VerticalStackLayout Spacing="20" 
+                                        HorizontalOptions="Center">
+                        <ActivityIndicator x:Name="ProcessingIndicator"
+                                           IsRunning="False" 
+                                           Color="#2E7D32" 
+                                           HeightRequest="50" 
+                                           WidthRequest="50"/>
+                        <Label x:Name="ProcessingLabel"
+                               Text="Uploading..." 
+                               TextColor="#2E7D32" 
+                               FontSize="14" 
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+        </Grid>
+
+    </Grid>
+</ContentPage>

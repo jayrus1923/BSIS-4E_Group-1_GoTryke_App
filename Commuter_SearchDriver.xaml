@@ -1,0 +1,932 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ServiceCo.Commuter_SearchDriver"
+    BackgroundColor="White"
+    Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="*,Auto">
+
+        <!-- TOP HEADER (CLICKABLE) -->
+        <Frame
+            x:Name="HeaderFrame"
+            Grid.Row="0"
+            BackgroundColor="White"
+            Margin="20,20,20,0"
+            Padding="20"
+            CornerRadius="15"
+            HasShadow="True"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="Start"
+            HeightRequest="90"
+            ZIndex="1">
+
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnHeaderTapped"/>
+            </Frame.GestureRecognizers>
+
+            <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="10">
+                <!-- Pickup -->
+                <VerticalStackLayout Grid.Column="0" Spacing="2">
+                    <Label
+                        Text="FROM"
+                        FontSize="11"
+                        TextColor="#666666"
+                        FontAttributes="Bold"/>
+                    <Label
+                        x:Name="PickupDisplayLabel"
+                        Text="Loading..."
+                        FontSize="13"
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        MaxLines="1"
+                        LineBreakMode="TailTruncation"/>
+                </VerticalStackLayout>
+
+                <!-- Arrow (Center) -->
+                <Label
+                    Grid.Column="1"
+                    Text="➔"
+                    FontSize="18"
+                    TextColor="#2E7D32"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Margin="0,5,0,0"/>
+
+                <!-- Dropoff -->
+                <VerticalStackLayout Grid.Column="2" Spacing="2">
+                    <Label
+                        Text="TO"
+                        FontSize="11"
+                        TextColor="#666666"
+                        FontAttributes="Bold"/>
+                    <Label
+                        x:Name="DropoffDisplayLabel"
+                        Text="Loading..."
+                        FontSize="13"
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        MaxLines="1"
+                        LineBreakMode="TailTruncation"/>
+                </VerticalStackLayout>
+            </Grid>
+        </Frame>
+
+        <!-- MAP AREA -->
+        <Grid Grid.Row="0">
+            <!-- Map -->
+            <WebView x:Name="RideMapView"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="FillAndExpand" />
+
+            <!-- Loading Overlay -->
+            <Grid x:Name="MapBlurOverlay"
+                  BackgroundColor="#AA000000"
+                  IsVisible="True"
+                  HorizontalOptions="FillAndExpand"
+                  VerticalOptions="FillAndExpand">
+
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="20">
+                    <ActivityIndicator IsRunning="True" Color="White" HeightRequest="50" WidthRequest="50" />
+                    <Label Text="Setting Up Your Ride..." 
+                           TextColor="White" 
+                           FontSize="16" 
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center" />
+                    <Label x:Name="MapCountdownLabel"
+                           Text="Please wait..." 
+                           TextColor="#CCCCCC" 
+                           FontSize="13"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </Grid>
+        </Grid>
+
+        <!-- FLOATING BUTTONS ON MAP -->
+        <AbsoluteLayout Grid.Row="0">
+            <!-- Show Ride Details Button (appears when panel is collapsed) -->
+            <Frame
+                x:Name="ShowDetailsButton"
+                BackgroundColor="White"
+                Padding="15"
+                CornerRadius="25"
+                HasShadow="True"
+                HeightRequest="50"
+                WidthRequest="180"
+                Margin="0,0,0,30"
+                AbsoluteLayout.LayoutBounds="0.5,0.95,-1,-1"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                IsVisible="False">
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Image
+                        Source="up_arrow.png"
+                        HeightRequest="20"
+                        WidthRequest="20"
+                        VerticalOptions="Center" />
+                    <Label
+                        Text="Show Ride Details"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        TextColor="Black"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnShowDetailsTapped"/>
+                </Frame.GestureRecognizers>
+            </Frame>
+
+            <!-- Back Button (BOTTOM LEFT) -->
+            <Frame
+                x:Name="BackButton"
+                BackgroundColor="White"
+                Padding="12"
+                CornerRadius="25"
+                HasShadow="True"
+                HeightRequest="50"
+                WidthRequest="50"
+                AbsoluteLayout.LayoutBounds="0.05,0.95,-1,120"
+                AbsoluteLayout.LayoutFlags="PositionProportional">
+                <Image
+                    Source="green_back.png"
+                    HeightRequest="24"
+                    WidthRequest="24">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBackTapped"/>
+                    </Image.GestureRecognizers>
+                </Image>
+            </Frame>
+
+            <!-- 2D/3D Button (TOP RIGHT) -->
+            <Frame
+                x:Name="MapTypeButton"
+                BackgroundColor="White"
+                Padding="12"
+                CornerRadius="25"
+                HasShadow="True"
+                HeightRequest="50"
+                WidthRequest="50"
+                AbsoluteLayout.LayoutBounds="0.95,0.80,-1,200"
+                AbsoluteLayout.LayoutFlags="PositionProportional">
+                <Image
+                    x:Name="MapTypeIcon"
+                    Source="three_dimentional.png"
+                    HeightRequest="24"
+                    WidthRequest="24">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnMapTypeTapped"/>
+                    </Image.GestureRecognizers>
+                </Image>
+            </Frame>
+
+            <!-- Current Location Button (BOTTOM RIGHT) -->
+            <Frame
+                x:Name="LocationButton"
+                BackgroundColor="White"
+                Padding="12"
+                CornerRadius="25"
+                HasShadow="True"
+                HeightRequest="50"
+                WidthRequest="50"
+                AbsoluteLayout.LayoutBounds="0.95,0.95,-1,120"
+                AbsoluteLayout.LayoutFlags="PositionProportional">
+                <Image
+                    x:Name="LocationIcon"
+                    Source="selected_rides.png"
+                    HeightRequest="24"
+                    WidthRequest="24">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnLocationButtonTapped"/>
+                    </Image.GestureRecognizers>
+                </Image>
+            </Frame>
+
+            <!-- Track Driver Button (Only when driver found) -->
+            <Frame
+                x:Name="TrackDriverButton"
+                BackgroundColor="White"
+                Padding="15"
+                CornerRadius="25"
+                HasShadow="True"
+                HeightRequest="50"
+                WidthRequest="180"
+                Margin="0,0,0,15"
+                AbsoluteLayout.LayoutBounds="0.5,0.90,-1,-1"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                IsVisible="False">
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Image
+                        Source="tracking.png"
+                        HeightRequest="35"
+                        WidthRequest="35"
+                        Margin="0,0,-5,0"
+                        VerticalOptions="Center" />
+                    <Label
+                        Text="Track Driver"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        TextColor="Black"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnTrackDriverTapped"/>
+                </Frame.GestureRecognizers>
+            </Frame>
+        </AbsoluteLayout>
+
+        <!-- RIDE DETAILS PANEL -->
+        <Frame
+            x:Name="SelectionPanel"
+            Grid.Row="1"
+            BackgroundColor="White"
+            CornerRadius="25"
+            HasShadow="True"
+            Padding="0"
+            Margin="0,-40,0,-17"
+            HeightRequest="520">
+
+            <Grid RowDefinitions="Auto,*" RowSpacing="0">
+
+                <!-- Panel Header (Fixed - Not Scrolling) -->
+                <Grid 
+                    Grid.Row="0"
+                    BackgroundColor="White"
+                    HeightRequest="80"
+                    Padding="0,15">
+
+                    <!-- Drag Handle -->
+                    <BoxView 
+                        HeightRequest="5"
+                        WidthRequest="60"
+                        BackgroundColor="#E0E0E0"
+                        CornerRadius="3"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Start"/>
+
+                    <!-- Title (Fixed) -->
+                    <VerticalStackLayout 
+                        Spacing="3" 
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+                        <Label
+                            x:Name="PanelTitleLabel"
+                            Text="Searching for Driver"
+                            FontSize="20"
+                            FontAttributes="Bold"
+                            TextColor="Black"
+                            HorizontalOptions="Center" 
+                            HorizontalTextAlignment="Center"/>
+                        <Label
+                            x:Name="PanelSubtitleLabel"
+                            Text="We're matching you with the nearest available driver"
+                            FontSize="12"
+                            TextColor="#666666"/>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <!-- Panel Content (Scrollable) -->
+                <ScrollView 
+                    Grid.Row="1"
+                    x:Name="DetailsContent"
+                    IsVisible="True">
+
+                    <VerticalStackLayout Spacing="20" Padding="20,0,20,25">
+
+                        <!-- SEARCHING SECTION -->
+                        <Frame
+                            x:Name="SearchingSection"
+                            BackgroundColor="#F0F9F0"
+                            CornerRadius="15"
+                            Padding="18"
+                            IsVisible="True">
+                            <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+                                <ActivityIndicator 
+                                    IsRunning="True" 
+                                    Color="#2E7D32" 
+                                    HeightRequest="24" 
+                                    WidthRequest="24" />
+                                <VerticalStackLayout>
+                                    <Label
+                                        Text="Searching for available drivers..."
+                                        FontAttributes="Bold"
+                                        FontSize="14"
+                                        TextColor="#2E7D32" />
+                                    <Label
+                                        x:Name="SearchingStatusLabel"
+                                        Text="Please wait while we find your driver"
+                                        FontSize="12"
+                                        TextColor="#666666" />
+                                </VerticalStackLayout>
+                            </HorizontalStackLayout>
+                        </Frame>
+
+                        <!-- DRIVER FOUND SECTION -->
+                        <Frame
+                            x:Name="DriverFoundSection"
+                            BackgroundColor="#F0F9F0"
+                            CornerRadius="15"
+                            Padding="18"
+                            IsVisible="False">
+                            <VerticalStackLayout Spacing="15">
+                                <!-- Status Header - NO EMOJI -->
+                                <Label
+                                    x:Name="DriverFoundHeaderLabel"
+                                    Text="Driver Found"
+                                    FontAttributes="Bold"
+                                    FontSize="16"
+                                    TextColor="#2E7D32"
+                                    HorizontalOptions="Center" />
+
+                                <!-- Driver Info -->
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="15">
+                                    <!-- Driver Profile Picture -->
+                                    <Border
+                                        Grid.Column="0"
+                                        Stroke="#2E7D32"
+                                        StrokeThickness="2"
+                                        BackgroundColor="White"
+                                        StrokeShape="RoundRectangle 100,100,100,100"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        HeightRequest="70"
+                                        WidthRequest="70"
+                                        Padding="0">
+
+                                        <Grid>
+                                            <Ellipse
+                                                Fill="White"
+                                                HorizontalOptions="Fill"
+                                                VerticalOptions="Fill"/>
+
+                                            <Image
+                                                x:Name="DriverProfileImage"
+                                                Source="profile_icon.png"
+                                                Aspect="AspectFill"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center"
+                                                HeightRequest="66"
+                                                WidthRequest="66">
+                                                <Image.Clip>
+                                                    <EllipseGeometry
+                                                        Center="33,33"
+                                                        RadiusX="33"
+                                                        RadiusY="33"/>
+                                                </Image.Clip>
+                                            </Image>
+
+                                            <ActivityIndicator 
+                                                x:Name="ProfileLoadingIndicator"
+                                                IsRunning="False"
+                                                Color="#2E7D32"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center"
+                                                IsVisible="False"/>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- Driver Details -->
+                                    <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                        <Label
+                                            x:Name="DriverNameLabel"
+                                            Text="Driver Name"
+                                            FontAttributes="Bold"
+                                            FontSize="15"
+                                            TextColor="Black" />
+
+                                        <!-- Vehicle & Plate Number -->
+                                        <HorizontalStackLayout Spacing="5">
+                                            <Label
+                                                x:Name="DriverVehicleLabel"
+                                                Text="Vehicle Type"
+                                                FontSize="12"
+                                                TextColor="#666666" 
+                                                IsVisible="False"/>
+                                            <Label
+                                                x:Name="DriverPlateLabel"
+                                                Text="Plate: --"
+                                                FontSize="12"
+                                                TextColor="#666666" />
+                                        </HorizontalStackLayout>
+
+                                        <!-- License Number -->
+                                        <Label
+                                            x:Name="DriverLicenseLabel"
+                                            Text="License: --"
+                                            FontSize="12"
+                                            TextColor="#666666" />
+
+                                        <!-- Rating - Using star_filled.png -->
+                                        <HorizontalStackLayout Spacing="3">
+                                            <Image Source="star_filled.png" HeightRequest="12" WidthRequest="12" VerticalOptions="Center"/>
+                                            <Image Source="star_filled.png" HeightRequest="12" WidthRequest="12" VerticalOptions="Center"/>
+                                            <Image Source="star_filled.png" HeightRequest="12" WidthRequest="12" VerticalOptions="Center"/>
+                                            <Image Source="star_filled.png" HeightRequest="12" WidthRequest="12" VerticalOptions="Center"/>
+                                            <Image Source="star_filled.png" HeightRequest="12" WidthRequest="12" VerticalOptions="Center"/>
+                                            <Label
+                                                x:Name="DriverRatingLabel"
+                                                Text="5.0"
+                                                FontSize="12"
+                                                TextColor="#FF9800"
+                                                Margin="3,0,0,0"/>
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>
+                                </Grid>
+
+                                <!-- Driver Contact -->
+                                <Frame
+                                    BackgroundColor="#E8F5E8"
+                                    Padding="12"
+                                    CornerRadius="10"
+                                    IsVisible="True">
+                                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                                        <Image
+                                            Source="phone.png"
+                                            HeightRequest="16"
+                                            WidthRequest="16"
+                                            VerticalOptions="Center" />
+                                        <Label
+                                            x:Name="DriverContactLabel"
+                                            Text="Contact: --"
+                                            FontSize="13"
+                                            FontAttributes="Bold"
+                                            TextColor="#2E7D32" />
+                                    </HorizontalStackLayout>
+                                </Frame>
+
+                                <!-- Driver Status Display -->
+                                <Frame
+                                    x:Name="DriverStatusFrame"
+                                    BackgroundColor="#E8F5E8"
+                                    Padding="12"
+                                    CornerRadius="10"
+                                    IsVisible="False">
+                                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                                        <ActivityIndicator 
+                                            x:Name="DriverStatusIndicator"
+                                            IsRunning="True" 
+                                            Color="#2E7D32" 
+                                            HeightRequest="16" 
+                                            WidthRequest="16" />
+                                        <Label
+                                            x:Name="DriverStatusLabel"
+                                            Text="Driver has accepted your ride request"
+                                            FontSize="12"
+                                            FontAttributes="Bold"
+                                            TextColor="#2E7D32" />
+                                    </HorizontalStackLayout>
+                                </Frame>
+
+                                <!-- Arrived at Pickup Status -->
+                                <Frame
+                                    x:Name="ArrivedStatusFrame"
+                                    BackgroundColor="#E3F2FD"
+                                    Padding="12"
+                                    CornerRadius="10"
+                                    IsVisible="False">
+                                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                                        <Image
+                                            Source="savedroute.png"
+                                            HeightRequest="16"
+                                            WidthRequest="16"
+                                            VerticalOptions="Center" />
+                                        <Label
+                                            x:Name="ArrivedStatusLabel"
+                                            Text="Driver has arrived at pickup location"
+                                            FontSize="12"
+                                            FontAttributes="Bold"
+                                            TextColor="#1976D2"
+                                            VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                </Frame>
+
+                                <!-- Trip Started Status -->
+                                <Frame
+                                    x:Name="TripStartedStatusFrame"
+                                    BackgroundColor="#FFF3E0"
+                                    Padding="12"
+                                    CornerRadius="10"
+                                    IsVisible="False">
+                                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                                        <Image
+                                            Source="ride_icon.png"
+                                            HeightRequest="16"
+                                            WidthRequest="16"
+                                            VerticalOptions="Center" />
+                                        <Label
+                                            x:Name="TripStartedStatusLabel"
+                                            Text="Trip has started - enroute to destination"
+                                            FontSize="12"
+                                            FontAttributes="Bold"
+                                            TextColor="#F57C00"
+                                            VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                </Frame>
+
+                                <!-- Trip Completed Status -->
+                                <Frame
+                                    x:Name="TripCompletedStatusFrame"
+                                    BackgroundColor="#E8F5E8"
+                                    Padding="12"
+                                    CornerRadius="10"
+                                    IsVisible="False">
+                                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                                        <Image
+                                            Source="signal.png"
+                                            HeightRequest="16"
+                                            WidthRequest="16"
+                                            VerticalOptions="Center" />
+                                        <Label
+                                            x:Name="TripCompletedStatusLabel"
+                                            Text="Trip completed! Please proceed to payment"
+                                            FontSize="12"
+                                            FontAttributes="Bold"
+                                            TextColor="#2E7D32"
+                                            VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                </Frame>
+
+                                <!-- Payment Pending Status -->
+                                <Frame
+                                    x:Name="PaymentPendingStatusFrame"
+                                    BackgroundColor="#E3F2FD"
+                                    Padding="12"
+                                    CornerRadius="10"
+                                    IsVisible="False">
+                                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                                        <Image
+                                            Source="payment_icon.png"
+                                            HeightRequest="16"
+                                            WidthRequest="16"
+                                            VerticalOptions="Center" />
+                                        <Label
+                                            x:Name="PaymentPendingStatusLabel"
+                                            Text="Payment pending. Please complete payment."
+                                            FontSize="12"
+                                            FontAttributes="Bold"
+                                            TextColor="#1976D2"
+                                            VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                </Frame>
+
+                                <!-- Driver ETA -->
+                                <Frame
+                                    x:Name="DriverLocationInfo"
+                                    BackgroundColor="#E3F2FD"
+                                    Padding="12"
+                                    CornerRadius="10"
+                                    IsVisible="False">
+                                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                                        <Image
+                                            Source="dropoff.png"
+                                            HeightRequest="16"
+                                            WidthRequest="16"
+                                            VerticalOptions="Center" />
+                                        <Label
+                                            x:Name="DriverLocationLabel"
+                                            Text="Calculating EST and Km away"
+                                            FontSize="12"
+                                            FontAttributes="Bold"
+                                            TextColor="#1976D2"
+                                            VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                </Frame>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!-- RIDE INFORMATION -->
+                        <VerticalStackLayout Spacing="15">
+                            <Label
+                                Text="RIDE INFORMATION"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                TextColor="#333333"/>
+
+                            <!-- Ride Type and ID -->
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                <VerticalStackLayout Spacing="5">
+                                    <Label
+                                        x:Name="RideTypeLabel"
+                                        Text="Tricycle (1–2 seater)"
+                                        FontAttributes="Bold"
+                                        FontSize="15"
+                                        TextColor="#2E7D32" />
+                                    <HorizontalStackLayout Spacing="5">
+                                        <Label
+                                            Text="Ride ID:"
+                                            FontSize="12"
+                                            TextColor="#666666" />
+                                        <Label
+                                            x:Name="RideIDLabel"
+                                            Text="20240922-1023"
+                                            FontSize="12"
+                                            FontAttributes="Bold"
+                                            TextColor="#666666" />
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+
+                                <!-- Copy Button -->
+                                <Frame
+                                    BackgroundColor="#E8F5E8"
+                                    Padding="8,5"
+                                    CornerRadius="8"
+                                    HorizontalOptions="End"
+                                    VerticalOptions="Center">
+                                    <HorizontalStackLayout Spacing="5">
+                                        <Image
+                                            Source="copy.png"
+                                            HeightRequest="14"
+                                            WidthRequest="14"
+                                            VerticalOptions="Center" />
+                                        <Label
+                                            Text="Copy"
+                                            FontSize="11"
+                                            FontAttributes="Bold"
+                                            TextColor="#2E7D32"
+                                            VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnCopyRideIDTapped" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </Grid>
+
+                            <!-- Locations -->
+                            <Grid RowDefinitions="Auto,Auto" RowSpacing="15">
+                                <!-- Pickup Location -->
+                                <HorizontalStackLayout Spacing="12">
+                                    <Image
+                                        Source="pickup.png"
+                                        HeightRequest="20"
+                                        WidthRequest="20"
+                                        VerticalOptions="Start" />
+                                    <VerticalStackLayout>
+                                        <Label
+                                            Text="Pickup Location"
+                                            FontSize="12"
+                                            TextColor="#666666" />
+                                        <Label
+                                            x:Name="PickupMainLabel"
+                                            Text="St. Paul Subdivision"
+                                            FontAttributes="Bold"
+                                            FontSize="14"
+                                            TextColor="Black" />
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+
+                                <!-- Drop-off Location -->
+                                <HorizontalStackLayout Spacing="12" Grid.Row="1">
+                                    <Image
+                                        Source="dropoff.png"
+                                        HeightRequest="20"
+                                        WidthRequest="20"
+                                        VerticalOptions="Start" />
+                                    <VerticalStackLayout>
+                                        <Label
+                                            Text="Drop-off Location"
+                                            FontSize="12"
+                                            TextColor="#666666" />
+                                        <Label
+                                            x:Name="DropoffMainLabel"
+                                            Text="Cathedral of Immaculate Conception"
+                                            FontAttributes="Bold"
+                                            FontSize="14"
+                                            TextColor="Black" />
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+
+                        <!-- Payment Method -->
+                        <HorizontalStackLayout Spacing="12">
+                            <Image  x:Name="PaymentMethodIcon"
+                                    Source="cash.png"
+                                    HeightRequest="20"
+                                    WidthRequest="20"
+                                    VerticalOptions="Start" />
+                            <VerticalStackLayout>
+                                <Label Text="Payment Method"
+                                       FontSize="12"
+                                       TextColor="#666666" />
+                                <Label x:Name="PaymentMethodLabel"
+                                        Text="Cash"
+                                        FontAttributes="Bold"
+                                        FontSize="14"
+                                        TextColor="#2E7D32" />
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+
+                        <!-- DISTANCE AND TIME -->
+                        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="15" Padding="0,10">
+                            <!-- Distance -->
+                            <VerticalStackLayout Spacing="3">
+                                <Label
+                                    Text="DISTANCE"
+                                    FontSize="12"
+                                    TextColor="#666666"
+                                    FontAttributes="Bold"/>
+                                <Label
+                                    x:Name="DistanceLabel"
+                                    Text="-- km"
+                                    FontSize="15"
+                                    TextColor="Black"
+                                    FontAttributes="Bold"/>
+                            </VerticalStackLayout>
+
+                            <!-- Time -->
+                            <VerticalStackLayout Grid.Column="1" Spacing="3">
+                                <Label
+                                    Text="EST. TIME"
+                                    FontSize="12"
+                                    TextColor="#666666"
+                                    FontAttributes="Bold"/>
+                                <Label
+                                    x:Name="TimeLabel"
+                                    Text="-- mins"
+                                    FontSize="15"
+                                    TextColor="Black"
+                                    FontAttributes="Bold"/>
+                            </VerticalStackLayout>
+
+                            <!-- Fare -->
+                            <VerticalStackLayout Grid.Column="2" Spacing="3">
+                                <Label
+                                    Text="FARE"
+                                    FontSize="12"
+                                    TextColor="#666666"
+                                    FontAttributes="Bold"/>
+                                <Label
+                                    x:Name="FareLabel"
+                                    Text="₱--"
+                                    FontSize="15"
+                                    TextColor="#2E7D32"
+                                    FontAttributes="Bold"/>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <!-- ACTION BUTTONS - SEARCHING STATE -->
+                        <Grid x:Name="SearchingActionButtons"
+                              ColumnDefinitions="*,*" 
+                              ColumnSpacing="10" 
+                              IsVisible="True">
+                            <Button
+                                x:Name="AddNoteButton"
+                                Text="Add Note"
+                                BackgroundColor="White"
+                                TextColor="#2E7D32"
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                CornerRadius="12"
+                                HeightRequest="55"
+                                BorderColor="#2E7D32"
+                                BorderWidth="2"
+                                Clicked="OnAddNoteClicked" />
+
+                            <Button
+                                Text="Cancel Ride"
+                                x:Name="CancelBookingButton"
+                                BackgroundColor="#F44336"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                CornerRadius="12"
+                                HeightRequest="55"
+                                Grid.Column="1"
+                                Clicked="OnCancelBookingClicked" />
+                        </Grid>
+
+                        <!-- ACTION BUTTONS - DRIVER FOUND STATE -->
+                        <Grid x:Name="DriverFoundActionButtons"
+                              ColumnDefinitions="*,*" 
+                              ColumnSpacing="10" 
+                              IsVisible="False">
+                            <Button
+                                Text="Call Driver"
+                                BackgroundColor="#2E7D32"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                CornerRadius="12"
+                                HeightRequest="55"
+                                Clicked="OnCallDriverClicked" />
+
+                            <Button
+                                Text="Message"
+                                BackgroundColor="White"
+                                TextColor="#2E7D32"
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                CornerRadius="12"
+                                HeightRequest="55"
+                                BorderColor="#2E7D32"
+                                BorderWidth="2"
+                                Grid.Column="1"
+                                Clicked="OnMessageDriverClicked" />
+                        </Grid>
+
+                        <!-- ACTION BUTTONS - ARRIVED STATE -->
+                        <Grid x:Name="ArrivedActionButtons"
+                              ColumnDefinitions="*,*" 
+                              ColumnSpacing="10" 
+                              IsVisible="False">
+                            <Button
+                                Text="Call Driver"
+                                BackgroundColor="#2E7D32"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                CornerRadius="12"
+                                HeightRequest="55"
+                                Clicked="OnCallDriverClicked" />
+
+                            <Button
+                                Text="Message"
+                                BackgroundColor="White"
+                                TextColor="#1976D2"
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                CornerRadius="12"
+                                HeightRequest="55"
+                                BorderColor="#1976D2"
+                                BorderWidth="2"
+                                Grid.Column="1"
+                                Clicked="OnMessageDriverClicked" />
+                        </Grid>
+
+                        <!-- ACTION BUTTONS - TRIP COMPLETED STATE -->
+                        <VerticalStackLayout x:Name="TripCompletedActionButtons"
+                                            Spacing="10"
+                                            IsVisible="False">
+                            <Button
+                                Text="Proceed to Payment"
+                                BackgroundColor="#2E7D32"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                CornerRadius="12"
+                                HeightRequest="55"
+                                Clicked="OnProceedToPaymentClicked" />
+
+                            <Button
+                                Text="Rate Driver"
+                                BackgroundColor="White"
+                                TextColor="#2E7D32"
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                CornerRadius="12"
+                                HeightRequest="55"
+                                BorderColor="#2E7D32"
+                                BorderWidth="2"
+                                Clicked="OnRateDriverClicked" />
+                        </VerticalStackLayout>
+
+                        <!-- ACTION BUTTONS - PAYMENT PENDING STATE -->
+                        <VerticalStackLayout x:Name="PaymentPendingActionButtons"
+                                            Spacing="10"
+                                            IsVisible="False">
+                            <Button
+                                Text="Proceed to Payment"
+                                BackgroundColor="#1976D2"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                CornerRadius="12"
+                                HeightRequest="55"
+                                Clicked="OnProceedToPaymentPendingClicked" />
+
+                            <Button
+                                Text="View Receipt"
+                                BackgroundColor="White"
+                                TextColor="#1976D2"
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                CornerRadius="12"
+                                HeightRequest="55"
+                                BorderColor="#1976D2"
+                                BorderWidth="2"
+                                Clicked="OnViewReceiptClicked"
+                                IsVisible="False"/>
+                        </VerticalStackLayout>
+
+                        <!-- Cancel Button for Driver Found State -->
+                        <Button x:Name="CancelBookingDriverFoundButton"
+                                Text="Cancel Ride"
+                                BackgroundColor="#F44336"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                CornerRadius="12"
+                                HeightRequest="55"
+                                IsVisible="False"
+                                Clicked="OnCancelBookingDriverFoundClicked" />
+
+                    </VerticalStackLayout>
+                </ScrollView>
+
+                <Grid.GestureRecognizers>
+                    <PanGestureRecognizer PanUpdated="OnPanelPanned"/>
+                    <TapGestureRecognizer Tapped="OnDragHandleTapped"/>
+                </Grid.GestureRecognizers>
+            </Grid>
+        </Frame>
+    </Grid>
+</ContentPage>

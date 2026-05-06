@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.Driver_Menu"
+             BackgroundColor="#F5F5F5"
+             Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- HEADER SECTION -->
+        <Grid BackgroundColor="#2E7D32"
+              Padding="25"
+              RowSpacing="15">
+
+            <HorizontalStackLayout Spacing="15" VerticalOptions="Center">
+
+                <Border WidthRequest="70"
+                        HeightRequest="70"
+                        StrokeShape="Ellipse"
+                        BackgroundColor="White"
+                        Padding="0"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+
+                    <Image x:Name="DriverProfileImage"
+                           Source="profile_icon.png"
+                           Aspect="AspectFill"/>
+                </Border>
+
+                <VerticalStackLayout VerticalOptions="Center">
+                    <HorizontalStackLayout Spacing="5">
+                        <Label x:Name="DriverNameLabel"
+                               Text="Loading..."
+                               FontAttributes="Bold"
+                               FontSize="18"
+                               TextColor="White"/>
+
+                        <Image Source="edit.png"
+                               WidthRequest="16"
+                               HeightRequest="16"
+                               VerticalOptions="Center">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnEditIconTapped"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </HorizontalStackLayout>
+
+                    <Label x:Name="DriverPhoneLabel"
+                           Text="Loading..."
+                           FontSize="13"
+                           TextColor="#E0E0E0"/>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+        </Grid>
+
+        <!-- MENU OPTIONS -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="25" Spacing="15">
+
+                <Border x:Name="TricycleProfileBorder"
+                        Stroke="#DDD"
+                        StrokeThickness="1"
+                        BackgroundColor="White"
+                        StrokeShape="RoundRectangle 12"
+                        Opacity="1">
+                    <HorizontalStackLayout Spacing="10" Padding="15">
+                        <Image Source="payment_options.png"
+                               WidthRequest="22"
+                               HeightRequest="22"
+                               Opacity="1"/>
+                        <Label Text="Tricycle Profile"
+                               x:Name="TricycleLabel"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"
+                               TextColor="#333"/>
+                    </HorizontalStackLayout>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnTricycleProfileTapped"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <Border Stroke="#DDD"
+                        StrokeThickness="1"
+                        BackgroundColor="White"
+                        StrokeShape="RoundRectangle 12">
+                    <HorizontalStackLayout Spacing="10" Padding="15">
+                        <Image Source="help.png"
+                               WidthRequest="22"
+                               HeightRequest="22"/>
+                        <Label Text="Help &amp; Support"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"
+                               TextColor="#333"/>
+                    </HorizontalStackLayout>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnHelpTapped"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <Border Stroke="#DDD"
+                        StrokeThickness="1"
+                        BackgroundColor="White"
+                        StrokeShape="RoundRectangle 12">
+                    <HorizontalStackLayout Spacing="10" Padding="15">
+                        <Image Source="about.png"
+                               WidthRequest="22"
+                               HeightRequest="22"/>
+                        <Label Text="About App"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"
+                               TextColor="#333"/>
+                    </HorizontalStackLayout>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnAboutTapped"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <Border Stroke="#DDD"
+                        StrokeThickness="1"
+                        BackgroundColor="White"
+                        StrokeShape="RoundRectangle 12">
+                    <HorizontalStackLayout Spacing="10" Padding="15">
+                        <Image Source="logout.png"
+                               WidthRequest="22"
+                               HeightRequest="22"/>
+                        <Label Text="Logout"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"
+                               TextColor="#333"/>
+                    </HorizontalStackLayout>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnLogoutTapped"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

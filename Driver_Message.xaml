@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:local="clr-namespace:ServiceCo"
+    x:Class="ServiceCo.Driver_Message"
+    BackgroundColor="#F5F7FA"
+    Title="Messages"
+    Shell.NavBarIsVisible="False">
+
+    <ContentPage.Resources>
+        <local:ImageSourceConverter x:Key="ImageSourceConverter" />
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- HEADER -->
+        <Grid BackgroundColor="#2E7D32" Padding="20,15" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <HorizontalStackLayout Grid.Column="0" Spacing="15" VerticalOptions="Center">
+                <Image 
+                    Source="tricycle.png"
+                    BackgroundColor="Transparent"
+                    WidthRequest="40"
+                    HeightRequest="40"/>
+
+                <Label 
+                    Text="Messages"
+                    FontSize="22"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    VerticalOptions="Center" />
+            </HorizontalStackLayout>
+        </Grid>
+
+        <!-- MAIN CONTENT -->
+        <ScrollView Grid.Row="1" Padding="16">
+            <StackLayout Spacing="16">
+
+                <!-- WAITING VIEW -->
+                <StackLayout x:Name="WaitingView" IsVisible="False">
+                    <Frame BackgroundColor="White"
+                           Padding="30"
+                           CornerRadius="12">
+                        <StackLayout Spacing="20" HorizontalOptions="Center">
+                            <Frame CornerRadius="80"
+                                   HeightRequest="100"
+                                   WidthRequest="100"
+                                   BackgroundColor="#E8F5E9"
+                                   HorizontalOptions="Center">
+                                <Image Source="waiting_approval.png"
+                                       WidthRequest="60"
+                                       HeightRequest="60"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </Frame>
+                            <StackLayout Spacing="10" HorizontalOptions="Center">
+                                <Label Text="Waiting for Approval"
+                                       FontAttributes="Bold"
+                                       FontSize="20"
+                                       HorizontalOptions="Center"
+                                       TextColor="#2E7D32" />
+                                <Label Text="Your application is being reviewed by admin."
+                                       FontSize="14"
+                                       TextColor="#666666"
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center" />
+                                <Label Text="Messages will be available once approved."
+                                       FontSize="13"
+                                       TextColor="#999999"
+                                       HorizontalOptions="Center" />
+                            </StackLayout>
+                            <ActivityIndicator IsRunning="True"
+                                               Color="#2E7D32"
+                                               HeightRequest="30"/>
+                        </StackLayout>
+                    </Frame>
+
+                    <Frame BackgroundColor="White"
+                           Padding="20"
+                           CornerRadius="16"
+                           Margin="0,10,0,0"
+                           HasShadow="False"
+                           BorderColor="#F0F0F0">
+                        <StackLayout Spacing="12">
+
+                            <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="0">
+
+                                <Border Grid.Column="0"
+                                        Stroke="#2E7D32"
+                                        StrokeThickness="2"
+                                        StrokeShape="RoundRectangle 20"
+                                        BackgroundColor="#E8F5E9"
+                                        Padding="6,3"
+                                        HorizontalOptions="Center">
+                                    <HorizontalStackLayout Spacing="4">
+                                        <Label Text="⏳" 
+                                               FontSize="11"
+                                               TextColor="#2E7D32"
+                                               VerticalOptions="Center"/>
+                                        <Label Text="Documents" 
+                                               FontSize="11"
+                                               TextColor="#2E7D32"
+                                               FontAttributes="Bold"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </Border>
+
+                                <Label Grid.Column="1" 
+                                       Text="──────" 
+                                       TextColor="#E0E0E0"
+                                       FontSize="14"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       Margin="5,0"/>
+
+                                <Border Grid.Column="2"
+                                        Stroke="#E0E0E0"
+                                        StrokeThickness="2"
+                                        StrokeShape="RoundRectangle 20"
+                                        BackgroundColor="White"
+                                        Padding="6,3"
+                                        HorizontalOptions="Center">
+                                    <HorizontalStackLayout Spacing="4">
+                                        <Label Text="🛵" 
+                                               FontSize="11"
+                                               TextColor="#9E9E9E"
+                                               VerticalOptions="Center"/>
+                                        <Label Text="Tricycle" 
+                                               FontSize="11"
+                                               TextColor="#9E9E9E"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </Border>
+                            </Grid>
+
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                <Frame Grid.Column="0"
+                                       BackgroundColor="#2E7D32"
+                                       CornerRadius="12"
+                                       Padding="8,4"
+                                       HorizontalOptions="Start">
+                                    <Label Text="Step 1/2"
+                                           FontSize="10"
+                                           FontAttributes="Bold"
+                                           TextColor="White"/>
+                                </Frame>
+
+                                <Label Grid.Column="1"
+                                       Text="Waiting for Document Approval"
+                                       FontSize="13"
+                                       TextColor="#2E7D32"
+                                       FontAttributes="Bold"
+                                       VerticalOptions="Center"/>
+                            </Grid>
+
+                            <Border Stroke="#E0E0E0"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 4"
+                                    HeightRequest="6"
+                                    BackgroundColor="White">
+                                <Border Stroke="#2E7D32"
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 4"
+                                        BackgroundColor="#2E7D32"
+                                        WidthRequest="150"
+                                        HorizontalOptions="Start"/>
+                            </Border>
+
+                            <Label Text="⏳ Your documents are being reviewed by admin"
+                                   FontSize="11"
+                                   TextColor="#666666"
+                                   HorizontalOptions="Center"
+                                   Margin="0,5,0,0"/>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+
+                <!-- REJECTED VIEW -->
+                <StackLayout x:Name="RejectedView" IsVisible="False">
+                    <Frame BackgroundColor="White"
+                           Padding="30"
+                           CornerRadius="12">
+                        <StackLayout Spacing="20" HorizontalOptions="Center">
+                            <Frame CornerRadius="80"
+                                   HeightRequest="100"
+                                   WidthRequest="100"
+                                   BackgroundColor="#FFEBEE"
+                                   HorizontalOptions="Center">
+                                <Label Text="❌"
+                                       FontSize="45"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </Frame>
+                            <StackLayout Spacing="10" HorizontalOptions="Center">
+                                <Label Text="Application Rejected"
+                                       FontAttributes="Bold"
+                                       FontSize="20"
+                                       HorizontalOptions="Center"
+                                       TextColor="#D32F2F" />
+                                <Label x:Name="RejectionReasonLabel"
+                                       Text="Your documents did not meet the requirements."
+                                       FontSize="14"
+                                       TextColor="#666666"
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center" />
+                            </StackLayout>
+                            <BoxView HeightRequest="1" BackgroundColor="#FFCDD2" Margin="0,10"/>
+                            <StackLayout Spacing="15" HorizontalOptions="Center">
+                                <Label Text="Please re-upload the required document:"
+                                       FontSize="14"
+                                       TextColor="#D32F2F"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Center"/>
+                                <Button x:Name="ReuploadButton"
+                                        Text="Re-upload Document"
+                                        BackgroundColor="#EF4444"
+                                        TextColor="White"
+                                        FontSize="15"
+                                        FontAttributes="Bold"
+                                        CornerRadius="25"
+                                        HeightRequest="50"
+                                        WidthRequest="250"
+                                        Clicked="OnReuploadClicked"/>
+                                <Label Text="Your document will be reviewed again within 24 hours."
+                                       FontSize="12"
+                                       TextColor="#999"
+                                       HorizontalOptions="Center"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+
+                <!-- SUSPENDED VIEW -->
+                <StackLayout x:Name="SuspendedView" IsVisible="False" Spacing="16">
+                    <Frame BackgroundColor="White"
+                           Padding="30"
+                           CornerRadius="12">
+                        <StackLayout Spacing="20" HorizontalOptions="Center">
+                            <Frame CornerRadius="80"
+                                   HeightRequest="100"
+                                   WidthRequest="100"
+                                   BackgroundColor="#FEF3C7"
+                                   HorizontalOptions="Center">
+                                <Label Text="⏸️"
+                                       FontSize="45"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </Frame>
+                            <StackLayout Spacing="10" HorizontalOptions="Center">
+                                <Label Text="Account Suspended"
+                                       FontAttributes="Bold"
+                                       FontSize="24"
+                                       HorizontalOptions="Center"
+                                       TextColor="#F59E0B" />
+                                <Label x:Name="SuspendedMessageLabel"
+                                       Text="Your account has been suspended by admin."
+                                       FontSize="16"
+                                       TextColor="#666666"
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center" />
+                                <Label x:Name="SuspendedUntilLabel"
+                                       Text=""
+                                       FontSize="14"
+                                       TextColor="#F59E0B"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Center" />
+                                <Label Text="You cannot access messages while suspended."
+                                       FontSize="14"
+                                       TextColor="#999999"
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center" />
+                            </StackLayout>
+                            <Button Text="Contact Support"
+                                    BackgroundColor="#F59E0B"
+                                    TextColor="White"
+                                    FontSize="15"
+                                    FontAttributes="Bold"
+                                    CornerRadius="25"
+                                    HeightRequest="50"
+                                    WidthRequest="250"
+                                    Clicked="OnContactSupportClicked"/>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+
+                <!-- DEACTIVATED VIEW -->
+                <StackLayout x:Name="DeactivatedView" IsVisible="False" Spacing="16">
+                    <Frame BackgroundColor="White"
+                           Padding="30"
+                           CornerRadius="12">
+                        <StackLayout Spacing="20" HorizontalOptions="Center">
+                            <Frame CornerRadius="80"
+                                   HeightRequest="100"
+                                   WidthRequest="100"
+                                   BackgroundColor="#FEE2E2"
+                                   HorizontalOptions="Center">
+                                <Label Text="🚫"
+                                       FontSize="45"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </Frame>
+                            <StackLayout Spacing="10" HorizontalOptions="Center">
+                                <Label Text="Account Deactivated"
+                                       FontAttributes="Bold"
+                                       FontSize="24"
+                                       HorizontalOptions="Center"
+                                       TextColor="#EF4444" />
+                                <Label x:Name="DeactivatedMessageLabel"
+                                       Text="Your account has been deactivated by admin."
+                                       FontSize="16"
+                                       TextColor="#666666"
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center" />
+                                <Label Text="You can no longer use this account."
+                                       FontSize="14"
+                                       TextColor="#999999"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Center" />
+                            </StackLayout>
+                            <Button Text="Contact Support"
+                                    BackgroundColor="#EF4444"
+                                    TextColor="White"
+                                    FontSize="15"
+                                    FontAttributes="Bold"
+                                    CornerRadius="25"
+                                    HeightRequest="50"
+                                    WidthRequest="250"
+                                    Clicked="OnContactSupportClicked"/>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+
+                <!-- APPROVED VIEW -->
+                <StackLayout x:Name="ApprovedView" IsVisible="False" Spacing="16">
+
+                    <!-- TRICYCLE REJECTED SECTION -->
+                    <StackLayout x:Name="TricycleRejectedSection" IsVisible="False" Spacing="16">
+                        <Frame BackgroundColor="White"
+                               Padding="30"
+                               CornerRadius="12">
+                            <StackLayout Spacing="20" HorizontalOptions="Center">
+                                <Frame CornerRadius="80"
+                                       HeightRequest="100"
+                                       WidthRequest="100"
+                                       BackgroundColor="#FFEBEE"
+                                       HorizontalOptions="Center">
+                                    <Label Text="❌"
+                                           FontSize="45"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Frame>
+                                <StackLayout Spacing="10" HorizontalOptions="Center">
+                                    <Label Text="Tricycle Rejected"
+                                           FontAttributes="Bold"
+                                           FontSize="20"
+                                           HorizontalOptions="Center"
+                                           TextColor="#D32F2F" />
+                                    <Label x:Name="TricycleRejectionReasonLabel"
+                                           Text="Your tricycle details were rejected by admin."
+                                           FontSize="14"
+                                           TextColor="#666666"
+                                           HorizontalOptions="Center"
+                                           HorizontalTextAlignment="Center" />
+                                    <Label Text="Please update your information and resubmit."
+                                           FontSize="13"
+                                           TextColor="#999999"
+                                           HorizontalOptions="Center" />
+                                </StackLayout>
+
+                                <Button x:Name="TricycleRejectedEditButton"
+                                        Text="Edit Tricycle Details"
+                                        BackgroundColor="#D32F2F"
+                                        TextColor="White"
+                                        FontSize="15"
+                                        FontAttributes="Bold"
+                                        CornerRadius="25"
+                                        HeightRequest="50"
+                                        WidthRequest="250"
+                                        Clicked="OnEditTricycleClicked"/>
+                            </StackLayout>
+                        </Frame>
+
+                        <Frame BackgroundColor="#FFEBEE"
+                               Padding="15"
+                               CornerRadius="12">
+                            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                                <Label Text="ℹ️"
+                                       FontSize="16"
+                                       TextColor="#D32F2F"/>
+                                <Label Text="Fix the issues and resubmit for approval."
+                                       FontSize="13"
+                                       TextColor="#D32F2F"
+                                       HorizontalOptions="Center"/>
+                            </HorizontalStackLayout>
+                        </Frame>
+                    </StackLayout>
+
+                    <!-- TRICYCLE PENDING SECTION -->
+                    <StackLayout x:Name="TricyclePendingSection" IsVisible="False" Spacing="16">
+                        <Frame BackgroundColor="White"
+                               Padding="30"
+                               CornerRadius="12">
+                            <StackLayout Spacing="20" HorizontalOptions="Center">
+                                <Frame CornerRadius="80"
+                                       HeightRequest="100"
+                                       WidthRequest="100"
+                                       BackgroundColor="#FFF3E0"
+                                       HorizontalOptions="Center">
+                                    <Label Text="🛵"
+                                           FontSize="45"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Frame>
+                                <StackLayout Spacing="10" HorizontalOptions="Center">
+                                    <Label Text="Tricycle Pending Approval"
+                                           FontAttributes="Bold"
+                                           FontSize="20"
+                                           HorizontalOptions="Center"
+                                           TextColor="#F57C00" />
+                                    <Label Text="Your tricycle details are being reviewed by admin."
+                                           FontSize="14"
+                                           TextColor="#666666"
+                                           HorizontalOptions="Center"
+                                           HorizontalTextAlignment="Center" />
+                                    <Label Text="Messages will be available once approved."
+                                           FontSize="13"
+                                           TextColor="#999999"
+                                           HorizontalOptions="Center" />
+                                </StackLayout>
+
+                                <Button x:Name="GoToEditTricycleButton"
+                                        Text="Go to Edit Tricycle"
+                                        BackgroundColor="#F57C00"
+                                        TextColor="White"
+                                        FontSize="15"
+                                        FontAttributes="Bold"
+                                        CornerRadius="25"
+                                        HeightRequest="50"
+                                        WidthRequest="250"
+                                        Clicked="OnEditTricycleClicked"/>
+                            </StackLayout>
+                        </Frame>
+
+                        <Frame BackgroundColor="White"
+                               Padding="20"
+                               CornerRadius="16"
+                               HasShadow="False"
+                               BorderColor="#F0F0F0">
+                            <StackLayout Spacing="12">
+
+                                <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="0">
+
+                                    <Border Grid.Column="0"
+                                            Stroke="#2E7D32"
+                                            StrokeThickness="2"
+                                            StrokeShape="RoundRectangle 20"
+                                            BackgroundColor="#E8F5E9"
+                                            Padding="6,3"
+                                            HorizontalOptions="Center">
+                                        <HorizontalStackLayout Spacing="4">
+                                            <Label Text="✓" 
+                                                   FontSize="12"
+                                                   TextColor="#2E7D32"
+                                                   FontAttributes="Bold"
+                                                   VerticalOptions="Center"/>
+                                            <Label Text="Documents" 
+                                                   FontSize="11"
+                                                   TextColor="#2E7D32"
+                                                   FontAttributes="Bold"
+                                                   VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                    </Border>
+
+                                    <Label Grid.Column="1" 
+                                           Text="──────" 
+                                           TextColor="#2E7D32"
+                                           FontSize="14"
+                                           Opacity="0.8"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"
+                                           Margin="5,0"/>
+
+                                    <Border Grid.Column="2"
+                                            Stroke="#F57C00"
+                                            StrokeThickness="3"
+                                            StrokeShape="RoundRectangle 20"
+                                            BackgroundColor="#FFF3E0"
+                                            Padding="6,3"
+                                            HorizontalOptions="Center">
+                                        <HorizontalStackLayout Spacing="4">
+                                            <Label Text="⏳" 
+                                                   FontSize="11"
+                                                   TextColor="#F57C00"
+                                                   VerticalOptions="Center"/>
+                                            <Label Text="Tricycle" 
+                                                   FontSize="11"
+                                                   TextColor="#F57C00"
+                                                   FontAttributes="Bold"
+                                                   VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                    </Border>
+                                </Grid>
+
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                    <Frame Grid.Column="0"
+                                           BackgroundColor="#F57C00"
+                                           CornerRadius="12"
+                                           Padding="8,4"
+                                           HorizontalOptions="Start">
+                                        <Label Text="Step 2/2"
+                                               FontSize="10"
+                                               FontAttributes="Bold"
+                                               TextColor="White"/>
+                                    </Frame>
+
+                                    <Label Grid.Column="1"
+                                           Text="Waiting for Tricycle Approval"
+                                           FontSize="13"
+                                           TextColor="#F57C00"
+                                           FontAttributes="Bold"
+                                           VerticalOptions="Center"/>
+                                </Grid>
+
+                                <Border Stroke="#E0E0E0"
+                                        StrokeThickness="1"
+                                        StrokeShape="RoundRectangle 4"
+                                        HeightRequest="6"
+                                        BackgroundColor="White">
+                                    <Border Stroke="#F57C00"
+                                            StrokeThickness="0"
+                                            StrokeShape="RoundRectangle 4"
+                                            BackgroundColor="#F57C00"
+                                            WidthRequest="300"
+                                            HorizontalOptions="Start"/>
+                                </Border>
+
+                                <Label Text="⏳ ✓ Documents approved • Waiting for tricycle review"
+                                       FontSize="11"
+                                       TextColor="#F57C00"
+                                       HorizontalOptions="Center"
+                                       Margin="0,5,0,0"
+                                       LineBreakMode="WordWrap"/>
+                            </StackLayout>
+                        </Frame>
+
+                        <Frame BackgroundColor="#FFF3E0"
+                               Padding="15"
+                               CornerRadius="12">
+                            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                                <Label Text="ℹ️"
+                                       FontSize="16"
+                                       TextColor="#F57C00"/>
+                                <Label Text="Messages will appear once your tricycle is approved."
+                                       FontSize="13"
+                                       TextColor="#F57C00"
+                                       HorizontalOptions="Center"/>
+                            </HorizontalStackLayout>
+                        </Frame>
+                    </StackLayout>
+
+                    <!-- ACTIVE MESSAGES VIEW -->
+                    <StackLayout x:Name="ActiveMessagesView" IsVisible="False" Spacing="16">
+                        <Grid>
+                            <CollectionView 
+                                x:Name="ConversationsListView"
+                                SelectionMode="Single"
+                                SelectionChanged="OnConversationSelected"
+                                ItemsSource="{Binding Conversations}"
+                                IsVisible="{Binding HasConversations}"
+                                VerticalOptions="FillAndExpand">
+
+                                <CollectionView.ItemsLayout>
+                                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                                </CollectionView.ItemsLayout>
+
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Stroke="#F0F0F0"
+                                                StrokeThickness="1"
+                                                StrokeShape="RoundRectangle 12"
+                                                BackgroundColor="White"
+                                                Padding="0"
+                                                Margin="0,5">
+                                            <Grid Padding="15,12" ColumnSpacing="15">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Grid.RowSpan="2"
+                                                        Grid.Column="0"
+                                                        Stroke="#E0E0E0"
+                                                        StrokeThickness="1"
+                                                        StrokeShape="RoundRectangle 25"
+                                                        BackgroundColor="#F5F5F5"
+                                                        HeightRequest="50"
+                                                        WidthRequest="50"
+                                                        Padding="0"
+                                                        Margin="0,0,5,0">
+                                                    <Image
+                                                        Source="{Binding ProfileImageUrl, Converter={StaticResource ImageSourceConverter}}"
+                                                        Aspect="AspectFill"
+                                                        HeightRequest="50"
+                                                        WidthRequest="50" />
+                                                </Border>
+
+                                                <Border Grid.Row="0"
+                                                        Grid.Column="0"
+                                                        BackgroundColor="#FF3B30"
+                                                        StrokeShape="RoundRectangle 10"
+                                                        HeightRequest="20"
+                                                        WidthRequest="20"
+                                                        HorizontalOptions="End"
+                                                        VerticalOptions="Start"
+                                                        Margin="30,-5,0,0"
+                                                        IsVisible="{Binding HasUnread}">
+                                                    <Label 
+                                                        Text="{Binding UnreadCount}"
+                                                        FontSize="10"
+                                                        FontAttributes="Bold"
+                                                        TextColor="White"
+                                                        HorizontalOptions="Center"
+                                                        VerticalOptions="Center" />
+                                                </Border>
+
+                                                <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="4">
+                                                    <Label 
+                                                        Text="{Binding CommuterName}"
+                                                        FontSize="16"
+                                                        FontAttributes="Bold"
+                                                        TextColor="#333333"
+                                                        LineBreakMode="TailTruncation"
+                                                        MaxLines="1" />
+
+                                                    <Label 
+                                                        Text="{Binding LastMessage}"
+                                                        FontSize="14"
+                                                        TextColor="{Binding LastMessageColor}"
+                                                        LineBreakMode="TailTruncation"
+                                                        MaxLines="1" />
+                                                </VerticalStackLayout>
+
+                                                <VerticalStackLayout Grid.Row="0" Grid.Column="2" Spacing="4" HorizontalOptions="End">
+                                                    <Label 
+                                                        Text="{Binding LastMessageTimeDisplay}"
+                                                        FontSize="12"
+                                                        TextColor="#999999" />
+
+                                                    <Label 
+                                                        Text="✓✓"
+                                                        FontSize="10"
+                                                        TextColor="#2E7D32"
+                                                        IsVisible="{Binding IsLastMessageFromMe}"
+                                                        HorizontalOptions="End" />
+                                                </VerticalStackLayout>
+
+                                                <HorizontalStackLayout Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Spacing="8" Margin="0,5,0,0">
+                                                    <Image 
+                                                        Source="dropoff.png"
+                                                        HeightRequest="12"
+                                                        WidthRequest="12"
+                                                        VerticalOptions="Center" />
+
+                                                    <Label 
+                                                        Text="{Binding RideInfo}"
+                                                        FontSize="12"
+                                                        TextColor="#666666"
+                                                        LineBreakMode="TailTruncation"
+                                                        MaxLines="1" />
+                                                </HorizontalStackLayout>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+
+                            <!-- CENTERED EMPTY VIEW -->
+                            <VerticalStackLayout 
+                                IsVisible="{Binding HasNoConversations}"
+                                HorizontalOptions="Center" 
+                                VerticalOptions="Center"
+                                Spacing="20"
+                                Margin="0,200,0,0">
+
+                                <Image 
+                                    Source="messages_approved.png"
+                                    HeightRequest="130"
+                                    WidthRequest="130"
+                                    Aspect="AspectFit"
+                                    HorizontalOptions="Center" />
+
+                                <Label 
+                                    Text="No conversations yet"
+                                    FontSize="18"
+                                    FontAttributes="Bold"
+                                    TextColor="#333333"
+                                    HorizontalOptions="Center" />
+
+                                <Label 
+                                    Text="Your messages with commuters will appear here after you accept bookings."
+                                    FontSize="14"
+                                    TextColor="#999999"
+                                    HorizontalOptions="Center"
+                                    HorizontalTextAlignment="Center"
+                                    MaxLines="2"
+                                    LineBreakMode="WordWrap"
+                                    WidthRequest="250" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </StackLayout>
+                </StackLayout>
+
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

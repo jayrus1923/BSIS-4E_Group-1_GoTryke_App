@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ServiceCo.Commuter_SelectRide"
+    BackgroundColor="White"
+    Shell.NavBarIsVisible="False">
+
+    <Grid>
+        <Grid RowDefinitions="*,Auto">
+
+            <!-- Main Content Area with Google Map -->
+            <Grid Grid.Row="0">
+                <WebView x:Name="RideMapView" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+
+                <!-- Loading Overlay -->
+                <Grid x:Name="MapBlurOverlay" BackgroundColor="#AA000000" IsVisible="False" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="20">
+                        <ActivityIndicator IsRunning="True" Color="White" HeightRequest="50" WidthRequest="50" />
+                        <Label Text="Loading Route..." TextColor="White" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <!-- Location Header Card -->
+                <Frame
+                    x:Name="HeaderFrame"
+                    BackgroundColor="White"
+                    Margin="20,20,20,0"
+                    Padding="20"
+                    CornerRadius="15"
+                    HasShadow="True"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start"
+                    HeightRequest="90">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnHeaderTapped"/>
+                    </Frame.GestureRecognizers>
+                    <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="10">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label Text="FROM" FontSize="11" TextColor="#666666" FontAttributes="Bold"/>
+                            <Label x:Name="PickupDisplayLabel" Text="Loading..." FontSize="13" TextColor="Black" FontAttributes="Bold" MaxLines="1" LineBreakMode="TailTruncation"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Column="1" Text="➔" FontSize="18" TextColor="#2E7D32" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,5,0,0"/>
+                        <VerticalStackLayout Grid.Column="2" Spacing="2">
+                            <Label Text="TO" FontSize="11" TextColor="#666666" FontAttributes="Bold"/>
+                            <Label x:Name="DropoffDisplayLabel" Text="Loading..." FontSize="13" TextColor="Black" FontAttributes="Bold" MaxLines="1" LineBreakMode="TailTruncation"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Frame>
+
+                <!-- Floating Action Buttons -->
+                <AbsoluteLayout>
+                    <Frame x:Name="ShowDetailsButton" BackgroundColor="White" Padding="15" CornerRadius="25" HasShadow="True" HeightRequest="50" WidthRequest="180" Margin="0,0,0,30" AbsoluteLayout.LayoutBounds="0.5,0.95,-1,-1" AbsoluteLayout.LayoutFlags="PositionProportional" IsVisible="False">
+                        <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                            <Image Source="up_arrow.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
+                            <Label Text="Show Ride Details" FontSize="14" FontAttributes="Bold" TextColor="Black" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnShowDetailsTapped"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+
+                    <Frame x:Name="BackButton" BackgroundColor="White" Padding="12" CornerRadius="25" HasShadow="True" HeightRequest="50" WidthRequest="50" AbsoluteLayout.LayoutBounds="0.05,0.95,-1,120" AbsoluteLayout.LayoutFlags="PositionProportional">
+                        <Image Source="green_back.png" HeightRequest="24" WidthRequest="24">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnBackTapped"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </Frame>
+
+                    <Frame x:Name="MapTypeButton" BackgroundColor="White" Padding="12" CornerRadius="25" HasShadow="True" HeightRequest="50" WidthRequest="50" AbsoluteLayout.LayoutBounds="0.95,0.80,-1,200" AbsoluteLayout.LayoutFlags="PositionProportional">
+                        <Image x:Name="MapTypeIcon" Source="three_dimentional.png" HeightRequest="24" WidthRequest="24">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnMapTypeTapped"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </Frame>
+
+                    <Frame x:Name="LocationButton" BackgroundColor="White" Padding="12" CornerRadius="25" HasShadow="True" HeightRequest="50" WidthRequest="50" AbsoluteLayout.LayoutBounds="0.95,0.95,-1,120" AbsoluteLayout.LayoutFlags="PositionProportional">
+                        <Image Source="selected_rides.png" HeightRequest="24" WidthRequest="24">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnLocationButtonTapped"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </Frame>
+                </AbsoluteLayout>
+            </Grid>
+
+            <!-- Bottom Selection Panel -->
+            <Frame x:Name="SelectionPanel" Grid.Row="1" BackgroundColor="White" CornerRadius="25" HasShadow="True" Padding="0" Margin="0,-40,0,-17" HeightRequest="520">
+                <Grid RowDefinitions="Auto,*" RowSpacing="0">
+                    <!-- Drag Handle -->
+                    <Grid Grid.Row="0" BackgroundColor="White" HeightRequest="80" Padding="0,15">
+                        <BoxView HeightRequest="5" WidthRequest="60" BackgroundColor="#E0E0E0" CornerRadius="3" HorizontalOptions="Center" VerticalOptions="Start"/>
+                        <VerticalStackLayout Spacing="3" HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label Text="Choose Your Ride" FontSize="20" FontAttributes="Bold" TextColor="Black"/>
+                            <Label Text="Select tricycle and passenger type" FontSize="12" TextColor="#666666"/>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <ScrollView Grid.Row="1" x:Name="DetailsContent" IsVisible="True">
+                        <VerticalStackLayout Spacing="25" Padding="20,0,20,25">
+                            <!-- Tricycle Type Selection -->
+                            <VerticalStackLayout Spacing="15">
+                                <Label Text="SELECT TRICYCLE TYPE" FontSize="16" FontAttributes="Bold" TextColor="#333333"/>
+
+                                <Frame x:Name="RideOption12" BorderColor="#2E7D32" BackgroundColor="White" CornerRadius="15" HasShadow="True" Padding="18">
+                                    <Grid ColumnDefinitions="Auto,*,Auto">
+                                        <Image Grid.Column="0" Source="tricycle.png" HeightRequest="45" WidthRequest="45" VerticalOptions="Center"/>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="4" Padding="15,0">
+                                            <Label Text="1-2 Seater Tricycle" FontAttributes="Bold" FontSize="16" TextColor="Black"/>
+                                            <Label Text="For 1-2 passengers" FontSize="13" TextColor="#666666"/>
+                                        </VerticalStackLayout>
+                                        <VerticalStackLayout Grid.Column="2" Spacing="3" HorizontalOptions="End">
+                                            <Label Text="FARE" FontSize="12" TextColor="#666666"/>
+                                            <Label x:Name="Fare12Label" Text="₱--" FontSize="18" FontAttributes="Bold" TextColor="#2E7D32"/>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnRideOptionTapped"/>
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+
+                                <Frame x:Name="RideOption34" BorderColor="#E0E0E0" BackgroundColor="White" CornerRadius="15" HasShadow="True" Padding="18">
+                                    <Grid ColumnDefinitions="Auto,*,Auto">
+                                        <Image Grid.Column="0" Source="tricycle.png" HeightRequest="45" WidthRequest="45" VerticalOptions="Center"/>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="4" Padding="15,0">
+                                            <Label Text="3-4 Seater Tricycle" FontAttributes="Bold" FontSize="16" TextColor="Black"/>
+                                            <Label Text="For 3-4 passengers" FontSize="13" TextColor="#666666"/>
+                                        </VerticalStackLayout>
+                                        <VerticalStackLayout Grid.Column="2" Spacing="3" HorizontalOptions="End">
+                                            <Label Text="FARE" FontSize="12" TextColor="#666666"/>
+                                            <Label x:Name="Fare34Label" Text="₱--" FontSize="18" FontAttributes="Bold" TextColor="#2E7D32"/>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnRideOptionTapped"/>
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </VerticalStackLayout>
+
+                            <!-- Passenger Type Selection -->
+                            <VerticalStackLayout Spacing="15">
+                                <Label Text="PASSENGER TYPE" FontSize="16" FontAttributes="Bold" TextColor="#333333"/>
+                                <Label Text="Leave unchecked for Regular fare" FontSize="12" TextColor="#666666" Margin="0,-5,0,0"/>
+
+                                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                                    <Frame x:Name="StudentButton" BackgroundColor="#F5F5F5" CornerRadius="12" Padding="15,12" HasShadow="False" BorderColor="#E0E0E0">
+                                        <VerticalStackLayout Spacing="3" HorizontalOptions="Center">
+                                            <Label x:Name="StudentLabel" Text="Student" FontSize="11" FontAttributes="Bold" TextColor="#333333"/>
+                                            <Label x:Name="StudentDiscountLabel" Text="20% off" FontSize="11" TextColor="#666666"/>
+                                        </VerticalStackLayout>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnPassengerTypeTapped"/>
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+
+                                    <Frame x:Name="SeniorButton" Grid.Column="1" BackgroundColor="#F5F5F5" CornerRadius="12" Padding="15,12" HasShadow="False" BorderColor="#E0E0E0">
+                                        <VerticalStackLayout Spacing="3" HorizontalOptions="Center">
+                                            <Label x:Name="SeniorLabel" Text="Senior" FontSize="11" FontAttributes="Bold" TextColor="#333333"/>
+                                            <Label x:Name="SeniorDiscountLabel" Text="20% off" FontSize="11" TextColor="#666666"/>
+                                        </VerticalStackLayout>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnPassengerTypeTapped"/>
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+
+                                    <Frame x:Name="PWDSeniorButton" Grid.Column="2" BackgroundColor="#F5F5F5" CornerRadius="12" Padding="15,12" HasShadow="False" BorderColor="#E0E0E0">
+                                        <VerticalStackLayout Spacing="3" HorizontalOptions="Center">
+                                            <Label x:Name="PWDLabel" Text="PWD" FontSize="11" FontAttributes="Bold" TextColor="#333333"/>
+                                            <Label x:Name="PWDDiscountLabel" Text="20% off" FontSize="11" TextColor="#666666"/>
+                                        </VerticalStackLayout>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnPassengerTypeTapped"/>
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+                                </Grid>
+                                <Label x:Name="RegularIndicator" Text="✓ Regular passenger (full fare)" FontSize="12" TextColor="#2E7D32" HorizontalOptions="Center" IsVisible="True"/>
+                            </VerticalStackLayout>
+
+                            <!-- Payment Method -->
+                            <VerticalStackLayout Spacing="15">
+                                <Label Text="PAYMENT METHOD" FontSize="16" FontAttributes="Bold" TextColor="#333333"/>
+                                <Frame x:Name="PaymentMethodFrame" BackgroundColor="White" CornerRadius="15" Padding="15" HasShadow="True" BorderColor="#E0E0E0" HeightRequest="80">
+                                    <Grid ColumnDefinitions="Auto,*,Auto">
+                                        <Image x:Name="PaymentIcon" Grid.Column="0" Source="cash.png" HeightRequest="30" WidthRequest="30" VerticalOptions="Center"/>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="3" Padding="15,0">
+                                            <Label x:Name="SelectedPaymentLabel" Text="Cash" FontSize="16" FontAttributes="Bold" TextColor="Black"/>
+                                            <Label x:Name="PaymentDescriptionLabel" Text="Pay cash to the driver" FontSize="12" TextColor="#666666"/>
+                                        </VerticalStackLayout>
+                                        <Button Grid.Column="2" Text="Change" BackgroundColor="Transparent" TextColor="#2E7D32" FontSize="12" FontAttributes="Bold" Padding="10,0" VerticalOptions="Center" Clicked="OnChangePaymentClicked" />
+                                    </Grid>
+                                </Frame>
+                            </VerticalStackLayout>
+
+                            <!-- Trip Details Summary -->
+                            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="15" Padding="0,10">
+                                <VerticalStackLayout Spacing="3">
+                                    <Label Text="DISTANCE" FontSize="12" TextColor="#666666" FontAttributes="Bold"/>
+                                    <Label x:Name="PanelDistanceLabel" Text="-- km" FontSize="15" TextColor="Black" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1" Spacing="3">
+                                    <Label Text="TIME" FontSize="12" TextColor="#666666" FontAttributes="Bold"/>
+                                    <Label x:Name="PanelTimeLabel" Text="-- mins" FontSize="15" TextColor="Black" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="2" Spacing="3">
+                                    <Label Text="EST. FARE" FontSize="12" TextColor="#666666" FontAttributes="Bold"/>
+                                    <Label x:Name="TotalFareLabel" Text="₱--" FontSize="15" TextColor="#2E7D32" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <Button x:Name="BookButton" Text="BOOK 1-2 SEATER TRICYCLE" BackgroundColor="#2E7D32" TextColor="White" FontAttributes="Bold" FontSize="16" CornerRadius="12" HeightRequest="55" Margin="0,10,0,20" Clicked="OnBookRideClicked" />
+                        </VerticalStackLayout>
+                    </ScrollView>
+
+                    <Grid.GestureRecognizers>
+                        <PanGestureRecognizer PanUpdated="OnPanelPanned"/>
+                        <TapGestureRecognizer Tapped="OnDragHandleTapped"/>
+                    </Grid.GestureRecognizers>
+                </Grid>
+            </Frame>
+        </Grid>
+
+        <!-- Global Modal Container -->
+        <Grid x:Name="ModalContainer" IsVisible="False" BackgroundColor="Transparent">
+            <Grid x:Name="ModalOverlay" BackgroundColor="#CC000000" Opacity="0"/>
+        </Grid>
+    </Grid>
+</ContentPage>

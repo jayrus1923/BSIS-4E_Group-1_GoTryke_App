@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.Commuter_Notification"
+             BackgroundColor="#F8F9FA"
+             Shell.NavBarIsVisible="False">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="PrimaryColor">#2E7D32</Color>
+            <Color x:Key="TextPrimary">#212121</Color>
+            <Color x:Key="TextSecondary">#666666</Color>
+            <Color x:Key="TextTertiary">#999999</Color>
+            <Color x:Key="BorderColor">#E0E0E0</Color>
+            <Color x:Key="UnreadDot">#2E7D32</Color>
+
+            <Style x:Key="HeaderStyle" TargetType="Border">
+                <Setter Property="StrokeThickness" Value="0"/>
+                <Setter Property="Padding" Value="20,15"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Header -->
+        <Border Grid.Row="0"
+                Style="{StaticResource HeaderStyle}">
+            <Border.Shadow>
+                <Shadow Brush="#20000000" Offset="0,4" Radius="12" />
+            </Border.Shadow>
+
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Grid.Column="0"
+                       Text="Notifications"
+                       FontSize="22"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+
+                <Label Grid.Column="1"
+                       Text="Clear all"
+                       FontSize="14"
+                       TextColor="White"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnClearAllClicked"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <ScrollView Grid.Row="1" 
+                    BackgroundColor="#F8F9FA"
+                    Padding="16,12">
+
+            <VerticalStackLayout Spacing="8">
+
+                <!-- Empty State -->
+                <Frame IsVisible="{Binding IsEmpty}"
+                       BackgroundColor="White"
+                       Padding="30"
+                       CornerRadius="16"
+                       HasShadow="False"
+                       BorderColor="{StaticResource BorderColor}"
+                       HeightRequest="400"
+                       VerticalOptions="Center">
+                    <VerticalStackLayout Spacing="12"
+                                         HorizontalOptions="Center"
+                                         VerticalOptions="Center">
+                        <Image Source="tricycle.png"
+                               HeightRequest="60"
+                               WidthRequest="60"
+                               HorizontalOptions="Center"
+                               Opacity="0.3"/>
+                        <Label Text="No notifications"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource TextPrimary}"
+                               HorizontalOptions="Center"/>
+                        <Label Text="You're all caught up"
+                               FontSize="14"
+                               TextColor="{StaticResource TextTertiary}"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Notifications List -->
+                <CollectionView ItemsSource="{Binding Notifications}"
+                                IsVisible="{Binding HasNotifications}"
+                                SelectionMode="None">
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <!-- Display -->
+                            <Frame BackgroundColor="White"
+                                   Padding="16"
+                                   Margin="0,0,0,8"
+                                   CornerRadius="12"
+                                   HasShadow="False"
+                                   BorderColor="{StaticResource BorderColor}">
+
+                                <Grid RowDefinitions="Auto,Auto"
+                                      ColumnDefinitions="Auto,*"
+                                      ColumnSpacing="12"
+                                      RowSpacing="6">
+
+                                    <!-- Unread dot -->
+                                    <Ellipse Grid.RowSpan="2" 
+                                             Grid.Column="0"
+                                             WidthRequest="8"
+                                             HeightRequest="8"
+                                             Fill="{StaticResource UnreadDot}"
+                                             HorizontalOptions="Center"
+                                             VerticalOptions="Start"
+                                             Margin="0,6,0,0"
+                                             IsVisible="{Binding IsUnread}"/>
+
+                                    <!-- Title and time -->
+                                    <Grid Grid.Row="0" 
+                                          Grid.Column="1"
+                                          ColumnDefinitions="*,Auto">
+
+                                        <Label Grid.Column="0"
+                                               Text="{Binding Title}"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource TextPrimary}"
+                                               LineBreakMode="TailTruncation"/>
+
+                                        <Label Grid.Column="1"
+                                               Text="{Binding TimeAgo}"
+                                               FontSize="12"
+                                               TextColor="{StaticResource TextTertiary}"/>
+                                    </Grid>
+
+                                    <!-- Message only -->
+                                    <Label Grid.Row="1" 
+                                           Grid.Column="1"
+                                           Text="{Binding Message}"
+                                           FontSize="14"
+                                           TextColor="{StaticResource TextSecondary}"
+                                           LineBreakMode="WordWrap"
+                                           Margin="0,2,0,0"/>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Loading -->
+        <Grid Grid.RowSpan="2"
+              BackgroundColor="#80FFFFFF"
+              IsVisible="{Binding IsLoading}"
+              InputTransparent="False">
+            <VerticalStackLayout VerticalOptions="Center"
+                                 HorizontalOptions="Center"
+                                 Spacing="12">
+                <ActivityIndicator IsRunning="True"
+                                 Color="{StaticResource PrimaryColor}"
+                                 HeightRequest="40"
+                                 WidthRequest="40"/>
+                <Label Text="Loading notifications..."
+                       FontSize="14"
+                       TextColor="{StaticResource TextSecondary}"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

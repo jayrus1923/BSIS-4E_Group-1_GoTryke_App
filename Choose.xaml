@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.Choose"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="White">
+
+    <ScrollView>
+        <Grid Padding="30" VerticalOptions="Center">
+            <StackLayout Spacing="30" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
+
+                <!-- Tricycle Logo -->
+                <Image x:Name="TricycleImage"
+                       x:FieldModifier="public"
+                       Source="tricycle.png"
+                       WidthRequest="200"
+                       HeightRequest="200"
+                       HorizontalOptions="Center" />
+
+                <!-- GoTryke Logo -->
+                <Image x:Name="LogoImage"
+                       x:FieldModifier="public"
+                       Source="gotryke_logo.png"
+                       WidthRequest="170"
+                       HeightRequest="170"
+                       HorizontalOptions="Center"
+                       Margin="-20,-120,0,-90" />
+
+                <!-- Customer Button -->
+                <Button x:Name="CustomerButton"
+                        x:FieldModifier="public"
+                        Text="I need a ride"
+                        TextColor="White"
+                        BackgroundColor="#2E7D32"
+                        FontFamily="sans-serif" 
+                        FontAttributes="Bold"
+                        CornerRadius="25"
+                        FontSize="18"
+                        Padding="15"
+                        WidthRequest="250"
+                        Margin="0,30,0,0"
+                        Clicked="ForCustomer" />
+
+                <!-- Driver Button -->
+                <Button x:Name="DriverButton"
+                        x:FieldModifier="public"
+                        Text="I'm a tricycle driver"
+                        TextColor="White"
+                        BackgroundColor="#FB8C00"
+                        FontFamily="sans-serif" 
+                        FontAttributes="Bold"
+                        CornerRadius="25"
+                        FontSize="18"
+                        Padding="15"
+                        WidthRequest="250"
+                        Clicked="ForDriver" />
+
+            </StackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

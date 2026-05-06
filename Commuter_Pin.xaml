@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.Commuter_Pin"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="White">
+
+    <Grid Padding="0" RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header Section - Fixed at Top -->
+        <StackLayout Grid.Row="0" Spacing="10" Padding="20,20,20,10" BackgroundColor="White">
+            
+            <!-- Title -->
+            <Label x:Name="TitleLabel"
+                   Text="Set Your Security PIN"
+                   FontAttributes="Bold"
+                   FontSize="26"
+                   TextColor="#2E7D32"
+                   HorizontalOptions="Center"/>
+
+            <!-- Subtitle -->
+            <StackLayout Spacing="2" HorizontalOptions="Center">
+                <Label x:Name="SubtitleLine1"
+                       Text="Create a 6-digit PIN for quick"
+                       FontSize="14"
+                       TextColor="#666666"
+                       HorizontalOptions="Center"/>
+                <Label x:Name="SubtitleLine2"
+                       Text="and secure access to your account"
+                       FontSize="14"
+                       TextColor="#666666"
+                       HorizontalOptions="Center"/>
+            </StackLayout>
+        </StackLayout>
+
+        <!-- Main Content Section -->
+        <VerticalStackLayout Grid.Row="1" Spacing="25" Padding="20,0,20,0" VerticalOptions="Start">
+
+            <!-- Phone Number Display (For OTP users) -->
+            <StackLayout x:Name="PhoneNumberStack" 
+                         IsVisible="False"
+                         HorizontalOptions="Center">
+                <Label Text="Logging in with phone number:"
+                       FontSize="14"
+                       TextColor="#666666"
+                       HorizontalOptions="Center"/>
+                <Label x:Name="PhoneNumberLabel"
+                       Text="+63 912 345 6789"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       TextColor="#2E7D32"
+                       HorizontalOptions="Center"/>
+            </StackLayout>
+
+            <!-- ENTER PIN Section (Always visible for new users, hidden for confirm) -->
+            <StackLayout x:Name="EnterPinStack" Spacing="12" HorizontalOptions="Center">
+                <Label x:Name="EnterPinLabel"
+                       Text="Enter PIN"
+                       FontSize="15"
+                       FontAttributes="Bold"
+                       TextColor="#2E7D32"
+                       HorizontalOptions="Center"/>
+
+                <Grid HorizontalOptions="Center" ColumnSpacing="10" RowSpacing="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- PIN Box 1 -->
+                    <Border x:Name="Pin1Border"
+                            Grid.Column="0"
+                            Stroke="#CCCCCC"
+                            StrokeThickness="2"
+                            StrokeShape="RoundRectangle 10"
+                            Background="#F5F5F5"
+                            HeightRequest="55"
+                            WidthRequest="50">
+                        <Label x:Name="Pin1Dot"
+                               Text="•"
+                               FontSize="24"
+                               TextColor="Black"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               IsVisible="False"/>
+                    </Border>
+
+                    <!-- PIN Box 2 -->
+                    <Border x:Name="Pin2Border"
+                            Grid.Column="1"
+                            Stroke="#CCCCCC"
+                            StrokeThickness="2"
+                            StrokeShape="RoundRectangle 10"
+                            Background="#F5F5F5"
+                            HeightRequest="55"
+                            WidthRequest="50">
+                        <Label x:Name="Pin2Dot"
+                               Text="•"
+                               FontSize="24"
+                               TextColor="Black"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               IsVisible="False"/>
+                    </Border>
+
+                    <!-- PIN Box 3 -->
+                    <Border x:Name="Pin3Border"
+                            Grid.Column="2"
+                            Stroke="#CCCCCC"
+                            StrokeThickness="2"
+                            StrokeShape="RoundRectangle 10"
+                            Background="#F5F5F5"
+                            HeightRequest="55"
+                            WidthRequest="50">
+                        <Label x:Name="Pin3Dot"
+                               Text="•"
+                               FontSize="24"
+                               TextColor="Black"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               IsVisible="False"/>
+                    </Border>
+
+                    <!-- PIN Box 4 -->
+                    <Border x:Name="Pin4Border"
+                            Grid.Column="3"
+                            Stroke="#CCCCCC"
+                            StrokeThickness="2"
+                            StrokeShape="RoundRectangle 10"
+                            Background="#F5F5F5"
+                            HeightRequest="55"
+                            WidthRequest="50">
+                        <Label x:Name="Pin4Dot"
+                               Text="•"
+                               FontSize="24"
+                               TextColor="Black"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               IsVisible="False"/>
+                    </Border>
+
+                    <!-- PIN Box 5 -->
+                    <Border x:Name="Pin5Border"
+                            Grid.Column="4"
+                            Stroke="#CCCCCC"
+                            StrokeThickness="2"
+                            StrokeShape="RoundRectangle 10"
+                            Background="#F5F5F5"
+                            HeightRequest="55"
+                            WidthRequest="50">
+                        <Label x:Name="Pin5Dot"
+                               Text="•"
+                               FontSize="24"
+                               TextColor="Black"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               IsVisible="False"/>
+                    </Border>
+
+                    <!-- PIN Box 6 -->
+                    <Border x:Name="Pin6Border"
+                            Grid.Column="5"
+                            Stroke="#CCCCCC"
+                            StrokeThickness="2"
+                            StrokeShape="RoundRectangle 10"
+                            Background="#F5F5F5"
+                            HeightRequest="55"
+                            WidthRequest="50">
+                        <Label x:Name="Pin6Dot"
+                               Text="•"
+                               FontSize="24"
+                               TextColor="Black"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               IsVisible="False"/>
+                    </Border>
+                </Grid>
+
+                <!-- PIN Status Message -->
+                <Label x:Name="PinStatusLabel"
+                       Text=""
+                       FontSize="14"
+                       HorizontalOptions="Center"
+                       Margin="0,10,0,0"/>
+            </StackLayout>
+
+            <!-- CONFIRM PIN Section (Hidden by default) -->
+            <StackLayout x:Name="ConfirmPinStack" Spacing="12" HorizontalOptions="Center" IsVisible="False">
+                <Label Text="Confirm PIN"
+                       FontSize="15"
+                       FontAttributes="Bold"
+                       TextColor="#2E7D32"
+                       HorizontalOptions="Center"/>
+
+                <Grid HorizontalOptions="Center" ColumnSpacing="10" RowSpacing="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Confirm PIN Box 1 -->
+                    <Border x:Name="ConfirmPin1Border"
+                            Grid.Column="0"
+                            Stroke="#CCCCCC"
+                            StrokeThickness="2"
+                            StrokeShape="RoundRectangle 10"
+                            Background="#F5F5F5"
+                            HeightRequest="55"
+                            WidthRequest="50">
+                        <Label x:Name="ConfirmPin1Dot"
+                               Text="•"
+                               FontSize="24"
+                               TextColor="Black"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               IsVisible="False"/>
+                    </Border>
+
+                    <!-- Confirm PIN Box 2 -->
+                    <Border x:Name="ConfirmPin2Border"
+                            Grid.Column="1"
+                            Stroke="#CCCCCC"
+                            StrokeThickness="2"
+                            StrokeShape="RoundRectangle 10"
+                            Background="#F5F5F5"
+                            HeightRequest="55"
+                            WidthRequest="50">
+                        <Label x:Name="ConfirmPin2Dot"
+                               Text="•"
+                               FontSize="24"
+                               TextColor="Black"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               IsVisible="False"/>
+                    </Border>
+
+                    <!-- Confirm PIN Box 3 -->
+                    <Border x:Name="ConfirmPin3Border"
+                            Grid.Column="2"
+                            Stroke="#CCCCCC"
+                            StrokeThickness="2"
+                            StrokeShape="RoundRectangle 10"
+                            Background="#F5F5F5"
+                            HeightRequest="55"
+                            WidthRequest="50">
+                        <Label x:Name="ConfirmPin3Dot"
+                               Text="•"
+                               FontSize="24"
+                               TextColor="Black"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               IsVisible="False"/>
+                    </Border>
+
+                    <!-- Confirm PIN Box 4 -->
+                    <Border x:Name="ConfirmPin4Border"
+                            Grid.Column="3"
+                            Stroke="#CCCCCC"
+                            StrokeThickness="2"
+                            StrokeShape="RoundRectangle 10"
+                            Background="#F5F5F5"
+                            HeightRequest="55"
+                            WidthRequest="50">
+                        <Label x:Name="ConfirmPin4Dot"
+                               Text="•"
+                               FontSize="24"
+                               TextColor="Black"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               IsVisible="False"/>
+                    </Border>
+
+                    <!-- Confirm PIN Box 5 -->
+                    <Border x:Name="ConfirmPin5Border"
+                            Grid.Column="4"
+                            Stroke="#CCCCCC"
+                            StrokeThickness="2"
+                            StrokeShape="RoundRectangle 10"
+                            Background="#F5F5F5"
+                            HeightRequest="55"
+                            WidthRequest="50">
+                        <Label x:Name="ConfirmPin5Dot"
+                               Text="•"
+                               FontSize="24"
+                               TextColor="Black"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               IsVisible="False"/>
+                    </Border>
+
+                    <!-- Confirm PIN Box 6 -->
+                    <Border x:Name="ConfirmPin6Border"
+                            Grid.Column="5"
+                            Stroke="#CCCCCC"
+                            StrokeThickness="2"
+                            StrokeShape="RoundRectangle 10"
+                            Background="#F5F5F5"
+                            HeightRequest="55"
+                            WidthRequest="50">
+                        <Label x:Name="ConfirmPin6Dot"
+                               Text="•"
+                               FontSize="24"
+                               TextColor="Black"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               IsVisible="False"/>
+                    </Border>
+                </Grid>
+
+                <!-- PIN Match Status -->
+                <Label x:Name="PinMatchLabel"
+                       Text=""
+                       FontSize="14"
+                       HorizontalOptions="Center"
+                       Margin="0,10,0,0"/>
+            </StackLayout>
+
+            <!-- PIN Requirements for Enter PIN (Hidden during confirm mode) -->
+            <Frame x:Name="RequirementsFrame"
+                   CornerRadius="12" 
+                   Padding="15" 
+                   BackgroundColor="#F8F9FA" 
+                   BorderColor="#E9ECEF"
+                   IsVisible="True">
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="PIN Requirements:"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#2E7D32"/>
+                    <Label Text="• Must be exactly 6 digits"
+                           FontSize="13"
+                           TextColor="#6C757D"/>
+                    <Label Text="• Cannot be sequential (e.g., 123456)"
+                           FontSize="13"
+                           TextColor="#6C757D"/>
+                    <Label Text="• Cannot be repeating (e.g., 111111)"
+                           FontSize="13"
+                           TextColor="#6C757D"/>
+                    <Label Text="• Use different numbers for security"
+                           FontSize="13"
+                           TextColor="#6C757D"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- PIN Requirements for Confirm PIN (Hidden during enter mode) -->
+            <Frame x:Name="ConfirmRequirementsFrame"
+                   CornerRadius="12" 
+                   Padding="15" 
+                   BackgroundColor="#F8F9FA" 
+                   BorderColor="#E9ECEF"
+                   IsVisible="False">
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Confirm PIN Requirements:"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#2E7D32"/>
+                    <Label Text="• Re-enter the exact same 6-digit PIN"
+                           FontSize="13"
+                           TextColor="#6C757D"/>
+                    <Label Text="• Must match the PIN you entered above"
+                           FontSize="13"
+                           TextColor="#6C757D"/>
+                    <Label Text="• Double-check each digit"
+                           FontSize="13"
+                           TextColor="#6C757D"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Use OTP Instead Link (Only for existing users) -->
+            <StackLayout x:Name="ForgotPinStack" 
+                         Spacing="5" 
+                         HorizontalOptions="Center" 
+                         Margin="0,10,0,0"
+                         IsVisible="False">
+                <Label Text="Forgot PIN?"
+                       FontSize="14"
+                       TextColor="#666666"
+                       HorizontalOptions="Center"/>
+
+                <Label Text="Use OTP instead"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="#2E7D32"
+                       HorizontalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnForgotPinClicked"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+
+            <!-- Validating/Error Message -->
+            <StackLayout x:Name="MessageStack" 
+                         Spacing="10" 
+                         HorizontalOptions="Center" 
+                         IsVisible="False">
+
+                <!-- Success Message -->
+                <Frame x:Name="SuccessMessage"
+                       CornerRadius="12"
+                       Padding="15,10"
+                       BackgroundColor="#E8F5E9"
+                       BorderColor="#C8E6C9"
+                       IsVisible="False"
+                       HorizontalOptions="Center">
+                    <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                        <Label Text="✓"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#2E7D32"
+                               VerticalOptions="Center"/>
+                        <Label x:Name="SuccessMessageLabel"
+                               Text="Login successful!"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#2E7D32"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <!-- Error Message -->
+                <Frame x:Name="ErrorMessage"
+                       CornerRadius="12"
+                       Padding="10,10"
+                       Margin="-10,-2,0,0"
+                       BackgroundColor="#FFEBEE"
+                       BorderColor="#FFCDD2"
+                       IsVisible="False"
+                       HorizontalOptions="Center">
+                    <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                        <Label Text="✗"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#DC3545"
+                               VerticalOptions="Center"/>
+                        <Label x:Name="ErrorMessageLabel"
+                               Text="Incorrect PIN"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#DC3545"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <!-- Attempts Warning -->
+                <Frame x:Name="WarningMessage"
+                       CornerRadius="12"
+                       Padding="15,10"
+                       BackgroundColor="#FFF3E0"
+                       BorderColor="#FFE0B2"
+                       IsVisible="False"
+                       HorizontalOptions="Center">
+                    <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                        <Label Text="⚠"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#FF9800"
+                               VerticalOptions="Center"/>
+                        <Label x:Name="WarningMessageLabel"
+                               Text=""
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#FF9800"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Frame>
+            </StackLayout>
+
+            <!-- Processing Overlay -->
+            <Grid x:Name="ProcessingOverlay" 
+                  IsVisible="False"
+                  HorizontalOptions="Center"
+                  VerticalOptions="Center">
+                <StackLayout Spacing="15" HorizontalOptions="Center" VerticalOptions="Center">
+                    <ActivityIndicator x:Name="ProcessingIndicator"
+                                       Color="#2E7D32"
+                                       IsRunning="False"
+                                       HeightRequest="40"
+                                       WidthRequest="40"
+                                       HorizontalOptions="Center"/>
+                    <Label x:Name="ProcessingLabel"
+                           Text="Validating..."
+                           FontSize="14"
+                           TextColor="#2E7D32"
+                           HorizontalOptions="Center"/>
+                </StackLayout>
+            </Grid>
+        </VerticalStackLayout>
+
+        <!-- Custom Number Keyboard -->
+        <Grid Grid.Row="2" Padding="10,0,10,20" BackgroundColor="White">
+            <VerticalStackLayout Spacing="8">
+                <!-- Row 1: 1 2 3 -->
+                <Grid ColumnSpacing="8" HorizontalOptions="Fill">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                            x:Name="Num1"
+                            Text="1"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="Black"
+                            Clicked="OnNumberClicked"/>
+
+                    <Button Grid.Column="1"
+                            x:Name="Num2"
+                            Text="2"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="Black"
+                            Clicked="OnNumberClicked"/>
+
+                    <Button Grid.Column="2"
+                            x:Name="Num3"
+                            Text="3"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="Black"
+                            Clicked="OnNumberClicked"/>
+                </Grid>
+
+                <!-- Row 2: 4 5 6 -->
+                <Grid ColumnSpacing="8" HorizontalOptions="Fill">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                            x:Name="Num4"
+                            Text="4"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="Black"
+                            Clicked="OnNumberClicked"/>
+
+                    <Button Grid.Column="1"
+                            x:Name="Num5"
+                            Text="5"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="Black"
+                            Clicked="OnNumberClicked"/>
+
+                    <Button Grid.Column="2"
+                            x:Name="Num6"
+                            Text="6"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="Black"
+                            Clicked="OnNumberClicked"/>
+                </Grid>
+
+                <!-- Row 3: 7 8 9 -->
+                <Grid ColumnSpacing="8" HorizontalOptions="Fill">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                            x:Name="Num7"
+                            Text="7"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="Black"
+                            Clicked="OnNumberClicked"/>
+
+                    <Button Grid.Column="1"
+                            x:Name="Num8"
+                            Text="8"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="Black"
+                            Clicked="OnNumberClicked"/>
+
+                    <Button Grid.Column="2"
+                            x:Name="Num9"
+                            Text="9"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="Black"
+                            Clicked="OnNumberClicked"/>
+                </Grid>
+
+                <!-- Row 4: Clear 0 Backspace -->
+                <Grid ColumnSpacing="8" HorizontalOptions="Fill">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                            x:Name="ClearButton"
+                            Text="Clear"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="#666666"
+                            Clicked="OnClearClicked"/>
+
+                    <Button Grid.Column="1"
+                            x:Name="Num0"
+                            Text="0"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="Black"
+                            Clicked="OnNumberClicked"/>
+
+                    <Button Grid.Column="2"
+                            x:Name="BackspaceButton"
+                            Text="⌫"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="60"
+                            BackgroundColor="#F8F9FA"
+                            TextColor="#666666"
+                            Clicked="OnBackspaceClicked"/>
+                </Grid>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.Driver_MobileNumber"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="White"
+             Title="Mobile Number">
+
+    <Grid Padding="30" RowDefinitions="*,Auto">
+
+        <!-- Scrollable Content -->
+        <ScrollView Grid.Row="0">
+            <StackLayout Spacing="25">
+
+                <!-- Title -->
+                <Label Text="Hi! What's your mobile number?"
+                       FontAttributes="Bold"
+                       FontSize="20"
+                       TextColor="Black"
+                       HorizontalOptions="Start" />
+
+                <!-- Subtitle -->
+                <Label Text="We'll send you a one-time password (OTP) to verify your number."
+                       FontSize="14"
+                       TextColor="Gray"
+                       HorizontalOptions="Start" />
+
+                <!-- Mobile Number Input Section -->
+                <Frame Padding="15"
+                       BackgroundColor="#F4F4F4"
+                       CornerRadius="10"
+                       HasShadow="False"
+                       BorderColor="#E0E0E0"
+                       Margin="0,10,0,0">
+
+                    <Grid ColumnSpacing="10" RowSpacing="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Flag Image -->
+                        <Image Source="phil.png"
+                               WidthRequest="24"
+                               HeightRequest="24"
+                               VerticalOptions="Center"
+                               Grid.Column="0" />
+
+                        <!-- Country Code -->
+                        <Label Text="+63"
+                               FontSize="16"
+                               VerticalOptions="Center"
+                               TextColor="Black"
+                               Grid.Column="1"
+                               Margin="10,0,10,0" />
+
+                        <!-- Phone Number Entry -->
+                        <Entry x:Name="PhoneNumberEntry"
+                               Placeholder="912 345 6789"
+                               Keyboard="Telephone"
+                               FontSize="16"
+                               TextColor="Black"
+                               BackgroundColor="Transparent"
+                               Grid.Column="2"
+                               PlaceholderColor="#999999"
+                               ClearButtonVisibility="WhileEditing"
+                               MaxLength="10"
+                               TextChanged="OnPhoneNumberChanged"
+                               Completed="OnNextClicked"/>
+                    </Grid>
+                </Frame>
+
+                <!-- Helper Text -->
+                <Label Text="Enter your 10-digit mobile number starting with 9"
+                       FontSize="12"
+                       TextColor="#666666"
+                       HorizontalOptions="Start"
+                       Margin="5,0,0,0" />
+
+                <!-- Rate Limit Message -->
+                <Frame x:Name="RateLimitFrame"
+                       BackgroundColor="#FFF3E0"
+                       CornerRadius="10"
+                       Padding="15"
+                       HasShadow="False"
+                       IsVisible="False"
+                       Margin="0,10,0,0">
+                    <StackLayout Spacing="5">
+                        <Label x:Name="RateLimitTitle"
+                               Text="Too Many Attempts"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="#FF9800"
+                               HorizontalOptions="Center"/>
+                        <Label x:Name="RateLimitMessage"
+                               Text="Please wait 5 minutes before trying again."
+                               FontSize="14"
+                               TextColor="#666666"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"/>
+                        <Label x:Name="RateLimitTimer"
+                               Text="05:00"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               TextColor="#FF9800"
+                               HorizontalOptions="Center"
+                               Margin="0,5,0,0"/>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </ScrollView>
+
+        <!-- Continue Button -->
+        <Button x:Name="NextButton"
+                Text="Next →"
+                TextColor="White"
+                BackgroundColor="#DADADA"
+                FontAttributes="Bold"
+                CornerRadius="25"
+                FontSize="16"
+                HeightRequest="50"
+                WidthRequest="150"
+                IsEnabled="False"
+                Clicked="OnNextClicked"
+                Grid.Row="1"
+                VerticalOptions="End"
+                HorizontalOptions="End"
+                Margin="0,0,0,20"/>
+    </Grid>
+</ContentPage>

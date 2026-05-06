@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.Driver_Notification"
+             BackgroundColor="#FAFAFA"
+             Shell.NavBarIsVisible="False"
+             Title="Notifications">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="NotificationCardStyle" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="White"/>
+                <Setter Property="Padding" Value="15"/>
+                <Setter Property="HasShadow" Value="True"/>
+                <Setter Property="CornerRadius" Value="12"/>
+                <Setter Property="Margin" Value="15,0,15,10"/>
+            </Style>
+
+            <Style x:Key="NotificationTitleStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="TextColor" Value="#1A237E"/>
+                <Setter Property="LineBreakMode" Value="TailTruncation"/>
+            </Style>
+
+            <Style x:Key="NotificationMessageStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="TextColor" Value="#546E7A"/>
+                <Setter Property="LineBreakMode" Value="WordWrap"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- HEADER -->
+        <Grid BackgroundColor="#2E7D32" Padding="20,20" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Back Button -->
+            <Label Grid.Column="0"
+                   Text="‹"
+                   FontSize="28"
+                   TextColor="White"
+                   VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnBackButtonClicked" />
+                </Label.GestureRecognizers>
+            </Label>
+
+            <!-- Title -->
+            <Label Grid.Column="1"
+                   Text="Notifications"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   TextColor="White"
+                   FontAttributes="Bold"
+                   FontSize="18"/>
+
+            <!-- Clear All Button -->
+            <Label Grid.Column="2"
+                   Text="Clear All"
+                   TextColor="White"
+                   FontSize="14"
+                   VerticalOptions="Center"
+                   Margin="0,0,5,0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnClearAllClicked" />
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+
+        <!-- MAIN CONTENT -->
+        <RefreshView Grid.Row="1" 
+                     x:Name="RefreshView"
+                     RefreshColor="#2E7D32"
+                     Command="{Binding RefreshCommand}"
+                     IsRefreshing="{Binding IsRefreshing}">
+            <ScrollView>
+                <StackLayout Padding="0,10" Spacing="0">
+
+                    <!-- Empty State -->
+                    <Grid x:Name="EmptyStateGrid"
+                          IsVisible="False"
+                          HorizontalOptions="Center"
+                          VerticalOptions="CenterAndExpand"
+                          Padding="30">
+                        <VerticalStackLayout Spacing="20" 
+                                             HorizontalOptions="Center"
+                                             VerticalOptions="Center">
+                            <Frame BackgroundColor="#E8F5E9"
+                                   Padding="20"
+                                   CornerRadius="60"
+                                   HasShadow="False">
+                                <Image Source="tricycle.png"
+                                       HeightRequest="80"
+                                       WidthRequest="80"/>
+                            </Frame>
+                            <Label Text="No notifications yet"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#2E7D32"/>
+                            <Label Text="You'll see ride updates, approvals, and messages here."
+                                   FontSize="13"
+                                   TextColor="#757575"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <!-- Notifications List -->
+                    <CollectionView x:Name="NotificationsCollectionView"
+                                    ItemsSource="{Binding Notifications}"
+                                    SelectionMode="Single"
+                                    SelectionChanged="OnNotificationTapped">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame Style="{StaticResource NotificationCardStyle}"
+                                       BackgroundColor="{Binding CardBackgroundColor}">
+                                    <Grid ColumnDefinitions="Auto,*,Auto"
+                                          RowDefinitions="Auto,Auto"
+                                          ColumnSpacing="12"
+                                          RowSpacing="8">
+
+                                        <!-- Icon -->
+                                        <Frame Grid.Column="0" Grid.RowSpan="2"
+                                               BackgroundColor="{Binding IconColor}"
+                                               Padding="10"
+                                               CornerRadius="10"
+                                               HeightRequest="45"
+                                               WidthRequest="45"
+                                               VerticalOptions="Start"
+                                               HorizontalOptions="Center">
+                                            <Label Text="{Binding Icon}"
+                                                   FontSize="20"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Frame>
+
+                                        <!-- Title and Time Row -->
+                                        <Grid Grid.Column="1" Grid.Row="0"
+                                              ColumnDefinitions="*,Auto">
+                                            <StackLayout Grid.Column="0"
+                                                         Orientation="Horizontal"
+                                                         Spacing="6"
+                                                         HorizontalOptions="Start">
+                                                <Label Text="{Binding Title}"
+                                                       Style="{StaticResource NotificationTitleStyle}"
+                                                       MaxLines="1"/>
+                                                <Frame IsVisible="{Binding IsUnread}"
+                                                       BackgroundColor="#2E7D32"
+                                                       Padding="6,3"
+                                                       CornerRadius="3"
+                                                       HeightRequest="20">
+                                                    <Label Text="NEW"
+                                                           FontSize="9"
+                                                           TextColor="White"
+                                                           FontAttributes="Bold"
+                                                           VerticalOptions="Center"/>
+                                                </Frame>
+                                            </StackLayout>
+
+                                            <!-- Time -->
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding TimeAgo}"
+                                                   FontSize="10"
+                                                   TextColor="#78909C"
+                                                   HorizontalOptions="End"
+                                                   VerticalOptions="Center"/>
+                                        </Grid>
+
+                                        <!-- Message -->
+                                        <Label Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"
+                                               Text="{Binding Message}"
+                                               Style="{StaticResource NotificationMessageStyle}"
+                                               Margin="0,2,0,0"/>
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </StackLayout>
+            </ScrollView>
+        </RefreshView>
+
+        <!-- Loading Indicator -->
+        <ActivityIndicator Grid.Row="1"
+                           x:Name="LoadingIndicator"
+                           IsVisible="False"
+                           IsRunning="False"
+                           Color="#2E7D32"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           WidthRequest="40"
+                           HeightRequest="40"/>
+
+    </Grid>
+</ContentPage>

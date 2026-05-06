@@ -1,0 +1,1237 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.Commuter_SaveRoute"
+             Title="Saved Locations"
+             BackgroundColor="#F5F5F5"
+             NavigationPage.HasNavigationBar="False">
+
+    <!-- MAIN LAYOUT -->
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- MODAL OVERLAY (Hidden by default) -->
+        <Grid x:Name="ModalOverlay"
+              Grid.RowSpan="3"
+              IsVisible="False"
+              BackgroundColor="#80000000"
+              ZIndex="999">
+
+            <!-- ====== MAIN FAVORITE OPTIONS MODAL ====== -->
+            <Frame x:Name="FavoriteOptionsModal"
+                   IsVisible="False"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"
+                   ZIndex="1000"
+                   WidthRequest="340"
+                   MaximumWidthRequest="340"
+                   HeightRequest="550"
+                   CornerRadius="24"
+                   Padding="0"
+                   HasShadow="True"
+                   BackgroundColor="White">
+                <Grid RowDefinitions="Auto,*" HeightRequest="550">
+                    <!-- Header with Gradient Effect -->
+                    <Grid Grid.Row="0" 
+                          BackgroundColor="#2E7D32"
+                          Padding="20,25,20,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image Grid.Column="0"
+                               Source="star_filled.png"
+                               HeightRequest="28"
+                               WidthRequest="28"
+                               VerticalOptions="Center"
+                               Margin="0,0,12,0"/>
+
+                        <Label x:Name="FavoriteModalTitle"
+                               Grid.Column="1"
+                               Text=""
+                               FontSize="17"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               VerticalOptions="Center"/>
+                    </Grid>
+
+                    <!-- Content -->
+                    <ScrollView Grid.Row="1" Padding="20,15">
+                        <VerticalStackLayout Spacing="16">
+                            <!-- Location Info Card -->
+                            <Frame BackgroundColor="#F8F9FA"
+                                   CornerRadius="16"
+                                   Padding="16"
+                                   BorderColor="#E0E0E0">
+                                <HorizontalStackLayout Spacing="16">
+                                    <Frame BackgroundColor="#E8F5E9"
+                                           CornerRadius="12"
+                                           Padding="12"
+                                           HeightRequest="52"
+                                           WidthRequest="52">
+                                        <Image Source="dropoff.png"
+                                               HeightRequest="28"
+                                               WidthRequest="28"/>
+                                    </Frame>
+
+                                    <VerticalStackLayout Spacing="6" VerticalOptions="Center">
+                                        <Label x:Name="FavoriteLocationName"
+                                               Text=""
+                                               FontSize="15"
+                                               FontAttributes="Bold"
+                                               TextColor="#212121"
+                                               LineBreakMode="TailTruncation"
+                                               MaxLines="1"/>
+                                        <Label x:Name="FavoriteLocationAddress"
+                                               Text=""
+                                               FontSize="10"
+                                               TextColor="#757575"
+                                               LineBreakMode="TailTruncation"
+                                               MaxLines="2"/>
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+                            </Frame>
+
+                            <!-- Options -->
+                            <VerticalStackLayout Spacing="8">
+                                <!-- Set as Pickup -->
+                                <Frame Padding="16,14"
+                                       BackgroundColor="White"
+                                       CornerRadius="14"
+                                       BorderColor="#E0E0E0"
+                                       HasShadow="False">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnFavoriteSetPickupTapped"/>
+                                    </Frame.GestureRecognizers>
+                                    <HorizontalStackLayout Spacing="16">
+                                        <Image Source="pickup_pin.png"
+                                               HeightRequest="24"
+                                               WidthRequest="24"
+                                               VerticalOptions="Center"/>
+                                        <Label Text="Set as Pickup"
+                                               FontSize="16"
+                                               TextColor="#212121"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </Frame>
+
+                                <!-- Set as Dropoff -->
+                                <Frame Padding="16,14"
+                                       BackgroundColor="White"
+                                       CornerRadius="14"
+                                       BorderColor="#E0E0E0"
+                                       HasShadow="False">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnFavoriteSetDropoffTapped"/>
+                                    </Frame.GestureRecognizers>
+                                    <HorizontalStackLayout Spacing="16">
+                                        <Image Source="dropoff_pin.png"
+                                               HeightRequest="24"
+                                               WidthRequest="24"
+                                               VerticalOptions="Center"/>
+                                        <Label Text="Set as Dropoff"
+                                               FontSize="16"
+                                               TextColor="#212121"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </Frame>
+
+                                <!-- View Details -->
+                                <Frame Padding="16,14"
+                                       BackgroundColor="White"
+                                       CornerRadius="14"
+                                       BorderColor="#E0E0E0"
+                                       HasShadow="False"
+                                       Margin="0,0,0,5">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnFavoriteViewDetailsTapped"/>
+                                    </Frame.GestureRecognizers>
+                                    <HorizontalStackLayout Spacing="16">
+                                        <Image Source="about.png"
+                                               HeightRequest="24"
+                                               WidthRequest="24"
+                                               VerticalOptions="Center"/>
+                                        <Label Text="View Details"
+                                               FontSize="16"
+                                               TextColor="#212121"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </Frame>
+
+                                <!-- Remove from Favorites -->
+                                <Frame Padding="16,14"
+                                       BackgroundColor="White"
+                                       CornerRadius="14"
+                                       BorderColor="#FFCDD2"
+                                       HasShadow="False"
+                                       Margin="0,0,0,-10">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnFavoriteRemoveTapped"/>
+                                    </Frame.GestureRecognizers>
+                                    <HorizontalStackLayout Spacing="16">
+                                        <Image Source="complaint.png"
+                                               HeightRequest="24"
+                                               WidthRequest="24"
+                                               VerticalOptions="Center"/>
+                                        <Label Text="Remove from Favorites"
+                                               FontSize="16"
+                                               TextColor="#D32F2F"
+                                               FontAttributes="Bold"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </Frame>
+                            </VerticalStackLayout>
+
+                            <!-- Cancel Button -->
+                            <Button Text="Cancel"
+                                    Clicked="OnCloseModalTapped"
+                                    BackgroundColor="White"
+                                    TextColor="#616161"
+                                    BorderColor="#E0E0E0"
+                                    BorderWidth="1"
+                                    CornerRadius="14"
+                                    HeightRequest="48"
+                                    FontSize="16"
+                                    Margin="0,16,0,0"/>
+                        </VerticalStackLayout>
+                    </ScrollView>
+                </Grid>
+            </Frame>
+
+            <!-- ====== CONFIRMATION MODAL ====== -->
+            <Frame x:Name="ConfirmationModal"
+                   IsVisible="False"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"
+                   ZIndex="1001"
+                   WidthRequest="320"
+                   HeightRequest="279"
+                   MaximumWidthRequest="320"
+                   CornerRadius="24"
+                   Padding="0"
+                   HasShadow="True"
+                   BackgroundColor="White">
+                <Grid RowDefinitions="Auto,*,Auto" HeightRequest="280">
+                    <!-- Header -->
+                    <Grid Grid.Row="0" 
+                          BackgroundColor="#2E7D32"
+                          Padding="20,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image Grid.Column="0"
+                               x:Name="ConfirmationIcon"
+                               Source="complaint.png"
+                               HeightRequest="28"
+                               WidthRequest="28"
+                               VerticalOptions="Center"
+                               Margin="0,0,12,0"/>
+
+                        <Label x:Name="ConfirmationTitle"
+                               Grid.Column="1"
+                               Text=""
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               VerticalOptions="Center"/>
+                    </Grid>
+
+                    <!-- Content -->
+                    <VerticalStackLayout Grid.Row="1" 
+                                         Padding="25,20"
+                                         Spacing="12"
+                                         VerticalOptions="Center">
+                        <Label x:Name="ConfirmationMessage"
+                               Text=""
+                               FontSize="15"
+                               TextColor="#616161"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+
+                    <!-- Buttons -->
+                    <Grid Grid.Row="2"
+                          Padding="20,10,20,20"
+                          ColumnDefinitions="*,*"
+                          ColumnSpacing="12">
+                        <Button x:Name="ConfirmNoButton"
+                                Text="Cancel"
+                                Clicked="OnConfirmationNoTapped"
+                                BackgroundColor="White"
+                                TextColor="#616161"
+                                BorderColor="#E0E0E0"
+                                BorderWidth="1"
+                                CornerRadius="12"
+                                HeightRequest="44"
+                                FontSize="15"
+                                Grid.Column="0"/>
+
+                        <Button x:Name="ConfirmYesButton"
+                                Text="Confirm"
+                                Clicked="OnConfirmationYesTapped"
+                                BackgroundColor="#2E7D32"
+                                TextColor="White"
+                                CornerRadius="12"
+                                HeightRequest="44"
+                                FontSize="15"
+                                FontAttributes="Bold"
+                                Grid.Column="1"/>
+                    </Grid>
+                </Grid>
+            </Frame>
+
+            <!-- ====== DETAILS MODAL ====== -->
+            <Frame x:Name="DetailsModal"
+                   IsVisible="False"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"
+                   ZIndex="1002"
+                   WidthRequest="340"
+                   MaximumWidthRequest="340"
+                   CornerRadius="24"
+                   Padding="0"
+                   HasShadow="True"
+                   BackgroundColor="White">
+                <Grid RowDefinitions="Auto,*,Auto" HeightRequest="420">
+                    <!-- Header -->
+                    <Grid Grid.Row="0" 
+                          BackgroundColor="#2E7D32"
+                          Padding="20,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image Grid.Column="0"
+                               Source="google_pin.png"
+                               HeightRequest="26"
+                               WidthRequest="26"
+                               VerticalOptions="Center"
+                               Margin="0,0,12,0"/>
+
+                        <Label Text="Location Details"
+                               Grid.Column="1"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               VerticalOptions="Center"/>
+
+                        <Image Grid.Column="2"
+                               Source="close_white.png"
+                               HeightRequest="24"
+                               WidthRequest="24"
+                               VerticalOptions="Center">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnCloseDetailsModalTapped"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </Grid>
+
+                    <!-- Content -->
+                    <ScrollView Grid.Row="1" Padding="20,15">
+                        <VerticalStackLayout Spacing="12">
+                            <!-- Location Name -->
+                            <Frame BackgroundColor="#F8F9FA"
+                                   CornerRadius="14"
+                                   Padding="16"
+                                   BorderColor="#E0E0E0">
+                                <VerticalStackLayout Spacing="6">
+                                    <Label Text="LOCATION NAME"
+                                          FontSize="11"
+                                          TextColor="#757575"
+                                          FontAttributes="Bold"/>
+                                    <Label x:Name="DetailsName"
+                                           Text=""
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="#212121"/>
+                                </VerticalStackLayout>
+                            </Frame>
+
+                            <!-- Address -->
+                            <Frame BackgroundColor="#F8F9FA"
+                                   CornerRadius="14"
+                                   Padding="16"
+                                   BorderColor="#E0E0E0">
+                                <VerticalStackLayout Spacing="6">
+                                    <Label Text="ADDRESS"
+                                          FontSize="11"
+                                          TextColor="#757575"
+                                          FontAttributes="Bold"/>
+                                    <Label x:Name="DetailsAddress"
+                                           Text=""
+                                           FontSize="14"
+                                           TextColor="#212121"/>
+                                </VerticalStackLayout>
+                            </Frame>
+
+                            <!-- Date Added -->
+                            <Frame BackgroundColor="#F8F9FA"
+                                   CornerRadius="14"
+                                   Padding="16"
+                                   BorderColor="#E0E0E0">
+                                <VerticalStackLayout Spacing="6">
+                                    <Label Text="DATE ADDED"
+                                          FontSize="11"
+                                          TextColor="#757575"
+                                          FontAttributes="Bold"/>
+                                    <Label x:Name="DetailsDate"
+                                           Text=""
+                                           FontSize="14"
+                                           TextColor="#212121"/>
+                                </VerticalStackLayout>
+                            </Frame>
+
+                            <!-- Coordinates -->
+                            <Frame BackgroundColor="#F8F9FA"
+                                   CornerRadius="14"
+                                   Padding="16"
+                                   BorderColor="#E0E0E0">
+                                <VerticalStackLayout Spacing="6">
+                                    <Label Text="COORDINATES"
+                                          FontSize="11"
+                                          TextColor="#757575"
+                                          FontAttributes="Bold"/>
+                                    <Label x:Name="DetailsCoordinates"
+                                           Text=""
+                                           FontSize="13"
+                                           TextColor="#212121"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </VerticalStackLayout>
+                    </ScrollView>
+
+                    <!-- Close Button -->
+                    <Frame Grid.Row="2"
+                           Padding="20,10,20,20"
+                           BackgroundColor="White"
+                           CornerRadius="0"
+                           HasShadow="False">
+                        <Button Text="Close"
+                                Clicked="OnCloseDetailsModalTapped"
+                                BackgroundColor="#2E7D32"
+                                TextColor="White"
+                                CornerRadius="12"
+                                HeightRequest="44"
+                                FontSize="15"
+                                FontAttributes="Bold"/>
+                    </Frame>
+                </Grid>
+            </Frame>
+
+            <!-- ====== SUCCESS MODAL ====== -->
+            <Frame x:Name="SuccessModal"
+                   IsVisible="False"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"
+                   ZIndex="1003"
+                   WidthRequest="300"
+                   MaximumWidthRequest="300"
+                   CornerRadius="24"
+                   Padding="0"
+                   HasShadow="True"
+                   BackgroundColor="White">
+                <Grid RowDefinitions="Auto,*,Auto" HeightRequest="240">
+                    <!-- Header -->
+                    <Grid Grid.Row="0" 
+                          BackgroundColor="#4CAF50"
+                          Padding="20,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image Grid.Column="0"
+                               Source="check.png"
+                               HeightRequest="26"
+                               WidthRequest="26"
+                               VerticalOptions="Center"
+                               Margin="0,0,10,0"/>
+
+                        <Label x:Name="SuccessTitle"
+                               Grid.Column="1"
+                               Text="Success!"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               VerticalOptions="Center"/>
+                    </Grid>
+
+                    <!-- Content -->
+                    <VerticalStackLayout Grid.Row="1" 
+                                         Padding="30,20"
+                                         Spacing="15"
+                                         VerticalOptions="Center">
+                        <Image Source="success_check.png"
+                               HeightRequest="60"
+                               WidthRequest="60"
+                               HorizontalOptions="Center"/>
+
+                        <Label x:Name="SuccessMessage"
+                               Text=""
+                               FontSize="15"
+                               TextColor="#212121"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+
+                    <!-- OK Button -->
+                    <Frame Grid.Row="2"
+                           Padding="20,10,20,20"
+                           BackgroundColor="White"
+                           CornerRadius="0"
+                           HasShadow="False">
+                        <Button Text="OK"
+                                Clicked="OnCloseSuccessModalTapped"
+                                BackgroundColor="#4CAF50"
+                                TextColor="White"
+                                CornerRadius="12"
+                                HeightRequest="44"
+                                FontSize="15"
+                                FontAttributes="Bold"/>
+                    </Frame>
+                </Grid>
+            </Frame>
+
+            <!-- ====== PICKUP SELECTION MODAL ====== -->
+            <Frame x:Name="PickupSelectionModal"
+                   IsVisible="False"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"
+                   ZIndex="1004"
+                   WidthRequest="340"
+                   MaximumWidthRequest="340"
+                   CornerRadius="24"
+                   Padding="0"
+                   HasShadow="True"
+                   BackgroundColor="White">
+                <Grid RowDefinitions="Auto,*,Auto" HeightRequest="450">
+                    <!-- Header -->
+                    <Grid Grid.Row="0" 
+                          BackgroundColor="#2E7D32"
+                          Padding="20,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image Grid.Column="0"
+                               Source="pickup_pin.png"
+                               HeightRequest="26"
+                               WidthRequest="26"
+                               VerticalOptions="Center"
+                               Margin="0,0,12,0"/>
+
+                        <Label x:Name="PickupModalTitle"
+                               Grid.Column="1"
+                               Text="Select Pickup"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               VerticalOptions="Center"/>
+
+                        <Image Grid.Column="2"
+                               Source="close_white.png"
+                               HeightRequest="24"
+                               WidthRequest="24"
+                               VerticalOptions="Center">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnClosePickupModalTapped"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </Grid>
+
+                    <!-- Content -->
+                    <Grid Grid.Row="1" Padding="20,15">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Search Bar -->
+                        <Frame Grid.Row="0"
+                               BackgroundColor="#F5F5F5"
+                               CornerRadius="12"
+                               Padding="10"
+                               Margin="0,0,0,15"
+                               BorderColor="#E0E0E0">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                <Image Source="search.png"
+                                       HeightRequest="30"
+                                       WidthRequest="30"
+                                       VerticalOptions="Center"
+                                       Grid.Column="0"/>
+                                <Entry x:Name="PickupSearchEntry"
+                                       Placeholder="Search favorite places..."
+                                       FontSize="14"
+                                       TextColor="#212121"
+                                       BackgroundColor="Transparent"
+                                       PlaceholderColor="#9E9E9E"
+                                       Grid.Column="1"
+                                       TextChanged="OnPickupSearchTextChanged"/>
+                            </Grid>
+                        </Frame>
+
+                        <!-- Favorites List -->
+                        <ScrollView Grid.Row="1">
+                            <VerticalStackLayout x:Name="PickupFavoritesList"
+                                                 Spacing="8">
+                                <!-- Items will be added dynamically -->
+                            </VerticalStackLayout>
+                        </ScrollView>
+                    </Grid>
+
+                    <!-- Cancel Button -->
+                    <Frame Grid.Row="2"
+                           Padding="20,10,20,20"
+                           BackgroundColor="White"
+                           CornerRadius="0"
+                           HasShadow="False">
+                        <Button Text="Cancel"
+                                Clicked="OnClosePickupModalTapped"
+                                BackgroundColor="White"
+                                TextColor="#616161"
+                                BorderColor="#E0E0E0"
+                                BorderWidth="1"
+                                CornerRadius="12"
+                                HeightRequest="44"
+                                FontSize="15"/>
+                    </Frame>
+                </Grid>
+            </Frame>
+
+            <!-- ====== DROPOFF SELECTION MODAL ====== -->
+            <Frame x:Name="DropoffSelectionModal"
+                   IsVisible="False"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"
+                   ZIndex="1005"
+                   WidthRequest="340"
+                   MaximumWidthRequest="340"
+                   CornerRadius="24"
+                   Padding="0"
+                   HasShadow="True"
+                   BackgroundColor="White">
+                <Grid RowDefinitions="Auto,*,Auto" HeightRequest="450">
+                    <!-- Header -->
+                    <Grid Grid.Row="0" 
+                          BackgroundColor="#2E7D32"
+                          Padding="20,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image Grid.Column="0"
+                               Source="dropoff_pin.png"
+                               HeightRequest="26"
+                               WidthRequest="26"
+                               VerticalOptions="Center"
+                               Margin="0,0,12,0"/>
+
+                        <Label x:Name="DropoffModalTitle"
+                               Grid.Column="1"
+                               Text="Select Dropoff"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               VerticalOptions="Center"/>
+
+                        <Image Grid.Column="2"
+                               Source="close_white.png"
+                               HeightRequest="24"
+                               WidthRequest="24"
+                               VerticalOptions="Center">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnCloseDropoffModalTapped"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </Grid>
+
+                    <!-- Content -->
+                    <Grid Grid.Row="1" Padding="20,15">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Search Bar -->
+                        <Frame Grid.Row="0"
+                               BackgroundColor="#F5F5F5"
+                               CornerRadius="12"
+                               Padding="10"
+                               Margin="0,0,0,15"
+                               BorderColor="#E0E0E0">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                <Image Source="search.png"
+                                       HeightRequest="20"
+                                       WidthRequest="20"
+                                       VerticalOptions="Center"
+                                       Grid.Column="0"/>
+                                <Entry x:Name="DropoffSearchEntry"
+                                       Placeholder="Search favorite places..."
+                                       FontSize="14"
+                                       TextColor="#212121"
+                                       BackgroundColor="Transparent"
+                                       PlaceholderColor="#9E9E9E"
+                                       Grid.Column="1"
+                                       TextChanged="OnDropoffSearchTextChanged"/>
+                            </Grid>
+                        </Frame>
+
+                        <!-- Favorites List -->
+                        <ScrollView Grid.Row="1">
+                            <VerticalStackLayout x:Name="DropoffFavoritesList"
+                                                 Spacing="8">
+                                <!-- Items will be added dynamically -->
+                            </VerticalStackLayout>
+                        </ScrollView>
+                    </Grid>
+
+                    <!-- Cancel Button -->
+                    <Frame Grid.Row="2"
+                           Padding="20,10,20,20"
+                           BackgroundColor="White"
+                           CornerRadius="0"
+                           HasShadow="False">
+                        <Button Text="Cancel"
+                                Clicked="OnCloseDropoffModalTapped"
+                                BackgroundColor="White"
+                                TextColor="#616161"
+                                BorderColor="#E0E0E0"
+                                BorderWidth="1"
+                                CornerRadius="12"
+                                HeightRequest="44"
+                                FontSize="15"/>
+                    </Frame>
+                </Grid>
+            </Frame>
+        </Grid>
+
+        <!-- HEADER - Improved -->
+        <Grid BackgroundColor="#2E7D32" Padding="20,50,20,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Back Button -->
+            <Frame BackgroundColor="Transparent"
+                   CornerRadius="12"
+                   Padding="8"
+                   WidthRequest="40"
+                   HeightRequest="40"
+                   Grid.Column="0"
+                   VerticalOptions="Center">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnBackTapped"/>
+                </Frame.GestureRecognizers>
+                <Image Source="white_back_arrow.png"
+                       HeightRequest="20"
+                       WidthRequest="20"/>
+            </Frame>
+
+            <!-- Title -->
+            <Label Text="My Saved Places"
+                   FontSize="22"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"
+                   Grid.Column="1"/>
+
+            <!-- Add New Button -->
+            <Frame BackgroundColor="Transparent"
+                   CornerRadius="12"
+                   Padding="8"
+                   WidthRequest="40"
+                   HeightRequest="40"
+                   Grid.Column="2"
+                   VerticalOptions="Center"
+                   HasShadow="True">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnAddNewTapped"/>
+                </Frame.GestureRecognizers>
+                <Image Source="add.png"
+                       HeightRequest="35"
+                       WidthRequest="35"/>
+            </Frame>
+        </Grid>
+
+        <!-- MAIN CONTENT -->
+        <ScrollView Grid.Row="1"
+                    Padding="20,0"
+                    Margin="0,20,0,0">
+            <VerticalStackLayout Spacing="20">
+
+                <!-- QUICK ACTIONS CARD - Improved -->
+                <Frame Padding="20"
+                       CornerRadius="20"
+                       HasShadow="True"
+                       BackgroundColor="White"
+                       Margin="0,0,0,10">
+                    <VerticalStackLayout Spacing="16">
+
+                        <!-- Quick Info -->
+                        <HorizontalStackLayout Spacing="12">
+                            <Image Source="quick_icon.png"
+                                   HeightRequest="28"
+                                   WidthRequest="28"
+                                   VerticalOptions="Center"/>
+
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Quick Access"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#2E7D32"/>
+                                <Label Text="Tap to use your saved places"
+                                       FontSize="13"
+                                       TextColor="#757575"/>
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+
+                        <!-- Action Buttons - Improved -->
+                        <Grid ColumnDefinitions="*,*,*"
+                              ColumnSpacing="12">
+
+                            <!-- Use as Pickup -->
+                            <Frame CornerRadius="14"
+                                   Padding="16,12"
+                                   BackgroundColor="#E8F5E9"
+                                   Grid.Column="0">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnQuickPickupTapped"/>
+                                </Frame.GestureRecognizers>
+                                <VerticalStackLayout Spacing="8"
+                                                     HorizontalOptions="Center">
+                                    <Image Source="pickup_pin.png"
+                                           HeightRequest="26"
+                                           WidthRequest="26"/>
+                                    <Label Text="Pickup"
+                                           FontSize="13"
+                                           FontAttributes="Bold"
+                                           TextColor="#2E7D32"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Frame>
+
+                            <!-- Use as Dropoff -->
+                            <Frame CornerRadius="14"
+                                   Padding="16,12"
+                                   BackgroundColor="#E8F5E9"
+                                   Grid.Column="1">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnQuickDropoffTapped"/>
+                                </Frame.GestureRecognizers>
+                                <VerticalStackLayout Spacing="8"
+                                                     HorizontalOptions="Center">
+                                    <Image Source="dropoff_pin.png"
+                                           HeightRequest="26"
+                                           WidthRequest="26"/>
+                                    <Label Text="Dropoff"
+                                           FontSize="13"
+                                           FontAttributes="Bold"
+                                           TextColor="#2E7D32"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Frame>
+
+                            <!-- Add New -->
+                            <Frame CornerRadius="14"
+                                   Padding="0,10"
+                                   BackgroundColor="#E8F5E9"
+                                   Grid.Column="2">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnAddNewTapped"/>
+                                </Frame.GestureRecognizers>
+                                <VerticalStackLayout Spacing="8"
+                                                     HorizontalOptions="Center">
+                                    <Image Source="add_new.png"
+                                           HeightRequest="26"
+                                           WidthRequest="26"/>
+                                    <Label Text="Add New"
+                                           FontSize="13"
+                                           FontAttributes="Bold"
+                                           TextColor="#2E7D32"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- FAVORITES SECTION -->
+                <VerticalStackLayout Spacing="15">
+
+                    <!-- Section Header - Improved -->
+                    <HorizontalStackLayout Spacing="10"
+                                           Margin="0,10,0,0">
+                        <Image Source="star_filled.png"
+                               HeightRequest="26"
+                               WidthRequest="26"/>
+                        <Label Text="Favorite Places"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#212121"/>
+                        <Label x:Name="FavoriteCountLabel"
+                               Text="(0)"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="#2E7D32"/>
+                    </HorizontalStackLayout>
+
+                    <!-- LOADING INDICATOR -->
+                    <VerticalStackLayout x:Name="LoadingIndicator"
+                                         IsVisible="False"
+                                         VerticalOptions="Center"
+                                         HorizontalOptions="Center"
+                                         Spacing="15"
+                                         Padding="40">
+                        <ActivityIndicator IsRunning="True"
+                                           Color="#2E7D32"
+                                           HeightRequest="50"
+                                           WidthRequest="50"/>
+                        <Label Text="Loading your favorites..."
+                               FontSize="14"
+                               TextColor="#616161"/>
+                    </VerticalStackLayout>
+
+                    <!-- FAVORITES LIST -->
+                    <CollectionView x:Name="FavoritesList"
+                                    IsVisible="False"
+                                    SelectionMode="None">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="15"/>
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <!-- Favorite Item Card - Improved -->
+                                <Frame Padding="0"
+                                       CornerRadius="16"
+                                       HasShadow="True"
+                                       BackgroundColor="White"
+                                       Margin="0,0,0,5">
+
+                                    <!-- Tap Gesture -->
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnFavoriteItemTapped"/>
+                                    </Frame.GestureRecognizers>
+
+                                    <Grid RowDefinitions="Auto,Auto"
+                                          ColumnDefinitions="Auto,*,Auto"
+                                          RowSpacing="12"
+                                          ColumnSpacing="12"
+                                          Padding="16">
+
+                                        <!-- Location Icon -->
+                                        <Frame Grid.Row="0"
+                                               Grid.Column="0"
+                                               Grid.RowSpan="2"
+                                               BackgroundColor="#E8F5E9"
+                                               CornerRadius="12"
+                                               Padding="10"
+                                               WidthRequest="48"
+                                               HeightRequest="48">
+                                            <Image Source="dropoff.png"
+                                                   HeightRequest="26"
+                                                   WidthRequest="26"/>
+                                        </Frame>
+
+                                        <!-- Location Details -->
+                                        <VerticalStackLayout Grid.Row="0"
+                                                             Grid.Column="1"
+                                                             Spacing="4">
+                                            <Label Text="{Binding Name}"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#212121"
+                                                   LineBreakMode="TailTruncation"
+                                                   MaxLines="1"/>
+                                            <Label Text="{Binding Address}"
+                                                   FontSize="13"
+                                                   TextColor="#757575"
+                                                   LineBreakMode="TailTruncation"
+                                                   MaxLines="2"/>
+                                        </VerticalStackLayout>
+
+                                        <!-- Quick Action Button -->
+                                        <Frame Grid.Row="0"
+                                               Grid.Column="2"
+                                               BackgroundColor="#2E7D32"
+                                               CornerRadius="10"
+                                               Padding="12,6"
+                                               VerticalOptions="Start">
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnUseLocationTapped"/>
+                                            </Frame.GestureRecognizers>
+                                            <Label Text="USE"
+                                                   FontSize="12"
+                                                   FontAttributes="Bold"
+                                                   TextColor="White"
+                                                   HorizontalOptions="Center"/>
+                                        </Frame>
+
+                                        <!-- Bottom Row: Date & Actions -->
+                                        <Grid Grid.Row="1"
+                                              Grid.Column="1"
+                                              Grid.ColumnSpan="2"
+                                              ColumnDefinitions="*,Auto">
+
+                                            <!-- Date Added -->
+                                            <HorizontalStackLayout Grid.Column="0"
+                                                                   Spacing="5"
+                                                                   Margin="10,0,0,0">
+                                                <Image Source="calendar.png"
+                                                       HeightRequest="14"
+                                                       WidthRequest="14"
+                                                       Margin="0,-15,0,0"/>
+                                                <Label Text="{Binding AddedDate, StringFormat='Added: {0:MMM dd, yyyy}'}"
+                                                       FontSize="11"
+                                                       TextColor="#9E9E9E"/>
+                                            </HorizontalStackLayout>
+
+                                            <!-- Actions -->
+                                            <HorizontalStackLayout Grid.Column="1"
+                                                                   Spacing="12">
+                                                <!-- Delete Button -->
+                                                <Frame Padding="0"
+                                                       BackgroundColor="Transparent"
+                                                       WidthRequest="30"
+                                                       HeightRequest="30">
+                                                    <Frame.GestureRecognizers>
+                                                        <TapGestureRecognizer Tapped="OnDeleteTapped"/>
+                                                    </Frame.GestureRecognizers>
+                                                    <Image Source="complaint.png"
+                                                           HeightRequest="18"
+                                                           WidthRequest="18"
+                                                           Margin="0,-15,15,0"/>
+                                                </Frame>
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <!-- EMPTY STATE - Improved -->
+                    <VerticalStackLayout x:Name="EmptyState"
+                                         IsVisible="False"
+                                         VerticalOptions="Center"
+                                         HorizontalOptions="Center"
+                                         Spacing="20"
+                                         Padding="30,40">
+
+                        <!-- Illustration -->
+                        <Image Source="ride_request.png"
+                               HeightRequest="80"
+                               WidthRequest="80"
+                               HorizontalOptions="Center"/>
+
+                        <!-- Empty Message -->
+                        <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                            <Label x:Name="EmptyStateTitle"
+                                   Text="No saved places yet"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#757575"
+                                   HorizontalOptions="Center"/>
+
+                            <Label x:Name="EmptyStateMessage"
+                                   Text="Add your frequently visited locations for faster booking"
+                                   FontSize="14"
+                                   TextColor="#BDBDBD"
+                                   HorizontalTextAlignment="Center"
+                                   HorizontalOptions="Center"
+                                   MaxLines="2"/>
+                        </VerticalStackLayout>
+
+                        <!-- Action Buttons -->
+                        <VerticalStackLayout Spacing="10">
+                            <Button Text="Add from Search"
+                                    Clicked="OnAddFromSearchTapped"
+                                    BackgroundColor="#2E7D32"
+                                    TextColor="White"
+                                    CornerRadius="12"
+                                    HeightRequest="48"
+                                    FontSize="14"
+                                    FontAttributes="Bold"
+                                    HorizontalOptions="Fill"/>
+
+                            <Button Text="Return To Home"
+                                    Clicked="OnBackTapped"
+                                    BackgroundColor="White"
+                                    TextColor="#2E7D32"
+                                    CornerRadius="12"
+                                    HeightRequest="48"
+                                    FontSize="14"
+                                    BorderColor="#2E7D32"
+                                    BorderWidth="2"
+                                    HorizontalOptions="Fill"/>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- RECENT SECTION -->
+                <VerticalStackLayout Spacing="15"
+                                     Margin="0,20,0,20">
+
+                    <!-- Section Header - Improved -->
+                    <HorizontalStackLayout Spacing="10">
+                        <Image Source="recent_location.png"
+                               HeightRequest="26"
+                               WidthRequest="26"/>
+                        <Label Text="Recent Places"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#212121"/>
+                        <Label x:Name="RecentCountLabel"
+                               Text="(0)"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="#757575"/>
+                    </HorizontalStackLayout>
+
+                    <!-- RECENT LIST -->
+                    <CollectionView x:Name="RecentList"
+                                    IsVisible="False"
+                                    SelectionMode="None">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="15"/>
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <!-- Recent Item Card - Improved -->
+                                <Frame Padding="0"
+                                       CornerRadius="16"
+                                       HasShadow="True"
+                                       BackgroundColor="White"
+                                       Margin="0,0,0,5">
+
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnRecentItemTapped"/>
+                                    </Frame.GestureRecognizers>
+
+                                    <Grid RowDefinitions="Auto,Auto"
+                                          ColumnDefinitions="Auto,*,Auto"
+                                          RowSpacing="12"
+                                          ColumnSpacing="12"
+                                          Padding="16">
+
+                                        <!-- Location Icon -->
+                                        <Frame Grid.Row="0"
+                                               Grid.Column="0"
+                                               Grid.RowSpan="2"
+                                               BackgroundColor="#F5F5F5"
+                                               CornerRadius="12"
+                                               Padding="10"
+                                               WidthRequest="48"
+                                               HeightRequest="48">
+                                            <Image Source="recent_location.png"
+                                                   HeightRequest="26"
+                                                   WidthRequest="26"/>
+                                        </Frame>
+
+                                        <!-- Location Details -->
+                                        <VerticalStackLayout Grid.Row="0"
+                                                             Grid.Column="1"
+                                                             Spacing="4">
+                                            <Label Text="{Binding Name}"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#212121"
+                                                   LineBreakMode="TailTruncation"
+                                                   MaxLines="1"/>
+                                            <Label Text="{Binding Address}"
+                                                   FontSize="13"
+                                                   TextColor="#757575"
+                                                   LineBreakMode="TailTruncation"
+                                                   MaxLines="2"/>
+                                        </VerticalStackLayout>
+
+                                        <!-- Quick Action Button -->
+                                        <Frame Grid.Row="0"
+                                               Grid.Column="2"
+                                               BackgroundColor="#757575"
+                                               CornerRadius="10"
+                                               Padding="12,6"
+                                               VerticalOptions="Start">
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnRecentUseLocationTapped"/>
+                                            </Frame.GestureRecognizers>
+                                            <Label Text="USE"
+                                                   FontSize="12"
+                                                   FontAttributes="Bold"
+                                                   TextColor="White"
+                                                   HorizontalOptions="Center"/>
+                                        </Frame>
+
+                                        <!-- Bottom Row: Date & Time -->
+                                        <Grid Grid.Row="1"
+                                              Grid.Column="1"
+                                              Grid.ColumnSpan="2"
+                                              ColumnDefinitions="*,Auto"
+                                              Margin="0,8,0,0">
+
+                                            <!-- Date & Time -->
+                                            <HorizontalStackLayout Grid.Column="0"
+                                                                   Spacing="6">
+                                                <Image Source="calendar.png"
+                                                       HeightRequest="14"
+                                                       WidthRequest="14"/>
+                                                <Label Text="{Binding AddedDate, StringFormat='{0:MMM dd, yyyy}'}"
+                                                       FontSize="11"
+                                                       TextColor="#9E9E9E"/>
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <!-- RECENT EMPTY STATE - Improved -->
+                    <VerticalStackLayout x:Name="RecentEmptyState"
+                                         IsVisible="False"
+                                         VerticalOptions="Center"
+                                         HorizontalOptions="Center"
+                                         Spacing="15"
+                                         Padding="30,20">
+
+                        <!-- Illustration -->
+                        <Image Source="recent.png"
+                               HeightRequest="60"
+                               WidthRequest="60"
+                               HorizontalOptions="Center"/>
+
+                        <!-- Empty Message -->
+                        <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                            <Label x:Name="RecentEmptyStateTitle"
+                                   Text="No recent places"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#757575"
+                                   HorizontalOptions="Center"/>
+
+                            <Label x:Name="RecentEmptyStateMessage"
+                                   Text="Your recent locations will appear here after rides"
+                                   FontSize="14"
+                                   TextColor="#BDBDBD"
+                                   HorizontalTextAlignment="Center"
+                                   HorizontalOptions="Center"
+                                   MaxLines="2"/>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

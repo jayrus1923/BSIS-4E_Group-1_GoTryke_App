@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.Commuter_Rides"
+             BackgroundColor="White"
+             Shell.NavBarIsVisible="False"
+             Title="Rides">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- HEADER -->
+        <Grid BackgroundColor="#2E7D32" 
+              Padding="0,15,0,20" 
+              Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Title (Centered) -->
+            <Label Grid.Column="1"
+                   Text="My Rides"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"/>
+
+            <!-- History Button -->
+            <ImageButton Grid.Column="2"
+                         Source="history.png"
+                         WidthRequest="26"
+                         HeightRequest="26"
+                         HorizontalOptions="End"
+                         VerticalOptions="Center"
+                         BackgroundColor="Transparent"
+                         Margin="0,0,15,0"
+                         Clicked="OnHistoryButtonClicked"/>
+        </Grid>
+
+        <!-- MAIN CONTENT -->
+        <Grid Grid.Row="1">
+
+            <!-- Empty State -->
+            <VerticalStackLayout x:Name="EmptyStateLayout"
+                                 Padding="40"
+                                 Spacing="25"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="CenterAndExpand"
+                                 IsVisible="False">
+
+                <Frame BackgroundColor="#F0F9F0"
+                       Padding="25"
+                       CornerRadius="75">
+                    <Image Source="ride_icon.png"
+                           HeightRequest="100"
+                           WidthRequest="100"
+                           HorizontalOptions="Center"/>
+                </Frame>
+
+                <Label Text="No rides yet"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="#333333"
+                       HorizontalOptions="Center"/>
+
+                <Label Text="Start booking your first ride and it will appear here."
+                       FontSize="14"
+                       TextColor="#757575"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+            </VerticalStackLayout>
+
+            <!-- Rides List -->
+            <RefreshView x:Name="RidesRefreshView"
+                         IsVisible="False"
+                         RefreshColor="#2E7D32"
+                         Command="{Binding RefreshCommand}"
+                         IsRefreshing="{Binding IsRefreshing}">
+
+                <ScrollView>
+                    <VerticalStackLayout x:Name="RidesListContainer"
+                                         Padding="15"
+                                         Spacing="12"/>
+                </ScrollView>
+            </RefreshView>
+
+            <!-- Loading Indicator -->
+            <ActivityIndicator x:Name="LoadingIndicator"
+                               IsRunning="False"
+                               Color="#2E7D32"
+                               HeightRequest="50"
+                               WidthRequest="50"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               IsVisible="False"/>
+
+        </Grid>
+
+    </Grid>
+</ContentPage>

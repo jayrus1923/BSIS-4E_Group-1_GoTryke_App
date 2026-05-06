@@ -1,0 +1,1185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ServiceCo.Commuter_HelpSupport"
+    BackgroundColor="#F8FAFC"
+    Shell.NavBarIsVisible="False">
+
+    <ScrollView x:Name="MainScrollView">
+        <VerticalStackLayout Padding="20" Spacing="25">
+
+            <!-- Header -->
+            <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center" Margin="0,10,0,0">
+                <Frame 
+                    BackgroundColor="White"
+                    CornerRadius="12"
+                    Padding="12"
+                    HasShadow="True"
+                    HeightRequest="48"
+                    WidthRequest="48"
+                    VerticalOptions="Center">
+                    <ImageButton 
+                        Source="black_back.png"
+                        HeightRequest="24"
+                        WidthRequest="24"
+                        BackgroundColor="Transparent"
+                        Clicked="OnBackButtonClicked" />
+                </Frame>
+
+                <Label 
+                    Grid.Column="1"
+                    Text="Help &amp; Support"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    FontAttributes="Bold"
+                    FontSize="22"
+                    TextColor="#1E293B" />
+
+                <BoxView Grid.Column="2" WidthRequest="48" BackgroundColor="Transparent" />
+            </Grid>
+
+            <!-- Welcome Card -->
+            <Frame BackgroundColor="White" CornerRadius="20" Padding="0" HasShadow="True">
+                <Grid ColumnDefinitions="Auto,*" Padding="20" ColumnSpacing="15">
+                    <Frame 
+                        BackgroundColor="#E0F2FE"
+                        CornerRadius="15"
+                        Padding="15"
+                        WidthRequest="60"
+                        HeightRequest="60">
+                        <Label 
+                            Text="🙋"
+                            FontSize="24"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center" />
+                    </Frame>
+
+                    <VerticalStackLayout Grid.Column="1" Spacing="5">
+                        <Label 
+                            Text="How can we help you today?"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            TextColor="#1E293B" />
+                        <Label 
+                            Text="Find answers to common questions or contact our support team"
+                            FontSize="13"
+                            TextColor="#64748B"
+                            LineBreakMode="WordWrap" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Frame>
+
+            <!-- FAQ Section -->
+            <Grid RowDefinitions="Auto,*">
+                <Label 
+                    Text="Frequently Asked Questions"
+                    FontSize="18"
+                    FontAttributes="Bold"
+                    TextColor="#1E293B"
+                    Margin="0,0,0,10" />
+
+                <Frame Grid.Row="1" BackgroundColor="Transparent" CornerRadius="20" Padding="0" HasShadow="False">
+                    <VerticalStackLayout Spacing="2">
+
+                        <!-- How to book a ride -->
+                        <Frame 
+                            BackgroundColor="White"
+                            CornerRadius="15"
+                            Padding="0"
+                            HasShadow="True"
+                            Margin="0,0,0,10">
+                            <VerticalStackLayout Spacing="0">
+                                <Grid 
+                                    ColumnDefinitions="Auto,*,24"
+                                    Padding="20"
+                                    BackgroundColor="White">
+                                    <Frame 
+                                        BackgroundColor="#F0FDF4"
+                                        CornerRadius="10"
+                                        Padding="10"
+                                        WidthRequest="40"
+                                        HeightRequest="40">
+                                        <Label 
+                                            Text="🛵"
+                                            FontSize="16"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center" />
+                                    </Frame>
+
+                                    <VerticalStackLayout 
+                                        Grid.Column="1"
+                                        Spacing="3"
+                                        Margin="15,0,0,0">
+                                        <Label 
+                                            Text="How to book a ride?" 
+                                            FontSize="15" 
+                                            FontAttributes="Bold"
+                                            TextColor="#1E293B"
+                                            LineBreakMode="TailTruncation"/>
+                                        <Label 
+                                            Text="Step-by-step guide"
+                                            FontSize="12"
+                                            TextColor="#64748B" />
+                                    </VerticalStackLayout>
+
+                                    <Label 
+                                        Grid.Column="2"
+                                        x:Name="BookRideArrow"
+                                        Text="▶" 
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        TextColor="#10B981"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="Center" />
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnBookRideTapped"/>
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+
+                                <BoxView 
+                                    x:Name="BookRideDivider"
+                                    HeightRequest="1"
+                                    BackgroundColor="#F1F5F9"
+                                    IsVisible="False" />
+
+                                <VerticalStackLayout 
+                                    x:Name="BookRideContent" 
+                                    IsVisible="False" 
+                                    Padding="20,15,20,20"
+                                    Spacing="15"
+                                    BackgroundColor="White">
+
+                                    <Grid ColumnDefinitions="28,*" ColumnSpacing="15">
+                                        <Frame 
+                                            BackgroundColor="#10B981"
+                                            CornerRadius="20"
+                                            Padding="0"
+                                            WidthRequest="28"
+                                            HeightRequest="28">
+                                            <Label 
+                                                Text="1"
+                                                FontSize="12"
+                                                FontAttributes="Bold"
+                                                TextColor="White"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center" />
+                                        </Frame>
+
+                                        <VerticalStackLayout Grid.Column="1" Spacing="3">
+                                            <Label 
+                                                Text="Set your pickup location"
+                                                FontSize="14"
+                                                FontAttributes="Bold"
+                                                TextColor="#1E293B" />
+                                            <Label 
+                                                Text="Allow location access or enter address manually"
+                                                FontSize="12"
+                                                TextColor="#64748B"
+                                                LineBreakMode="WordWrap" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+
+                                    <Grid ColumnDefinitions="28,*" ColumnSpacing="15">
+                                        <Frame 
+                                            BackgroundColor="#10B981"
+                                            CornerRadius="20"
+                                            Padding="0"
+                                            WidthRequest="28"
+                                            HeightRequest="28">
+                                            <Label 
+                                                Text="2"
+                                                FontSize="12"
+                                                FontAttributes="Bold"
+                                                TextColor="White"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center" />
+                                        </Frame>
+
+                                        <VerticalStackLayout Grid.Column="1" Spacing="3">
+                                            <Label 
+                                                Text="Choose your destination"
+                                                FontSize="14"
+                                                FontAttributes="Bold"
+                                                TextColor="#1E293B" />
+                                            <Label 
+                                                Text="Type or select from saved places"
+                                                FontSize="12"
+                                                TextColor="#64748B"
+                                                LineBreakMode="WordWrap" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+
+                                    <Grid ColumnDefinitions="28,*" ColumnSpacing="15">
+                                        <Frame 
+                                            BackgroundColor="#10B981"
+                                            CornerRadius="20"
+                                            Padding="0"
+                                            WidthRequest="28"
+                                            HeightRequest="28">
+                                            <Label 
+                                                Text="3"
+                                                FontSize="12"
+                                                FontAttributes="Bold"
+                                                TextColor="White"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center" />
+                                        </Frame>
+
+                                        <VerticalStackLayout Grid.Column="1" Spacing="3">
+                                            <Label 
+                                                Text="Select vehicle type"
+                                                FontSize="14"
+                                                FontAttributes="Bold"
+                                                TextColor="#1E293B" />
+                                            <Label 
+                                                Text="Choose from available options"
+                                                FontSize="12"
+                                                TextColor="#64748B"
+                                                LineBreakMode="WordWrap" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+
+                                    <Grid ColumnDefinitions="28,*" ColumnSpacing="15">
+                                        <Frame 
+                                            BackgroundColor="#10B981"
+                                            CornerRadius="20"
+                                            Padding="0"
+                                            WidthRequest="28"
+                                            HeightRequest="28">
+                                            <Label 
+                                                Text="4"
+                                                FontSize="12"
+                                                FontAttributes="Bold"
+                                                TextColor="White"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center" />
+                                        </Frame>
+
+                                        <VerticalStackLayout Grid.Column="1" Spacing="3">
+                                            <Label 
+                                                Text="Confirm and book"
+                                                FontSize="14"
+                                                FontAttributes="Bold"
+                                                TextColor="#1E293B" />
+                                            <Label 
+                                                Text="Review fare estimate and tap 'Book Now'"
+                                                FontSize="12"
+                                                TextColor="#64748B"
+                                                LineBreakMode="WordWrap" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+
+                                    <Frame 
+                                        BackgroundColor="#F0FDF4"
+                                        CornerRadius="12"
+                                        Padding="15"
+                                        HasShadow="False">
+                                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                            <Label 
+                                                Text="💡"
+                                                FontSize="16"
+                                                VerticalOptions="Start"
+                                                Margin="0,2,0,0" />
+
+                                            <VerticalStackLayout Grid.Column="1" Spacing="8">
+                                                <Label 
+                                                    Text="Pro Tips for Faster Booking" 
+                                                    FontSize="13" 
+                                                    FontAttributes="Bold"
+                                                    TextColor="#10B981"
+                                                    Margin="0,0,0,5"/>
+
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                    <Label 
+                                                        Text="•"
+                                                        FontSize="14"
+                                                        TextColor="#10B981"
+                                                        HorizontalOptions="Start"
+                                                        VerticalOptions="Start"
+                                                        WidthRequest="20"/>
+                                                    <Label 
+                                                        Grid.Column="1"
+                                                        Text="Enable location services" 
+                                                        FontSize="12"
+                                                        TextColor="#475569"
+                                                        LineBreakMode="WordWrap"/>
+                                                </Grid>
+
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                    <Label 
+                                                        Text="•"
+                                                        FontSize="14"
+                                                        TextColor="#10B981"
+                                                        HorizontalOptions="Start"
+                                                        VerticalOptions="Start"
+                                                        WidthRequest="20"/>
+                                                    <Label 
+                                                        Grid.Column="1"
+                                                        Text="Save frequent destinations" 
+                                                        FontSize="12"
+                                                        TextColor="#475569"
+                                                        LineBreakMode="WordWrap"/>
+                                                </Grid>
+
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                    <Label 
+                                                        Text="•"
+                                                        FontSize="14"
+                                                        TextColor="#10B981"
+                                                        HorizontalOptions="Start"
+                                                        VerticalOptions="Start"
+                                                        WidthRequest="20"/>
+                                                    <Label 
+                                                        Grid.Column="1"
+                                                        Text="Book during non-peak hours" 
+                                                        FontSize="12"
+                                                        TextColor="#475569"
+                                                        LineBreakMode="WordWrap"/>
+                                                </Grid>
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </VerticalStackLayout>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!-- Payment methods -->
+                        <Frame 
+                            BackgroundColor="White"
+                            CornerRadius="15"
+                            Padding="0"
+                            HasShadow="True"
+                            Margin="0,0,0,10">
+                            <VerticalStackLayout Spacing="0">
+                                <Grid 
+                                    ColumnDefinitions="Auto,*,24"
+                                    Padding="20"
+                                    BackgroundColor="White">
+                                    <Frame 
+                                        BackgroundColor="#FEF3C7"
+                                        CornerRadius="10"
+                                        Padding="10"
+                                        WidthRequest="40"
+                                        HeightRequest="40">
+                                        <Label 
+                                            Text="💰"
+                                            FontSize="16"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center" />
+                                    </Frame>
+
+                                    <VerticalStackLayout 
+                                        Grid.Column="1"
+                                        Spacing="3"
+                                        Margin="15,0,0,0">
+                                        <Label 
+                                            Text="Payment Methods" 
+                                            FontSize="15" 
+                                            FontAttributes="Bold"
+                                            TextColor="#1E293B"
+                                            LineBreakMode="TailTruncation"/>
+                                        <Label 
+                                            Text="Cash, GCash, and more"
+                                            FontSize="12"
+                                            TextColor="#64748B" />
+                                    </VerticalStackLayout>
+
+                                    <Label 
+                                        Grid.Column="2"
+                                        x:Name="PaymentArrow"
+                                        Text="▶" 
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        TextColor="#F59E0B"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="Center" />
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnPaymentMethodsTapped"/>
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+
+                                <BoxView 
+                                    x:Name="PaymentDivider"
+                                    HeightRequest="1"
+                                    BackgroundColor="#F1F5F9"
+                                    IsVisible="False" />
+
+                                <VerticalStackLayout 
+                                    x:Name="PaymentContent" 
+                                    IsVisible="False" 
+                                    Padding="20,15,20,20"
+                                    Spacing="15"
+                                    BackgroundColor="White">
+
+                                    <Frame 
+                                        BackgroundColor="White"
+                                        CornerRadius="12"
+                                        Padding="15"
+                                        BorderColor="#F1F5F9"
+                                        HasShadow="False">
+                                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                            <Frame 
+                                                BackgroundColor="#FEF3C7"
+                                                CornerRadius="10"
+                                                Padding="10"
+                                                WidthRequest="40"
+                                                HeightRequest="40"
+                                                VerticalOptions="Start">
+                                                <Label 
+                                                    Text="💵"
+                                                    FontSize="16"
+                                                    HorizontalOptions="Center"
+                                                    VerticalOptions="Center" />
+                                            </Frame>
+
+                                            <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                                <Label 
+                                                    Text="Cash Payment" 
+                                                    FontSize="14" 
+                                                    FontAttributes="Bold"
+                                                    TextColor="#1E293B"
+                                                    Margin="0,0,0,5"/>
+
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                    <Label 
+                                                        Text="•"
+                                                        FontSize="14"
+                                                        TextColor="#F59E0B"
+                                                        HorizontalOptions="Start"
+                                                        VerticalOptions="Start"
+                                                        WidthRequest="20"/>
+                                                    <Label 
+                                                        Grid.Column="1"
+                                                        Text="Pay directly to the driver" 
+                                                        FontSize="12"
+                                                        TextColor="#475569"
+                                                        LineBreakMode="WordWrap"/>
+                                                </Grid>
+
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                    <Label 
+                                                        Text="•"
+                                                        FontSize="14"
+                                                        TextColor="#F59E0B"
+                                                        HorizontalOptions="Start"
+                                                        VerticalOptions="Start"
+                                                        WidthRequest="20"/>
+                                                    <Label 
+                                                        Grid.Column="1"
+                                                        Text="Exact amount recommended" 
+                                                        FontSize="12"
+                                                        TextColor="#475569"
+                                                        LineBreakMode="WordWrap"/>
+                                                </Grid>
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Frame>
+
+                                    <Frame 
+                                        BackgroundColor="White"
+                                        CornerRadius="12"
+                                        Padding="15"
+                                        BorderColor="#F1F5F9"
+                                        HasShadow="False">
+                                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                            <Frame 
+                                                BackgroundColor="#DCFCE7"
+                                                CornerRadius="10"
+                                                Padding="10"
+                                                WidthRequest="40"
+                                                HeightRequest="40"
+                                                VerticalOptions="Start">
+                                                <Label 
+                                                    Text="📱"
+                                                    FontSize="16"
+                                                    HorizontalOptions="Center"
+                                                    VerticalOptions="Center" />
+                                            </Frame>
+
+                                            <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                                <Label 
+                                                    Text="GCash QR Payment" 
+                                                    FontSize="14" 
+                                                    FontAttributes="Bold"
+                                                    TextColor="#1E293B"
+                                                    Margin="0,0,0,5"/>
+
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                    <Label 
+                                                        Text="•"
+                                                        FontSize="14"
+                                                        TextColor="#10B981"
+                                                        HorizontalOptions="Start"
+                                                        VerticalOptions="Start"
+                                                        WidthRequest="20"/>
+                                                    <Label 
+                                                        Grid.Column="1"
+                                                        Text="Scan driver's QR code" 
+                                                        FontSize="12"
+                                                        TextColor="#475569"
+                                                        LineBreakMode="WordWrap"/>
+                                                </Grid>
+
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                    <Label 
+                                                        Text="•"
+                                                        FontSize="14"
+                                                        TextColor="#10B981"
+                                                        HorizontalOptions="Start"
+                                                        VerticalOptions="Start"
+                                                        WidthRequest="20"/>
+                                                    <Label 
+                                                        Grid.Column="1"
+                                                        Text="Enter exact fare amount" 
+                                                        FontSize="12"
+                                                        TextColor="#475569"
+                                                        LineBreakMode="WordWrap"/>
+                                                </Grid>
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Frame>
+
+                                    <Frame 
+                                        BackgroundColor="#F0FDF4"
+                                        CornerRadius="12"
+                                        Padding="15"
+                                        HasShadow="False">
+                                        <Grid ColumnDefinitions="24,*" ColumnSpacing="10">
+                                            <Label 
+                                                Text="📋"
+                                                FontSize="16"
+                                                VerticalOptions="Start"
+                                                Margin="0,2,0,0" />
+
+                                            <VerticalStackLayout Grid.Column="1" Spacing="8">
+                                                <Label 
+                                                    Text="How to Pay via GCash" 
+                                                    FontSize="13" 
+                                                    FontAttributes="Bold"
+                                                    TextColor="#10B981"
+                                                    Margin="0,0,0,5"/>
+
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                    <Label 
+                                                        Text="1."
+                                                        FontSize="12"
+                                                        FontAttributes="Bold"
+                                                        TextColor="#10B981"
+                                                        HorizontalOptions="Start"
+                                                        VerticalOptions="Start"
+                                                        WidthRequest="24"/>
+                                                    <Label 
+                                                        Grid.Column="1"
+                                                        Text="Open GCash app"
+                                                        FontSize="12"
+                                                        TextColor="#475569"
+                                                        LineBreakMode="WordWrap"/>
+                                                </Grid>
+
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                    <Label 
+                                                        Text="2."
+                                                        FontSize="12"
+                                                        FontAttributes="Bold"
+                                                        TextColor="#10B981"
+                                                        HorizontalOptions="Start"
+                                                        VerticalOptions="Start"
+                                                        WidthRequest="24"/>
+                                                    <Label 
+                                                        Grid.Column="1"
+                                                        Text="Tap 'Scan QR'"
+                                                        FontSize="12"
+                                                        TextColor="#475569"
+                                                        LineBreakMode="WordWrap"/>
+                                                </Grid>
+
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                    <Label 
+                                                        Text="3."
+                                                        FontSize="12"
+                                                        FontAttributes="Bold"
+                                                        TextColor="#10B981"
+                                                        HorizontalOptions="Start"
+                                                        VerticalOptions="Start"
+                                                        WidthRequest="24"/>
+                                                    <Label 
+                                                        Grid.Column="1"
+                                                        Text="Scan driver's QR code"
+                                                        FontSize="12"
+                                                        TextColor="#475569"
+                                                        LineBreakMode="WordWrap"/>
+                                                </Grid>
+
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                    <Label 
+                                                        Text="4."
+                                                        FontSize="12"
+                                                        FontAttributes="Bold"
+                                                        TextColor="#10B981"
+                                                        HorizontalOptions="Start"
+                                                        VerticalOptions="Start"
+                                                        WidthRequest="24"/>
+                                                    <Label 
+                                                        Grid.Column="1"
+                                                        Text="Enter amount &amp; MPIN"
+                                                        FontSize="12"
+                                                        TextColor="#475569"
+                                                        LineBreakMode="WordWrap"/>
+                                                </Grid>
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </VerticalStackLayout>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!-- Cancel ride -->
+                        <Frame 
+                            BackgroundColor="White"
+                            CornerRadius="15"
+                            Padding="0"
+                            HasShadow="True"
+                            Margin="0,0,0,10">
+                            <VerticalStackLayout Spacing="0">
+                                <Grid 
+                                    ColumnDefinitions="Auto,*,24"
+                                    Padding="20"
+                                    BackgroundColor="White">
+                                    <Frame 
+                                        BackgroundColor="#FEE2E2"
+                                        CornerRadius="10"
+                                        Padding="10"
+                                        WidthRequest="40"
+                                        HeightRequest="40">
+                                        <Label 
+                                            Text="❌"
+                                            FontSize="16"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center" />
+                                    </Frame>
+
+                                    <VerticalStackLayout 
+                                        Grid.Column="1"
+                                        Spacing="3"
+                                        Margin="15,0,0,0">
+                                        <Label 
+                                            Text="Cancel a Ride" 
+                                            FontSize="15" 
+                                            FontAttributes="Bold"
+                                            TextColor="#1E293B"
+                                            LineBreakMode="TailTruncation"/>
+                                        <Label 
+                                            Text="Policy and procedures"
+                                            FontSize="12"
+                                            TextColor="#64748B" />
+                                    </VerticalStackLayout>
+
+                                    <Label 
+                                        Grid.Column="2"
+                                        x:Name="CancelRideArrow"
+                                        Text="▶" 
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        TextColor="#EF4444"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="Center" />
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnCancelRideTapped"/>
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+
+                                <BoxView 
+                                    x:Name="CancelRideDivider"
+                                    HeightRequest="1"
+                                    BackgroundColor="#F1F5F9"
+                                    IsVisible="False" />
+
+                                <VerticalStackLayout 
+                                    x:Name="CancelRideContent" 
+                                    IsVisible="False" 
+                                    Padding="20,15,20,20"
+                                    Spacing="15"
+                                    BackgroundColor="White">
+
+                                    <Frame 
+                                        BackgroundColor="#F0FDF4"
+                                        CornerRadius="12"
+                                        Padding="15"
+                                        HasShadow="False">
+                                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                            <Label 
+                                                Text="✅"
+                                                FontSize="18"
+                                                VerticalOptions="Start"
+                                                Margin="0,2,0,0" />
+
+                                            <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                                <Label 
+                                                    Text="Free Cancellation" 
+                                                    FontSize="14" 
+                                                    FontAttributes="Bold"
+                                                    TextColor="#10B981"
+                                                    Margin="0,0,0,5"/>
+
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                    <Label 
+                                                        Text="•"
+                                                        FontSize="14"
+                                                        TextColor="#10B981"
+                                                        HorizontalOptions="Start"
+                                                        VerticalOptions="Start"
+                                                        WidthRequest="20"/>
+                                                    <Label 
+                                                        Grid.Column="1"
+                                                        Text="No driver acceptance yet" 
+                                                        FontSize="12"
+                                                        TextColor="#475569"
+                                                        LineBreakMode="WordWrap"/>
+                                                </Grid>
+
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                    <Label 
+                                                        Text="•"
+                                                        FontSize="14"
+                                                        TextColor="#10B981"
+                                                        HorizontalOptions="Start"
+                                                        VerticalOptions="Start"
+                                                        WidthRequest="20"/>
+                                                    <Label 
+                                                        Grid.Column="1"
+                                                        Text="Within 3 minutes of acceptance" 
+                                                        FontSize="12"
+                                                        TextColor="#475569"
+                                                        LineBreakMode="WordWrap"/>
+                                                </Grid>
+
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                    <Label 
+                                                        Text="•"
+                                                        FontSize="14"
+                                                        TextColor="#10B981"
+                                                        HorizontalOptions="Start"
+                                                        VerticalOptions="Start"
+                                                        WidthRequest="20"/>
+                                                    <Label 
+                                                        Grid.Column="1"
+                                                        Text="Driver late (>10 minutes)" 
+                                                        FontSize="12"
+                                                        TextColor="#475569"
+                                                        LineBreakMode="WordWrap"/>
+                                                </Grid>
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </VerticalStackLayout>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!-- File complaint -->
+                        <Frame 
+                            BackgroundColor="White"
+                            CornerRadius="15"
+                            Padding="0"
+                            HasShadow="True">
+                            <VerticalStackLayout Spacing="0">
+                                <Grid 
+                                    ColumnDefinitions="Auto,*,24"
+                                    Padding="20"
+                                    BackgroundColor="White">
+                                    <Frame 
+                                        BackgroundColor="#E0E7FF"
+                                        CornerRadius="10"
+                                        Padding="10"
+                                        WidthRequest="40"
+                                        HeightRequest="40">
+                                        <Label 
+                                            Text="📋"
+                                            FontSize="16"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center" />
+                                    </Frame>
+
+                                    <VerticalStackLayout 
+                                        Grid.Column="1"
+                                        Spacing="3"
+                                        Margin="15,0,0,0">
+                                        <Label 
+                                            Text="File a Complaint" 
+                                            FontSize="15" 
+                                            FontAttributes="Bold"
+                                            TextColor="#1E293B"
+                                            LineBreakMode="TailTruncation"/>
+                                        <Label 
+                                            Text="Report driver or service issues"
+                                            FontSize="12"
+                                            TextColor="#64748B" />
+                                    </VerticalStackLayout>
+
+                                    <Label 
+                                        Grid.Column="2"
+                                        x:Name="ComplaintArrow"
+                                        Text="▶" 
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        TextColor="#4F46E5"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="Center" />
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnFileComplaintTapped"/>
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+
+                                <BoxView 
+                                    x:Name="ComplaintDivider"
+                                    HeightRequest="1"
+                                    BackgroundColor="#F1F5F9"
+                                    IsVisible="False" />
+
+                                <VerticalStackLayout 
+                                    x:Name="ComplaintContent" 
+                                    IsVisible="False" 
+                                    Padding="20,15,20,20"
+                                    Spacing="15"
+                                    BackgroundColor="White">
+
+                                    <Grid ColumnDefinitions="28,*" ColumnSpacing="15">
+                                        <Frame 
+                                            BackgroundColor="#4F46E5"
+                                            CornerRadius="20"
+                                            Padding="0"
+                                            WidthRequest="28"
+                                            HeightRequest="28">
+                                            <Label 
+                                                Text="1"
+                                                FontSize="12"
+                                                FontAttributes="Bold"
+                                                TextColor="White"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center" />
+                                        </Frame>
+
+                                        <VerticalStackLayout Grid.Column="1" Spacing="3">
+                                            <Label 
+                                                Text="Go to Ride History"
+                                                FontSize="14"
+                                                FontAttributes="Bold"
+                                                TextColor="#1E293B" />
+                                            <Label 
+                                                Text="Navigate to 'Ride History' section"
+                                                FontSize="12"
+                                                TextColor="#64748B"
+                                                LineBreakMode="WordWrap" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+
+                                    <Grid ColumnDefinitions="28,*" ColumnSpacing="15">
+                                        <Frame 
+                                            BackgroundColor="#4F46E5"
+                                            CornerRadius="20"
+                                            Padding="0"
+                                            WidthRequest="28"
+                                            HeightRequest="28">
+                                            <Label 
+                                                Text="2"
+                                                FontSize="12"
+                                                FontAttributes="Bold"
+                                                TextColor="White"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center" />
+                                        </Frame>
+
+                                        <VerticalStackLayout Grid.Column="1" Spacing="3">
+                                            <Label 
+                                                Text="Select ride &amp; tap 'Complain'"
+                                                FontSize="14"
+                                                FontAttributes="Bold"
+                                                TextColor="#1E293B" />
+                                            <Label 
+                                                Text="Choose completed ride to report"
+                                                FontSize="12"
+                                                TextColor="#64748B"
+                                                LineBreakMode="WordWrap" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+
+                                    <Grid ColumnDefinitions="28,*" ColumnSpacing="15">
+                                        <Frame 
+                                            BackgroundColor="#4F46E5"
+                                            CornerRadius="20"
+                                            Padding="0"
+                                            WidthRequest="28"
+                                            HeightRequest="28">
+                                            <Label 
+                                                Text="3"
+                                                FontSize="12"
+                                                FontAttributes="Bold"
+                                                TextColor="White"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center" />
+                                        </Frame>
+
+                                        <VerticalStackLayout Grid.Column="1" Spacing="3">
+                                            <Label 
+                                                Text="Provide details &amp; submit"
+                                                FontSize="14"
+                                                FontAttributes="Bold"
+                                                TextColor="#1E293B" />
+                                            <Label 
+                                                Text="Add description and evidence if needed"
+                                                FontSize="12"
+                                                TextColor="#64748B"
+                                                LineBreakMode="WordWrap" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+
+                                    <Frame 
+                                        BackgroundColor="#E0E7FF"
+                                        CornerRadius="12"
+                                        Padding="15"
+                                        HasShadow="False">
+                                        <Grid ColumnDefinitions="24,*" ColumnSpacing="10">
+                                            <Label 
+                                                Text="ℹ️"
+                                                FontSize="16"
+                                                VerticalOptions="Start"
+                                                Margin="0,2,0,0" />
+
+                                            <VerticalStackLayout Grid.Column="1" Spacing="8">
+                                                <Label 
+                                                    Text="Important Information" 
+                                                    FontSize="13" 
+                                                    FontAttributes="Bold"
+                                                    TextColor="#4F46E5"
+                                                    Margin="0,0,0,5"/>
+
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                    <Label 
+                                                        Text="•"
+                                                        FontSize="14"
+                                                        TextColor="#4F46E5"
+                                                        HorizontalOptions="Start"
+                                                        VerticalOptions="Start"
+                                                        WidthRequest="20"/>
+                                                    <Label 
+                                                        Grid.Column="1"
+                                                        Text="Admin reviews within 24-48 hours"
+                                                        FontSize="12"
+                                                        TextColor="#475569"
+                                                        LineBreakMode="WordWrap"/>
+                                                </Grid>
+
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                    <Label 
+                                                        Text="•"
+                                                        FontSize="14"
+                                                        TextColor="#4F46E5"
+                                                        HorizontalOptions="Start"
+                                                        VerticalOptions="Start"
+                                                        WidthRequest="20"/>
+                                                    <Label 
+                                                        Grid.Column="1"
+                                                        Text="False reports may result in suspension"
+                                                        FontSize="12"
+                                                        TextColor="#475569"
+                                                        LineBreakMode="WordWrap"/>
+                                                </Grid>
+
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                    <Label 
+                                                        Text="•"
+                                                        FontSize="14"
+                                                        TextColor="#4F46E5"
+                                                        HorizontalOptions="Start"
+                                                        VerticalOptions="Start"
+                                                        WidthRequest="20"/>
+                                                    <Label 
+                                                        Grid.Column="1"
+                                                        Text="Complaints are confidential"
+                                                        FontSize="12"
+                                                        TextColor="#475569"
+                                                        LineBreakMode="WordWrap"/>
+                                                </Grid>
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </VerticalStackLayout>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
+
+            <!-- Contact Us Section -->
+            <Label 
+                Text="Contact Support"
+                FontSize="18"
+                FontAttributes="Bold"
+                TextColor="#1E293B"
+                Margin="0,10,0,10" />
+
+            <Frame BackgroundColor="White" CornerRadius="20" Padding="25" HasShadow="True">
+                <VerticalStackLayout Spacing="20">
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="15">
+                        <Frame 
+                            BackgroundColor="#F0FDF4"
+                            CornerRadius="12"
+                            Padding="12"
+                            WidthRequest="48"
+                            HeightRequest="48">
+                            <Label 
+                                Text="✉️"
+                                FontSize="20"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center" />
+                        </Frame>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="3">
+                            <Label 
+                                Text="Email" 
+                                FontSize="13" 
+                                FontAttributes="Bold"
+                                TextColor="#64748B"/>
+                            <Label 
+                                Text="help@gotryke.com.ph" 
+                                FontSize="15" 
+                                FontAttributes="Bold"
+                                TextColor="#10B981"
+                                LineBreakMode="TailTruncation"/>
+                            <Label 
+                                Text="Response within 24 hours"
+                                FontSize="12"
+                                TextColor="#94A3B8" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="15">
+                        <Frame 
+                            BackgroundColor="#E0F2FE"
+                            CornerRadius="12"
+                            Padding="12"
+                            WidthRequest="48"
+                            HeightRequest="48">
+                            <Label 
+                                Text="👥"
+                                FontSize="20"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center" />
+                        </Frame>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="3">
+                            <Label 
+                                Text="Facebook" 
+                                FontSize="13" 
+                                FontAttributes="Bold"
+                                TextColor="#64748B"/>
+                            <Label 
+                                Text="facebook.com/gotrykePH" 
+                                FontSize="15" 
+                                FontAttributes="Bold"
+                                TextColor="#0EA5E9"
+                                LineBreakMode="TailTruncation"/>
+                            <Label 
+                                Text="Chat with our support team"
+                                FontSize="12"
+                                TextColor="#94A3B8" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="15">
+                        <Frame 
+                            BackgroundColor="#FEF3C7"
+                            CornerRadius="12"
+                            Padding="12"
+                            WidthRequest="48"
+                            HeightRequest="48">
+                            <Label 
+                                Text="📞"
+                                FontSize="18"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center" />
+                        </Frame>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="3">
+                            <Label 
+                                Text="Phone" 
+                                FontSize="13" 
+                                FontAttributes="Bold"
+                                TextColor="#64748B"/>
+                            <Label 
+                                Text="+63 912 345 6789" 
+                                FontSize="15" 
+                                FontAttributes="Bold"
+                                TextColor="#F59E0B"/>
+                            <Label 
+                                Text="Mon-Fri, 8AM-8PM"
+                                FontSize="12"
+                                TextColor="#94A3B8" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Account Deletion -->
+            <Frame 
+                BackgroundColor="White"
+                CornerRadius="20"
+                Padding="0"
+                HasShadow="True">
+                <Grid 
+                    ColumnDefinitions="Auto,*"
+                    Padding="20"
+                    ColumnSpacing="15">
+                    <Frame 
+                        BackgroundColor="#FEE2E2"
+                        CornerRadius="12"
+                        Padding="12"
+                        WidthRequest="48"
+                        HeightRequest="48">
+                        <Label 
+                            Text="🗑️"
+                            FontSize="20"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center" />
+                    </Frame>
+
+                    <VerticalStackLayout Grid.Column="1" Spacing="3">
+                        <Label 
+                            Text="Account Deletion"
+                            FontSize="15"
+                            FontAttributes="Bold"
+                            TextColor="#1E293B" />
+                        <Label 
+                            Text="Permanently delete your account and data"
+                            FontSize="12"
+                            TextColor="#64748B"
+                            LineBreakMode="WordWrap" />
+                        <Label 
+                            Text="Tap here to proceed →"
+                            FontSize="12"
+                            FontAttributes="Bold"
+                            TextColor="#EF4444"
+                            Margin="0,5,0,0">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnAccountDeletionTapped"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </VerticalStackLayout>
+                </Grid>
+            </Frame>
+
+            <!-- Footer Note -->
+            <Label 
+                Text="We're here to help! 😊"
+                FontSize="13"
+                TextColor="#94A3B8"
+                HorizontalOptions="Center"
+                Margin="0,10,0,20"
+                FontAttributes="Italic" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

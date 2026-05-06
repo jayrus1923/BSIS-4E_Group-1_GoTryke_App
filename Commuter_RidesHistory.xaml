@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.Commuter_RidesHistory"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="White"
+             Title="Ride History">
+
+    <Grid RowDefinitions="Auto,Auto,*">
+
+        <!-- HEADER -->
+        <Grid BackgroundColor="#2E7D32" 
+              Padding="0,15,0,20" 
+              Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Back Button -->
+            <ImageButton Grid.Column="0"
+                         Source="white_back.png"
+                         WidthRequest="24"
+                         HeightRequest="24"
+                         HorizontalOptions="Start"
+                         VerticalOptions="Center"
+                         BackgroundColor="Transparent"
+                         Margin="15,0,0,0"
+                         Clicked="OnBackButtonClicked"/>
+
+            <!-- Title (Centered) -->
+            <Label Grid.Column="1"
+                   Text="Ride History"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"/>
+
+            <!-- Refresh Icon -->
+            <ImageButton Grid.Column="2"
+                         Source="refresh_icon.png"
+                         WidthRequest="24"
+                         HeightRequest="24"
+                         HorizontalOptions="End"
+                         VerticalOptions="Center"
+                         BackgroundColor="Transparent"
+                         Margin="0,0,15,0"
+                         Clicked="OnRefreshButtonClicked"/>
+        </Grid>
+
+        <!-- FILTER SECTION -->
+        <Frame Grid.Row="1"
+               BackgroundColor="White"
+               Padding="15,15"
+               Margin="10"
+               HasShadow="True"
+               CornerRadius="10">
+            <HorizontalStackLayout Spacing="10">
+
+                <!-- All Filter Button -->
+                <Frame x:Name="AllFilterButton"
+                       BackgroundColor="#2E7D32"
+                       Padding="15,10"
+                       CornerRadius="20"
+                       HasShadow="False">
+                    <Label Text="All"
+                           FontSize="13"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           VerticalOptions="Center"/>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnAllFilterTapped"/>
+                    </Frame.GestureRecognizers>
+                </Frame>
+
+                <!-- Completed Filter Button -->
+                <Frame x:Name="CompletedFilterButton"
+                       BackgroundColor="#F5F5F5"
+                       Padding="15,10"
+                       CornerRadius="20"
+                       HasShadow="False">
+                    <Label Text="Completed"
+                           FontSize="13"
+                           TextColor="#666666"
+                           VerticalOptions="Center"/>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCompletedFilterTapped"/>
+                    </Frame.GestureRecognizers>
+                </Frame>
+
+                <!-- Cancelled Filter Button -->
+                <Frame x:Name="CancelledFilterButton"
+                       BackgroundColor="#F5F5F5"
+                       Padding="15,10"
+                       CornerRadius="20"
+                       HasShadow="False">
+                    <Label Text="Cancelled"
+                           FontSize="13"
+                           TextColor="#666666"
+                           VerticalOptions="Center"/>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCancelledFilterTapped"/>
+                    </Frame.GestureRecognizers>
+                </Frame>
+
+            </HorizontalStackLayout>
+        </Frame>
+
+        <!-- History Content -->
+        <Grid Grid.Row="2">
+
+            <!-- Loading Indicator -->
+            <ActivityIndicator x:Name="LoadingIndicator"
+                               IsRunning="False"
+                               Color="#2E7D32"
+                               HeightRequest="50"
+                               WidthRequest="50"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               IsVisible="False"/>
+
+            <!-- Empty State -->
+            <VerticalStackLayout x:Name="EmptyStateLayout"
+                                 Padding="40"
+                                 Spacing="25"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="CenterAndExpand"
+                                 IsVisible="False">
+
+                <Frame BackgroundColor="#F0F9F0"
+                       Padding="25"
+                       CornerRadius="75">
+                    <Image Source="ride_icon.png"
+                           HeightRequest="100"
+                           WidthRequest="100"
+                           HorizontalOptions="Center"/>
+                </Frame>
+
+                <Label Text="No ride history found"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="#333333"
+                       HorizontalOptions="Center"/>
+
+                <Label Text="Your completed and cancelled rides will appear here"
+                       FontSize="14"
+                       TextColor="#757575"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+            </VerticalStackLayout>
+
+            <!-- History List -->
+            <RefreshView x:Name="HistoryRefreshView"
+                         IsVisible="False"
+                         RefreshColor="#2E7D32">
+
+                <ScrollView>
+                    <VerticalStackLayout x:Name="HistoryContainer"
+                                         Padding="15"
+                                         Spacing="15">
+                    </VerticalStackLayout>
+                </ScrollView>
+            </RefreshView>
+
+        </Grid>
+
+    </Grid>
+</ContentPage>

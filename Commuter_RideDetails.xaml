@@ -1,0 +1,625 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.Commuter_RideDetails"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="White"
+             Title="Ride Details">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- HEADER -->
+        <Grid BackgroundColor="#2E7D32" 
+              Padding="0,15,0,20" 
+              Grid.Row="0"
+              HeightRequest="70">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Back Button -->
+            <ImageButton Grid.Column="0"
+                         Source="white_back.png"
+                         WidthRequest="24"
+                         HeightRequest="24"
+                         HorizontalOptions="Start"
+                         VerticalOptions="Center"
+                         BackgroundColor="Transparent"
+                         Margin="15,0,0,0"
+                         Clicked="OnBackButtonClicked"/>
+
+            <!-- Title -->
+            <Label Grid.Column="1"
+                   Text="Ride Details"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   TextColor="White"
+                   FontAttributes="Bold"
+                   FontSize="18"/>
+
+            <!-- Share Button -->
+            <ImageButton Grid.Column="2"
+                         Source="share_white.png"
+                         WidthRequest="24"
+                         HeightRequest="24"
+                         HorizontalOptions="End"
+                         VerticalOptions="Center"
+                         BackgroundColor="Transparent"
+                         Margin="0,0,15,0"
+                         Clicked="OnShareButtonClicked"/>
+        </Grid>
+
+        <!-- Ride Details Content -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="0">
+
+                <!-- STATUS SECTION -->
+                <Frame BackgroundColor="White"
+                       Padding="20,20"
+                       HasShadow="False"
+                       CornerRadius="12"
+                       Margin="15,15,15,0"
+                       BorderColor="#F0F0F0">
+                    <VerticalStackLayout Spacing="15">
+
+                        <!-- Ride ID with Copy Button -->
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                            <VerticalStackLayout Spacing="3">
+                                <Label Text="RIDE ID"
+                                       FontSize="11"
+                                       TextColor="#666666"
+                                       FontAttributes="Bold"/>
+                                <Label x:Name="RideIdLabel"
+                                       Text="--"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="Black"/>
+                            </VerticalStackLayout>
+
+                            <!-- Copy Button -->
+                            <ImageButton Grid.Column="1"
+                                         Source="copy.png"
+                                         WidthRequest="24"
+                                         HeightRequest="24"
+                                         BackgroundColor="Transparent"
+                                         VerticalOptions="Center"
+                                         Clicked="OnCopyRideIdClicked"/>
+                        </Grid>
+
+                        <!-- Divider -->
+                        <BoxView HeightRequest="1"
+                                 BackgroundColor="#F0F0F0"
+                                 Margin="0,5"/>
+
+                        <!-- Status Badge -->
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                            <Frame x:Name="StatusIconFrame"
+                                   BackgroundColor="#F0F9F0"
+                                   Padding="12"
+                                   CornerRadius="25"
+                                   HeightRequest="50"
+                                   WidthRequest="50"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   HasShadow="False">
+                                <Image x:Name="StatusIcon"
+                                       Source="completed.png"
+                                       HeightRequest="26"
+                                       WidthRequest="26"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center"/>
+                            </Frame>
+
+                            <VerticalStackLayout Grid.Column="1"
+                                                 VerticalOptions="Center"
+                                                 Spacing="4">
+                                <Label x:Name="StatusLabel"
+                                       Text="--"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       TextColor="#2E7D32"/>
+                                <Label x:Name="DateTimeLabel"
+                                       Text="--"
+                                       FontSize="13"
+                                       TextColor="#888888"/>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- MAIN CONTENT -->
+                <VerticalStackLayout Padding="15" Spacing="15">
+
+                    <!-- DRIVER CARD -->
+                    <Frame x:Name="DriverCardFrame"
+                           BackgroundColor="White"
+                           Padding="0"
+                           CornerRadius="12"
+                           HasShadow="False"
+                           BorderColor="#F0F0F0"
+                           IsVisible="False">
+
+                        <VerticalStackLayout Spacing="0">
+
+                            <!-- Card Header -->
+                            <Grid BackgroundColor="#F8F9FA"
+                                  Padding="15,12">
+                                <Label Text="DRIVER"
+                                       FontSize="15"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"/>
+                            </Grid>
+
+                            <!-- Driver Info Content -->
+                            <Grid Padding="15" 
+                                  ColumnDefinitions="Auto,*" 
+                                  ColumnSpacing="15">
+
+                                <!-- Driver Profile Picture -->
+                                <Frame BackgroundColor="#F5F5F5"
+                                       Padding="0"
+                                       CornerRadius="35"
+                                       HeightRequest="70"
+                                       WidthRequest="70"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center"
+                                       HasShadow="False">
+                                    <Image x:Name="DriverProfileImage"
+                                           Source="profile_icon.png"
+                                           Aspect="AspectFill"
+                                           HeightRequest="70"
+                                           WidthRequest="70"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="Center">
+                                        <Image.Clip>
+                                            <EllipseGeometry Center="35,35"
+                                                             RadiusX="35"
+                                                             RadiusY="35"/>
+                                        </Image.Clip>
+                                    </Image>
+                                </Frame>
+
+                                <!-- Driver Details -->
+                                <VerticalStackLayout Grid.Column="1" 
+                                                     Spacing="6"
+                                                     VerticalOptions="Center">
+                                    <Label x:Name="DriverNameLabel"
+                                           Text="--"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="Black"/>
+
+                                    <!-- Contact Number -->
+                                    <HorizontalStackLayout Spacing="4">
+                                        <Label Text="📞"
+                                               FontSize="13"
+                                               VerticalOptions="Center"/>
+                                        <Label x:Name="DriverMobileLabel"
+                                               Text="--"
+                                               FontSize="13"
+                                               TextColor="#666666"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+
+                                    <!-- Vehicle with Plate -->
+                                    <HorizontalStackLayout Spacing="4">
+                                        <Label Text="🛵"
+                                               FontSize="13"
+                                               VerticalOptions="Center"/>
+                                        <Label x:Name="DriverVehicleLabel"
+                                               Text="--"
+                                               FontSize="13"
+                                               TextColor="#666666"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+
+                                    <!-- Rating -->
+                                    <HorizontalStackLayout Spacing="4">
+                                        <Label Text="⭐"
+                                               FontSize="13"
+                                               VerticalOptions="Center"/>
+                                        <Label x:Name="DriverRatingLabel"
+                                               Text="5.0"
+                                               FontSize="13"
+                                               TextColor="#666666"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+
+                                    <!-- Total Rides -->
+                                    <HorizontalStackLayout Spacing="4">
+                                        <Label Text="🔄"
+                                               FontSize="13"
+                                               VerticalOptions="Center"/>
+                                        <Label x:Name="DriverRidesLabel"
+                                               Text="0 rides"
+                                               FontSize="13"
+                                               TextColor="#666666"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- ROUTE CARD -->
+                    <Frame BackgroundColor="White"
+                           Padding="0"
+                           CornerRadius="12"
+                           HasShadow="False"
+                           BorderColor="#F0F0F0">
+
+                        <VerticalStackLayout Spacing="0">
+
+                            <!-- Card Header -->
+                            <Grid BackgroundColor="#F8F9FA"
+                                  Padding="15,12">
+                                <Label Text="ROUTE"
+                                       FontSize="15"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"/>
+                            </Grid>
+
+                            <!-- Route Content -->
+                            <VerticalStackLayout Padding="15" Spacing="0">
+
+                                <!-- Pickup -->
+                                <Grid ColumnDefinitions="Auto,*,Auto" 
+                                      ColumnSpacing="12">
+
+                                    <Frame BackgroundColor="#E8F5E9"
+                                           Padding="12"
+                                           CornerRadius="12"
+                                           HeightRequest="48"
+                                           WidthRequest="48"
+                                           VerticalOptions="Center"
+                                           HasShadow="False">
+                                        <Image Source="pickup.png"
+                                               HeightRequest="24"
+                                               WidthRequest="24"
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="Center"/>
+                                    </Frame>
+
+                                    <VerticalStackLayout Grid.Column="1" 
+                                                         Spacing="3"
+                                                         VerticalOptions="Center">
+                                        <Label Text="FROM"
+                                               FontSize="10"
+                                               TextColor="#666666"
+                                               FontAttributes="Bold"/>
+                                        <Label x:Name="PickupLabel"
+                                               Text="Loading..."
+                                               FontSize="15"
+                                               FontAttributes="Bold"
+                                               TextColor="Black"/>
+                                        <Label x:Name="PickupTimeLabel"
+                                               Text="--:-- --"
+                                               FontSize="11"
+                                               TextColor="#888888"/>
+                                    </VerticalStackLayout>
+                                </Grid>
+
+                                <!-- Dotted Line -->
+                                <Grid Margin="23,2,0,2"
+                                      HeightRequest="30"
+                                      WidthRequest="20">
+                                    <VerticalStackLayout Spacing="3"
+                                                         HorizontalOptions="Center">
+                                        <BoxView HeightRequest="4"
+                                                 WidthRequest="4"
+                                                 BackgroundColor="#CCCCCC"
+                                                 CornerRadius="2"/>
+                                        <BoxView HeightRequest="4"
+                                                 WidthRequest="4"
+                                                 BackgroundColor="#CCCCCC"
+                                                 CornerRadius="2"/>
+                                        <BoxView HeightRequest="4"
+                                                 WidthRequest="4"
+                                                 BackgroundColor="#CCCCCC"
+                                                 CornerRadius="2"/>
+                                    </VerticalStackLayout>
+                                </Grid>
+
+                                <!-- Dropoff -->
+                                <Grid ColumnDefinitions="Auto,*,Auto" 
+                                      ColumnSpacing="12"
+                                      Margin="0,0,0,0">
+
+                                    <Frame BackgroundColor="#FFEBEE"
+                                           Padding="12"
+                                           CornerRadius="12"
+                                           HeightRequest="48"
+                                           WidthRequest="48"
+                                           VerticalOptions="Center"
+                                           HasShadow="False">
+                                        <Image Source="dropoff.png"
+                                               HeightRequest="24"
+                                               WidthRequest="24"
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="Center"/>
+                                    </Frame>
+
+                                    <VerticalStackLayout Grid.Column="1" 
+                                                         Spacing="3"
+                                                         VerticalOptions="Center">
+                                        <Label Text="TO"
+                                               FontSize="10"
+                                               TextColor="#666666"
+                                               FontAttributes="Bold"/>
+                                        <Label x:Name="DropoffLabel"
+                                               Text="Loading..."
+                                               FontSize="15"
+                                               FontAttributes="Bold"
+                                               TextColor="Black"/>
+                                        <Label x:Name="DropoffTimeLabel"
+                                               Text="--:-- --"
+                                               FontSize="11"
+                                               TextColor="#888888"/>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- STATS CARD -->
+                    <Grid ColumnDefinitions="*,*,*" 
+                          ColumnSpacing="10">
+
+                        <Frame Grid.Column="0"
+                               BackgroundColor="White"
+                               Padding="15,12"
+                               CornerRadius="12"
+                               HasShadow="False"
+                               BorderColor="#F0F0F0">
+                            <VerticalStackLayout Spacing="5" 
+                                                 HorizontalOptions="Center">
+                                <Label Text="DISTANCE"
+                                       FontSize="9"
+                                       TextColor="#666666"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Center"/>
+                                <Label x:Name="DistanceLabel"
+                                       Text="-- km"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#2E7D32"
+                                       HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <Frame Grid.Column="1"
+                               BackgroundColor="White"
+                               Padding="15,12"
+                               CornerRadius="12"
+                               HasShadow="False"
+                               BorderColor="#F0F0F0">
+                            <VerticalStackLayout Spacing="5" 
+                                                 HorizontalOptions="Center">
+                                <Label Text="DURATION"
+                                       FontSize="9"
+                                       TextColor="#666666"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Center"/>
+                                <Label x:Name="DurationLabel"
+                                       Text="-- mins"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#2196F3"
+                                       HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <Frame Grid.Column="2"
+                               BackgroundColor="White"
+                               Padding="15,12"
+                               CornerRadius="12"
+                               HasShadow="False"
+                               BorderColor="#F0F0F0">
+                            <VerticalStackLayout Spacing="5" 
+                                                 HorizontalOptions="Center">
+                                <Label Text="FARE"
+                                       FontSize="9"
+                                       TextColor="#666666"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Center"/>
+                                <Label x:Name="FareLabel"
+                                       Text="₱--"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#F44336"
+                                       HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </Grid>
+
+                    <!-- VEHICLE & PASSENGER CARD -->
+                    <Frame BackgroundColor="White"
+                           Padding="0"
+                           CornerRadius="12"
+                           HasShadow="False"
+                           BorderColor="#F0F0F0">
+
+                        <VerticalStackLayout Spacing="0">
+
+                            <!-- Card Header -->
+                            <Grid BackgroundColor="#F8F9FA"
+                                  Padding="15,12">
+                                <Label Text="VEHICLE &amp; PASSENGER"
+                                       FontSize="15"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"/>
+                            </Grid>
+
+                            <!-- Content -->
+                            <Grid Padding="15" 
+                                  ColumnDefinitions="Auto,*" 
+                                  ColumnSpacing="15">
+
+                                <!-- Big Vehicle Image -->
+                                <Frame BackgroundColor="#F5F5F5"
+                                       Padding="15"
+                                       CornerRadius="12"
+                                       HeightRequest="70"
+                                       WidthRequest="70"
+                                       VerticalOptions="Center"
+                                       HasShadow="False">
+                                    <Image x:Name="VehicleIcon"
+                                           Source="tricycle.png"
+                                           HeightRequest="40"
+                                           WidthRequest="40"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="Center"/>
+                                </Frame>
+
+                                <VerticalStackLayout Grid.Column="1" 
+                                                     Spacing="6"
+                                                     VerticalOptions="Center">
+                                    <Label x:Name="VehicleTypeLabel"
+                                           Text="--"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="Black"/>
+                                    <Label x:Name="SeatingCapacityLabel"
+                                           Text="--"
+                                           FontSize="13"
+                                           TextColor="#666666"/>
+                                    <Label x:Name="PassengerTypeLabel"
+                                           Text="Regular Passenger"
+                                           FontSize="13"
+                                           TextColor="#666666"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- PAYMENT CARD -->
+                    <Frame BackgroundColor="White"
+                           Padding="0"
+                           CornerRadius="12"
+                           HasShadow="False"
+                           BorderColor="#F0F0F0">
+
+                        <VerticalStackLayout Spacing="0">
+
+                            <!-- Card Header -->
+                            <Grid BackgroundColor="#F8F9FA"
+                                  Padding="15,12">
+                                <Label Text="PAYMENT"
+                                       FontSize="15"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"/>
+                            </Grid>
+
+                            <!-- Payment Content -->
+                            <Grid Padding="15" 
+                                  ColumnDefinitions="*,*" 
+                                  ColumnSpacing="20">
+
+                                <VerticalStackLayout Spacing="6">
+                                    <Label Text="METHOD"
+                                           FontSize="11"
+                                           TextColor="#666666"
+                                           FontAttributes="Bold"/>
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Image x:Name="PaymentMethodIcon"
+                                               Source="cash.png"
+                                               HeightRequest="20"
+                                               WidthRequest="20"
+                                               Aspect="AspectFit"
+                                               VerticalOptions="Center"/>
+                                        <Label x:Name="PaymentMethodLabel"
+                                               Text="Cash"
+                                               FontSize="15"
+                                               FontAttributes="Bold"
+                                               TextColor="Black"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="1" 
+                                                     Spacing="6">
+                                    <Label Text="STATUS"
+                                           FontSize="11"
+                                           TextColor="#666666"
+                                           FontAttributes="Bold"/>
+                                    <Frame x:Name="PaymentStatusFrame"
+                                           Padding="10,5"
+                                           CornerRadius="15"
+                                           BackgroundColor="#E8F5E9"
+                                           HorizontalOptions="Start"
+                                           HasShadow="False">
+                                        <Label x:Name="PaymentStatusLabel"
+                                               Text="PAID"
+                                               FontSize="13"
+                                               FontAttributes="Bold"
+                                               TextColor="#2E7D32"/>
+                                    </Frame>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- ACTION BUTTONS -->
+                    <VerticalStackLayout Spacing="10" Padding="0,10,0,20">
+
+                        <!-- Two Buttons -->
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                            <Button x:Name="RebookButton"
+                                    Text="Rebook"
+                                    BackgroundColor="#2E7D32"
+                                    TextColor="White"
+                                    FontSize="14"
+                                    FontAttributes="Bold"
+                                    CornerRadius="10"
+                                    HeightRequest="48"
+                                    IsVisible="False"
+                                    Grid.Column="0"
+                                    Clicked="OnRebookButtonClicked"/>
+
+                            <Button x:Name="ShareReceiptButton"
+                                    Text="Receipt"
+                                    BackgroundColor="White"
+                                    TextColor="#2E7D32"
+                                    FontSize="14"
+                                    FontAttributes="Bold"
+                                    CornerRadius="10"
+                                    HeightRequest="48"
+                                    BorderColor="#2E7D32"
+                                    BorderWidth="2"
+                                    Grid.Column="1"
+                                    IsVisible="False"
+                                    Clicked="OnShareButtonClicked"/>
+                        </Grid>
+
+                        <!-- Cancel Ride Button -->
+                        <Button x:Name="CancelRideButton"
+                                Text="Cancel Ride"
+                                BackgroundColor="#F44336"
+                                TextColor="White"
+                                FontSize="14"
+                                FontAttributes="Bold"
+                                CornerRadius="10"
+                                HeightRequest="48"
+                                IsVisible="False"
+                                Clicked="OnCancelRideClicked"/>
+
+                        <!-- File a Complaint Button -->
+                        <Button x:Name="ComplaintButton"
+                                Text="File a Complaint"
+                                BackgroundColor="#FF9800"
+                                TextColor="White"
+                                FontSize="14"
+                                FontAttributes="Bold"
+                                CornerRadius="10"
+                                HeightRequest="48"
+                                Margin="0,5,0,0"
+                                Clicked="OnComplaintButtonClicked"/>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

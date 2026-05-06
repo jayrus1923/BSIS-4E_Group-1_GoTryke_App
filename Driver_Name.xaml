@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.Driver_Name"
+             BackgroundColor="White"
+             Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="25,70,25,25"
+            Spacing="20"
+            VerticalOptions="Start">
+
+            <!-- Title Header -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Let's get to know you!"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="#2E7D32"
+                       HorizontalOptions="Start" />
+
+                <Label Text="Tell us your name to complete your profile."
+                       FontSize="14"
+                       TextColor="#6B6B6B"
+                       HorizontalOptions="Start" />
+            </VerticalStackLayout>
+
+            <!-- Form Container -->
+            <VerticalStackLayout Spacing="20" Margin="0,10,0,0">
+
+                <!-- First Name Field -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="First Name"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#2E7D32" />
+                    <Border x:Name="FirstNameBorder"
+                            Stroke="#E0E0E0"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1"
+                            BackgroundColor="#FAFAFA">
+                        <Entry x:Name="FirstNameEntry" 
+                               Placeholder="Enter your first name"
+                               FontSize="14"
+                               PlaceholderColor="#A1A1A1"
+                               TextColor="Black"
+                               Margin="15,12"
+                               ClearButtonVisibility="WhileEditing"
+                               TextChanged="OnFieldChanged"/>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Middle Name Field -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Middle Name"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#6B6B6B">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Middle Name " />
+                                <Span Text="(Optional)" 
+                                      FontAttributes="Italic" 
+                                      TextColor="#A1A1A1"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Border x:Name="MiddleNameBorder"
+                            Stroke="#E0E0E0"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1"
+                            BackgroundColor="#FAFAFA">
+                        <Entry x:Name="MiddleNameEntry" 
+                               Placeholder="Enter your middle name (optional)"
+                               FontSize="14"
+                               PlaceholderColor="#A1A1A1"
+                               TextColor="Black"
+                               Margin="15,12"
+                               ClearButtonVisibility="WhileEditing"
+                               TextChanged="OnFieldChanged"/>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Last Name Field -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Last Name"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#2E7D32" />
+                    <Border x:Name="LastNameBorder"
+                            Stroke="#E0E0E0"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1"
+                            BackgroundColor="#FAFAFA">
+                        <Entry x:Name="LastNameEntry" 
+                               Placeholder="Enter your last name"
+                               FontSize="14"
+                               PlaceholderColor="#A1A1A1"
+                               TextColor="Black"
+                               Margin="15,12"
+                               ClearButtonVisibility="WhileEditing"
+                               TextChanged="OnFieldChanged"/>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Address Information Header -->
+                <VerticalStackLayout Spacing="8" Margin="0,10,0,0">
+                    <Label Text="Address Information"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#2E7D32"
+                           HorizontalOptions="Start" />
+                    <Label Text="Provide your complete address"
+                           FontSize="12"
+                           TextColor="#6B6B6B"
+                           HorizontalOptions="Start" />
+                </VerticalStackLayout>
+
+                <!-- House Number Field -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="House Number"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#2E7D32" />
+                    <Border x:Name="HouseBorder"
+                            Stroke="#E0E0E0"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1"
+                            BackgroundColor="#FAFAFA">
+                        <Entry x:Name="HouseEntry" 
+                               Placeholder="e.g., 123"
+                               FontSize="14"
+                               PlaceholderColor="#A1A1A1"
+                               TextColor="Black"
+                               Margin="15,12"
+                               ClearButtonVisibility="WhileEditing"
+                               TextChanged="OnFieldChanged"/>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Street Field -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Street"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#2E7D32" />
+                    <Border x:Name="StreetBorder"
+                            Stroke="#E0E0E0"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1"
+                            BackgroundColor="#FAFAFA">
+                        <Entry x:Name="StreetEntry" 
+                               Placeholder="e.g., Main Street"
+                               FontSize="14"
+                               PlaceholderColor="#A1A1A1"
+                               TextColor="Black"
+                               Margin="15,12"
+                               ClearButtonVisibility="WhileEditing"
+                               TextChanged="OnFieldChanged"/>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Barangay Dropdown - Malolos Barangays -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Barangay"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#2E7D32" />
+                    <Border x:Name="BarangayBorder"
+                            Stroke="#E0E0E0"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1"
+                            BackgroundColor="#FAFAFA">
+                        <Picker x:Name="BarangayPicker"
+                                Title="Select Barangay"
+                                FontSize="14"
+                                TextColor="#333333"
+                                SelectedIndexChanged="OnPickerChanged"
+                                Margin="15,8"/>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Municipality Dropdown - Bulacan -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Municipality/City"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#2E7D32" />
+                    <Border x:Name="MunicipalityBorder"
+                            Stroke="#E0E0E0"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1"
+                            BackgroundColor="#FAFAFA">
+                        <Picker x:Name="MunicipalityPicker"
+                                Title="Select Municipality/City"
+                                FontSize="14"
+                                TextColor="#333333"
+                                SelectedIndexChanged="OnPickerChanged"
+                                Margin="15,8"/>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Province Dropdown - Region 3 -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Province"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#2E7D32" />
+                    <Border x:Name="ProvinceBorder"
+                            Stroke="#E0E0E0"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1"
+                            BackgroundColor="#FAFAFA">
+                        <Picker x:Name="ProvincePicker"
+                                Title="Select Province"
+                                FontSize="14"
+                                TextColor="#333333"
+                                SelectedIndexChanged="OnPickerChanged"
+                                Margin="15,8"/>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Next Button -->
+                <Button x:Name="NextButton"
+                        Text="Next"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        TextColor="White"
+                        BackgroundColor="#DADADA"
+                        CornerRadius="12"
+                        HeightRequest="52"
+                        WidthRequest="140"
+                        Margin="0,10,0,0"
+                        HorizontalOptions="End"
+                        IsEnabled="False"
+                        Clicked="OnNextClicked"/>
+
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

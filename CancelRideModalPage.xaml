@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.CancelRideModalPage"
+             BackgroundColor="Transparent"
+             Shell.NavBarIsVisible="False">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="PrimaryColor">#2E7D32</Color>
+            <Color x:Key="PrimaryLight">#E8F5E9</Color>
+            <Color x:Key="DangerColor">#D32F2F</Color>
+            <Color x:Key="DangerLight">#FFEBEE</Color>
+            <Color x:Key="TextPrimary">#212121</Color>
+            <Color x:Key="TextSecondary">#666666</Color>
+            <Color x:Key="TextTertiary">#999999</Color>
+            <Color x:Key="BorderColor">#E0E0E0</Color>
+            <Color x:Key="BackgroundLight">#F5F5F5</Color>
+
+            <Style x:Key="OptionCardStyle" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="White"/>
+                <Setter Property="Padding" Value="16"/>
+                <Setter Property="CornerRadius" Value="12"/>
+                <Setter Property="HasShadow" Value="False"/>
+                <Setter Property="BorderColor" Value="{StaticResource BorderColor}"/>
+                <Setter Property="Margin" Value="0,0,0,8"/>
+            </Style>
+
+            <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="CornerRadius" Value="12"/>
+                <Setter Property="HeightRequest" Value="50"/>
+            </Style>
+
+            <Style x:Key="DangerButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource DangerColor}"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="CornerRadius" Value="12"/>
+                <Setter Property="HeightRequest" Value="50"/>
+            </Style>
+
+            <Style x:Key="SecondaryButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource BackgroundLight}"/>
+                <Setter Property="TextColor" Value="{StaticResource TextSecondary}"/>
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="CornerRadius" Value="12"/>
+                <Setter Property="HeightRequest" Value="50"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <AbsoluteLayout>
+        <!-- Semi-transparent background -->
+        <BoxView AbsoluteLayout.LayoutBounds="0,0,1,1"
+                 AbsoluteLayout.LayoutFlags="All"
+                 BackgroundColor="#000000"
+                 Opacity="0.4" />
+
+        <Grid AbsoluteLayout.LayoutBounds="0.5,0.5,0.9,0.8"
+              AbsoluteLayout.LayoutFlags="All"
+              HorizontalOptions="Center"
+              VerticalOptions="Center">
+
+            <Frame BackgroundColor="White"
+                   CornerRadius="24"
+                   Padding="20"
+                   HasShadow="True">
+
+                <ScrollView>
+                    <VerticalStackLayout Spacing="20">
+
+                        <!-- Header with visible X button -->
+                        <Grid BackgroundColor="Transparent"
+                              Margin="-20,-20,-20,0">
+
+                            <Grid Padding="20,20,20,0" RowDefinitions="Auto,Auto">
+                                <Label Grid.Row="0"
+                                       x:Name="TitleLabel" 
+                                       Text="Cancel Ride" 
+                                       FontSize="22" 
+                                       FontAttributes="Bold" 
+                                       TextColor="Black"
+                                       Margin="0,20,0,0"/>
+
+                                <Label Grid.Row="1"
+                                       x:Name="SubtitleLabel" 
+                                       Text="Select a reason for cancellation" 
+                                       FontSize="14" 
+                                       TextColor="#666666"
+                                       Margin="0,5,0,20"/>
+                            </Grid>
+
+                            <!-- Close Button -->
+                            <Label Text="✕" 
+                                   FontSize="24" 
+                                   TextColor="#666666" 
+                                   HorizontalOptions="End"
+                                   VerticalOptions="Start"
+                                   Margin="0,15,20,0">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnCloseClicked"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Grid>
+
+                        <!-- PHASE 1: Reason Selection -->
+                        <VerticalStackLayout x:Name="Phase1Section" Spacing="16">
+
+                            <Label Text="Reason for cancellation"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource TextPrimary}"/>
+
+                            <VerticalStackLayout Spacing="8">
+
+                                <!-- Reason 1 -->
+                                <Frame x:Name="Reason1Option"
+                                       Style="{StaticResource OptionCardStyle}">
+                                    <VerticalStackLayout Spacing="4">
+                                        <Label Text="Driver is taking too long"
+                                               FontSize="15"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource TextPrimary}"/>
+                                        <Label Text="Exceeded waiting time"
+                                               FontSize="12"
+                                               TextColor="{StaticResource TextTertiary}"/>
+                                    </VerticalStackLayout>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnReason1Tapped" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+
+                                <!-- Reason 2 -->
+                                <Frame x:Name="Reason2Option"
+                                       Style="{StaticResource OptionCardStyle}">
+                                    <VerticalStackLayout Spacing="4">
+                                        <Label Text="Found cheaper alternative"
+                                               FontSize="15"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource TextPrimary}"/>
+                                        <Label Text="Better pricing available"
+                                               FontSize="12"
+                                               TextColor="{StaticResource TextTertiary}"/>
+                                    </VerticalStackLayout>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnReason2Tapped" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+
+                                <!-- Reason 3 -->
+                                <Frame x:Name="Reason3Option"
+                                       Style="{StaticResource OptionCardStyle}">
+                                    <VerticalStackLayout Spacing="4">
+                                        <Label Text="Change of plans"
+                                               FontSize="15"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource TextPrimary}"/>
+                                        <Label Text="No longer need the ride"
+                                               FontSize="12"
+                                               TextColor="{StaticResource TextTertiary}"/>
+                                    </VerticalStackLayout>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnReason3Tapped" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+
+                                <!-- Reason 4 -->
+                                <Frame x:Name="Reason4Option"
+                                       Style="{StaticResource OptionCardStyle}">
+                                    <VerticalStackLayout Spacing="4">
+                                        <Label Text="Wrong location"
+                                               FontSize="15"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource TextPrimary}"/>
+                                        <Label Text="Incorrect pickup or dropoff"
+                                               FontSize="12"
+                                               TextColor="{StaticResource TextTertiary}"/>
+                                    </VerticalStackLayout>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnReason4Tapped" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+
+                                <!-- Reason 5 -->
+                                <Frame x:Name="Reason5Option"
+                                       Style="{StaticResource OptionCardStyle}">
+                                    <VerticalStackLayout Spacing="4">
+                                        <Label Text="Uncomfortable with driver"
+                                               FontSize="15"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource TextPrimary}"/>
+                                        <Label Text="Safety or comfort concerns"
+                                               FontSize="12"
+                                               TextColor="{StaticResource TextTertiary}"/>
+                                    </VerticalStackLayout>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnReason5Tapped" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+
+                                <!-- Reason 6 -->
+                                <Frame x:Name="Reason6Option"
+                                       Style="{StaticResource OptionCardStyle}">
+                                    <VerticalStackLayout Spacing="4">
+                                        <Label Text="Other reason"
+                                               FontSize="15"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource TextPrimary}"/>
+                                        <Label Text="Specify your reason below"
+                                               FontSize="12"
+                                               TextColor="{StaticResource TextTertiary}"/>
+                                    </VerticalStackLayout>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnReason6Tapped" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </VerticalStackLayout>
+
+                            <!-- Other Reason Input with Rounded Editor -->
+                            <Frame x:Name="OtherReasonSection" 
+                                   IsVisible="False"
+                                   BackgroundColor="{StaticResource BackgroundLight}"
+                                   Padding="16"
+                                   CornerRadius="12"
+                                   HasShadow="False">
+                                <VerticalStackLayout Spacing="12">
+                                    <Label Text="Please specify your reason" 
+                                           FontSize="14"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource TextPrimary}"/>
+
+                                    <!-- Editor wrapped in Frame for rounded corners -->
+                                    <Frame BackgroundColor="White"
+                                           CornerRadius="8"
+                                           Padding="0"
+                                           HasShadow="False"
+                                           BorderColor="{StaticResource BorderColor}">
+                                        <Editor x:Name="OtherReasonEditor" 
+                                                HeightRequest="80" 
+                                                Placeholder="Enter your reason here..."
+                                                BackgroundColor="Transparent"
+                                                TextColor="{StaticResource TextPrimary}"
+                                                PlaceholderColor="{StaticResource TextTertiary}"
+                                                Margin="8,4"/>
+                                    </Frame>
+                                </VerticalStackLayout>
+                            </Frame>
+
+                            <!-- Next Button -->
+                            <Button x:Name="NextButton"
+                                    Text="Continue" 
+                                    Style="{StaticResource PrimaryButtonStyle}"
+                                    Clicked="OnNextClicked"/>
+                        </VerticalStackLayout>
+
+                        <!-- PHASE 2: Action Selection -->
+                        <VerticalStackLayout x:Name="Phase2Section" Spacing="20" IsVisible="False">
+
+                            <Label Text="What would you like to do?"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource TextPrimary}"/>
+
+                            <VerticalStackLayout Spacing="12">
+
+                                <!-- Cancel Ride Option -->
+                                <Frame x:Name="CancelOption"
+                                       Style="{StaticResource OptionCardStyle}">
+                                    <VerticalStackLayout Spacing="4">
+                                        <Label Text="Cancel ride completely"
+                                               FontSize="15"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource TextPrimary}"/>
+                                        <Label Text="End this ride and go back home"
+                                               FontSize="12"
+                                               TextColor="{StaticResource TextTertiary}"/>
+                                    </VerticalStackLayout>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnCancelOptionTapped" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+
+                                <!-- Search New Driver Option -->
+                                <Frame x:Name="SearchNewDriverOption"
+                                       Style="{StaticResource OptionCardStyle}">
+                                    <VerticalStackLayout Spacing="4">
+                                        <Label Text="Find another driver"
+                                               FontSize="15"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource TextPrimary}"/>
+                                        <Label Text="Search for a different driver"
+                                               FontSize="12"
+                                               TextColor="{StaticResource TextTertiary}"/>
+                                    </VerticalStackLayout>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnSearchNewDriverOptionTapped" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </VerticalStackLayout>
+
+                            <!-- Confirm Buttons -->
+                            <VerticalStackLayout Spacing="8">
+                                <Button x:Name="ConfirmCancelButton"
+                                        Text="Confirm Cancel Ride" 
+                                        Style="{StaticResource DangerButtonStyle}"
+                                        IsVisible="False"
+                                        Clicked="OnConfirmCancelClicked"/>
+
+                                <Button x:Name="ConfirmSearchNewDriverButton"
+                                        Text="Confirm Find New Driver" 
+                                        Style="{StaticResource PrimaryButtonStyle}"
+                                        IsVisible="False"
+                                        Clicked="OnConfirmSearchNewDriverClicked"/>
+
+                                <Button x:Name="BackButton"
+                                        Text="Back" 
+                                        Style="{StaticResource SecondaryButtonStyle}"
+                                        IsVisible="False"
+                                        Clicked="OnBackButtonClicked"/>
+                            </VerticalStackLayout>
+
+                            <!-- Search New Driver Reason Section -->
+                            <VerticalStackLayout x:Name="SearchNewDriverReasonSection" 
+                                                 Spacing="12" 
+                                                 IsVisible="False">
+
+                                <Label Text="Why find another driver?"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource TextPrimary}"/>
+
+                                <VerticalStackLayout Spacing="8">
+
+                                    <Frame x:Name="SearchReason1Option"
+                                           Style="{StaticResource OptionCardStyle}">
+                                        <VerticalStackLayout Spacing="4">
+                                            <Label Text="Uncomfortable with driver"
+                                                   FontSize="14"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{StaticResource TextPrimary}"/>
+                                            <Label Text="Safety or comfort concerns"
+                                                   FontSize="11"
+                                                   TextColor="{StaticResource TextTertiary}"/>
+                                        </VerticalStackLayout>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnSearchReason1Tapped" />
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+
+                                    <Frame x:Name="SearchReason2Option"
+                                           Style="{StaticResource OptionCardStyle}">
+                                        <VerticalStackLayout Spacing="4">
+                                            <Label Text="Driver is delayed"
+                                                   FontSize="14"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{StaticResource TextPrimary}"/>
+                                            <Label Text="Taking too long to arrive"
+                                                   FontSize="11"
+                                                   TextColor="{StaticResource TextTertiary}"/>
+                                        </VerticalStackLayout>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnSearchReason2Tapped" />
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+
+                                    <Frame x:Name="SearchReason3Option"
+                                           Style="{StaticResource OptionCardStyle}">
+                                        <VerticalStackLayout Spacing="4">
+                                            <Label Text="Communication issue"
+                                                   FontSize="14"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{StaticResource TextPrimary}"/>
+                                            <Label Text="Hard to communicate with driver"
+                                                   FontSize="11"
+                                                   TextColor="{StaticResource TextTertiary}"/>
+                                        </VerticalStackLayout>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnSearchReason3Tapped" />
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+
+                                    <Frame x:Name="SearchReason4Option"
+                                           Style="{StaticResource OptionCardStyle}">
+                                        <VerticalStackLayout Spacing="4">
+                                            <Label Text="Other reason"
+                                                   FontSize="14"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{StaticResource TextPrimary}"/>
+                                            <Label Text="Specify your reason below"
+                                                   FontSize="11"
+                                                   TextColor="{StaticResource TextTertiary}"/>
+                                        </VerticalStackLayout>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnSearchReason4Tapped" />
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+                                </VerticalStackLayout>
+
+                                <!-- Other Reason Input for Search with Rounded Editor -->
+                                <Frame x:Name="SearchOtherReasonSection" 
+                                       IsVisible="False"
+                                       BackgroundColor="{StaticResource BackgroundLight}"
+                                       Padding="16"
+                                       CornerRadius="12"
+                                       HasShadow="False">
+                                    <VerticalStackLayout Spacing="12">
+                                        <Label Text="Please specify" 
+                                               FontSize="14"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource TextPrimary}"/>
+
+                                        <Frame BackgroundColor="White"
+                                               CornerRadius="8"
+                                               Padding="0"
+                                               HasShadow="False"
+                                               BorderColor="{StaticResource BorderColor}">
+                                            <Editor x:Name="SearchOtherReasonEditor" 
+                                                    HeightRequest="80" 
+                                                    Placeholder="Enter your reason here..."
+                                                    BackgroundColor="Transparent"
+                                                    TextColor="{StaticResource TextPrimary}"
+                                                    PlaceholderColor="{StaticResource TextTertiary}"
+                                                    Margin="8,4"/>
+                                        </Frame>
+                                    </VerticalStackLayout>
+                                </Frame>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Frame>
+        </Grid>
+    </AbsoluteLayout>
+</ContentPage>

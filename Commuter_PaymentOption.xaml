@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ServiceCo.Commuter_PaymentOption"
+    BackgroundColor="#F7F7F7"
+    Shell.NavBarIsVisible="False">
+
+    <Grid>
+
+        <!-- MAIN CONTENT -->
+        <Grid RowDefinitions="Auto, *" Padding="20,10">
+
+            <!-- HEADER -->
+            <Grid ColumnDefinitions="Auto, *, Auto" Padding="0,10">
+                <ImageButton
+                    Source="black_back.png"
+                    WidthRequest="30"
+                    HeightRequest="30"
+                    BackgroundColor="Transparent"
+                    Clicked="OnBackButtonClicked" />
+
+                <Label
+                    Text="Select Payment Method"
+                    Grid.Column="1"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    TextColor="Black" />
+            </Grid>
+
+            <!-- PAYMENT OPTIONS -->
+            <VerticalStackLayout
+                Grid.Row="1"
+                Spacing="20"
+                Padding="0,30,0,0">
+
+                <!-- Cash Option -->
+                <Frame
+                    x:Name="CashFrame"
+                    CornerRadius="12"
+                    HasShadow="False"
+                    BackgroundColor="White"
+                    Padding="15"
+                    BorderColor="#E5E5E5">
+
+                    <Grid ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center">
+                        <Image
+                            Source="cash.png"
+                            WidthRequest="35"
+                            HeightRequest="35"
+                            VerticalOptions="Center" />
+
+                        <VerticalStackLayout Grid.Column="1" Padding="10,0">
+                            <Label Text="Cash" FontAttributes="Bold" FontSize="16" TextColor="Black" />
+                            <Label Text="Pay cash to the driver" FontSize="13" TextColor="#808080" />
+                        </VerticalStackLayout>
+
+                        <Frame
+                            x:Name="CashCheckmark"
+                            Grid.Column="2"
+                            BackgroundColor="#2E7D32"
+                            CornerRadius="10"
+                            WidthRequest="20"
+                            HeightRequest="20"
+                            Padding="0"
+                            IsVisible="False">
+                            <Image
+                                Source="check.png"
+                                WidthRequest="12"
+                                HeightRequest="12"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center" />
+                        </Frame>
+                    </Grid>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCashTapped"/>
+                    </Frame.GestureRecognizers>
+                </Frame>
+
+                <!-- GCash Option -->
+                <Frame
+                    x:Name="GCashFrame"
+                    CornerRadius="12"
+                    HasShadow="False"
+                    BackgroundColor="White"
+                    Padding="15"
+                    BorderColor="#E5E5E5">
+
+                    <Grid ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center">
+                        <Image
+                            Source="gcash.png"
+                            WidthRequest="35"
+                            HeightRequest="35"
+                            VerticalOptions="Center" />
+
+                        <VerticalStackLayout Grid.Column="1" Padding="10,0">
+                            <Label Text="GCash" FontAttributes="Bold" FontSize="16" TextColor="Black" />
+                            <Label Text="Scan QR code to pay" FontSize="13" TextColor="#808080" />
+                        </VerticalStackLayout>
+
+                        <Frame
+                            x:Name="GCashCheckmark"
+                            Grid.Column="2"
+                            BackgroundColor="#2E7D32"
+                            CornerRadius="10"
+                            WidthRequest="20"
+                            HeightRequest="20"
+                            Padding="0"
+                            IsVisible="False">
+                            <Image
+                                Source="check.png"
+                                WidthRequest="12"
+                                HeightRequest="12"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center" />
+                        </Frame>
+                    </Grid>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnGCashTapped"/>
+                    </Frame.GestureRecognizers>
+                </Frame>
+
+                <!-- Info Text -->
+                <Label
+                    Text="Your selected payment method will be saved as default for future rides."
+                    FontSize="12"
+                    TextColor="#666666"
+                    Padding="10,20,10,0"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    MaxLines="2"
+                    LineBreakMode="WordWrap" />
+
+                <!-- Save Button -->
+                <Button
+                    x:Name="SaveButton"
+                    Text="SAVE PAYMENT METHOD"
+                    BackgroundColor="#2E7D32"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    CornerRadius="12"
+                    HeightRequest="55"
+                    Margin="0,40,0,0"
+                    Clicked="OnSaveButtonClicked" />
+
+            </VerticalStackLayout>
+
+        </Grid>
+
+        <!-- LOADING OVERLAY - NASA IBABAW NG LAHAT, NAKA-CENTER -->
+        <Grid x:Name="LoadingOverlay"
+              BackgroundColor="#80000000"
+              IsVisible="False"
+              HorizontalOptions="FillAndExpand"
+              VerticalOptions="FillAndExpand"
+              InputTransparent="True">
+            <VerticalStackLayout HorizontalOptions="Center" 
+                                VerticalOptions="Center" 
+                                Spacing="20">
+                <Frame BackgroundColor="White"
+                       CornerRadius="20"
+                       Padding="30"
+                       WidthRequest="200"
+                       HasShadow="True">
+                    <VerticalStackLayout Spacing="20" 
+                                        HorizontalOptions="Center">
+                        <ActivityIndicator IsRunning="True" 
+                                           Color="#2E7D32" 
+                                           HeightRequest="50" 
+                                           WidthRequest="50"/>
+                        <Label Text="Saving..." 
+                               TextColor="#2E7D32" 
+                               FontSize="14" 
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+        </Grid>
+
+    </Grid>
+</ContentPage>

@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ServiceCo.Driver_FileAComplaint"
+    BackgroundColor="#F4F6F8"
+    Shell.NavBarIsVisible="False">
+
+    <Grid>
+        <!-- Main Content -->
+        <ScrollView>
+            <StackLayout Spacing="20" Padding="0,0,0,30">
+
+                <!-- GREEN HEADER - FIXED AT TOP -->
+                <Grid BackgroundColor="#2E7D32" HeightRequest="70" Padding="20">
+                    <Grid>
+                        <ImageButton 
+                            Source="white_back.png"
+                            HeightRequest="28" 
+                            WidthRequest="28"
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center"
+                            Clicked="OnBackButtonClicked"/>
+
+                        <Label 
+                            Text="File a Complaint"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            TextColor="White"/>
+                    </Grid>
+                </Grid>
+
+                <!-- INSTRUCTION CARD -->
+                <Frame BackgroundColor="White"
+                       Padding="20"
+                       CornerRadius="20"
+                       HasShadow="True"
+                       Margin="20,0,20,0">
+                    <Label Text="Please fill in the details of your complaint against the passenger."
+                           FontSize="14"
+                           TextColor="#333333"/>
+                </Frame>
+
+                <!-- PASSENGER INFORMATION -->
+                <Frame BackgroundColor="White"
+                       Padding="20"
+                       CornerRadius="20"
+                       HasShadow="True"
+                       Margin="20,0,20,0">
+                    <StackLayout Spacing="15">
+
+                        <Label Text="PASSENGER INFORMATION" FontSize="14" FontAttributes="Bold" TextColor="#000000"/>
+                        <BoxView HeightRequest="1" BackgroundColor="#E2E8F0"/>
+
+                        <!-- Passenger Name -->
+                        <StackLayout Spacing="5">
+                            <Label Text="Passenger's Name*" FontSize="12" TextColor="#333333"/>
+                            <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 10"
+                                    BackgroundColor="#F8F9FA" Padding="10,0" HeightRequest="50">
+                                <Entry x:Name="PassengerNameEntry"
+                                       Placeholder="Passenger's full name"
+                                       FontSize="14"
+                                       TextColor="#000000"
+                                       BackgroundColor="Transparent"
+                                       VerticalOptions="Center"
+                                       IsReadOnly="True"/>
+                            </Border>
+                        </StackLayout>
+
+                        <!-- Passenger Phone -->
+                        <StackLayout Spacing="5">
+                            <Label Text="Passenger's Phone" FontSize="12" TextColor="#333333"/>
+                            <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 10"
+                                    BackgroundColor="#F8F9FA" Padding="10,0" HeightRequest="50">
+                                <Entry x:Name="PassengerPhoneEntry"
+                                       Placeholder="Passenger's phone number"
+                                       FontSize="14"
+                                       TextColor="#000000"
+                                       BackgroundColor="Transparent"
+                                       VerticalOptions="Center"
+                                       IsReadOnly="True"/>
+                            </Border>
+                        </StackLayout>
+
+                        <!-- Hidden IDs -->
+                        <Label x:Name="PassengerIdLabel" IsVisible="False"/>
+                        <Label x:Name="RideIdLabel" IsVisible="False"/>
+                    </StackLayout>
+                </Frame>
+
+                <!-- COMPLAINT CATEGORY -->
+                <Frame BackgroundColor="White"
+                       Padding="20"
+                       CornerRadius="20"
+                       HasShadow="True"
+                       Margin="20,0,20,0">
+                    <StackLayout Spacing="15">
+                        <Label Text="COMPLAINT CATEGORY" FontSize="14" FontAttributes="Bold" TextColor="#000000"/>
+                        <BoxView HeightRequest="1" BackgroundColor="#E2E8F0"/>
+
+                        <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 10"
+                                BackgroundColor="#F8F9FA" Padding="0" HeightRequest="50">
+                            <Picker x:Name="CategoryPicker" Title="Select Category" FontSize="14"
+                                    TextColor="#000000" BackgroundColor="Transparent" Margin="15,0">
+                                <Picker.Items>
+                                    <x:String>Rude / Disrespectful Passenger</x:String>
+                                    <x:String>Refused to Pay</x:String>
+                                    <x:String>Harassment</x:String>
+                                    <x:String>Vandalism / Damage</x:String>
+                                    <x:String>Threatening Behavior</x:String>
+                                    <x:String>Drunk / Disorderly</x:String>
+                                    <x:String>Smoking / Vaping</x:String>
+                                    <x:String>Left Without Paying</x:String>
+                                    <x:String>Other</x:String>
+                                </Picker.Items>
+                            </Picker>
+                        </Border>
+
+                        <Label x:Name="CategoryValidationLabel" 
+                               Text="Please select a category"
+                               FontSize="11" 
+                               TextColor="#F44336" 
+                               IsVisible="False"/>
+                    </StackLayout>
+                </Frame>
+
+                <!-- COMPLAINT DETAILS -->
+                <Frame BackgroundColor="White"
+                       Padding="20"
+                       CornerRadius="20"
+                       HasShadow="True"
+                       Margin="20,0,20,0">
+                    <StackLayout Spacing="15">
+                        <Label Text="COMPLAINT DETAILS" FontSize="14" FontAttributes="Bold" TextColor="#000000"/>
+                        <BoxView HeightRequest="1" BackgroundColor="#E2E8F0"/>
+
+                        <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 10"
+                                BackgroundColor="#F8F9FA" Padding="10" HeightRequest="160">
+                            <Editor x:Name="ComplaintEditor" Placeholder="Type your complaint here..."
+                                    FontSize="14" TextColor="#000000" PlaceholderColor="#999999"
+                                    BackgroundColor="Transparent" AutoSize="TextChanges"/>
+                        </Border>
+
+                        <Label x:Name="ComplaintValidationLabel" 
+                               Text="Please write your complaint"
+                               FontSize="11" 
+                               TextColor="#F44336" 
+                               IsVisible="False"/>
+                    </StackLayout>
+                </Frame>
+
+                <!-- UPLOAD EVIDENCE -->
+                <Frame BackgroundColor="White"
+                       Padding="20"
+                       CornerRadius="20"
+                       HasShadow="True"
+                       Margin="20,0,20,0">
+                    <StackLayout Spacing="15">
+
+                        <Label Text="UPLOAD EVIDENCE (OPTIONAL)" FontSize="14" FontAttributes="Bold" TextColor="#000000"/>
+                        <Label Text="JPG, PNG, PDF (Max 10MB each)" FontSize="12" TextColor="#666666"/>
+                        <BoxView HeightRequest="1" BackgroundColor="#E2E8F0"/>
+
+                        <!-- Add File Button -->
+                        <Button Text="+ ADD FILE"
+                                BackgroundColor="#2196F3"
+                                TextColor="White"
+                                FontSize="14"
+                                CornerRadius="10"
+                                HeightRequest="45"
+                                Clicked="OnAddFileClicked"/>
+
+                        <!-- File List with Preview and Delete -->
+                        <StackLayout x:Name="FilesStackLayout" Spacing="8">
+                            <!-- Files will be added here dynamically -->
+                        </StackLayout>
+
+                        <!-- File Limit Warning -->
+                        <Label x:Name="FileLimitWarning" 
+                               Text="Maximum 5 files allowed"
+                               FontSize="11" 
+                               TextColor="#F44336" 
+                               IsVisible="False" 
+                               HorizontalOptions="Center"/>
+                    </StackLayout>
+                </Frame>
+
+                <!-- SUBMIT BUTTON -->
+                <Button x:Name="SubmitButton"
+                        Text="Submit Complaint" 
+                        BackgroundColor="#2E7D32" 
+                        TextColor="White" 
+                        FontSize="16" 
+                        FontAttributes="Bold"
+                        HeightRequest="50"
+                        CornerRadius="15"
+                        Margin="20,10,20,30"
+                        Clicked="SubmitButton_Clicked"/>
+
+            </StackLayout>
+        </ScrollView>
+
+        <!-- FULL SCREEN PREVIEW MODAL -->
+        <Grid x:Name="FullScreenPreviewGrid"
+              BackgroundColor="#000000"
+              IsVisible="False"
+              HorizontalOptions="FillAndExpand"
+              VerticalOptions="FillAndExpand">
+
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnCloseFullScreenClicked"/>
+            </Grid.GestureRecognizers>
+
+            <Frame BackgroundColor="White"
+                   CornerRadius="20"
+                   Padding="20"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   HasShadow="True">
+                <Image x:Name="FullScreenPreviewImage"
+                       HeightRequest="300"
+                       WidthRequest="300"
+                       Aspect="AspectFit"/>
+            </Frame>
+
+            <Label Text="Tap anywhere to close"
+                   TextColor="#80FFFFFF"
+                   FontSize="12"
+                   HorizontalOptions="Center"
+                   VerticalOptions="End"
+                   Margin="0,0,0,30"/>
+        </Grid>
+
+        <!-- SUCCESS MODAL -->
+        <Grid x:Name="SuccessModalGrid"
+              BackgroundColor="#80000000"
+              IsVisible="False"
+              HorizontalOptions="FillAndExpand"
+              VerticalOptions="FillAndExpand">
+
+            <Frame BackgroundColor="White"
+                   CornerRadius="25"
+                   Padding="30"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   HasShadow="True"
+                   WidthRequest="300">
+                <StackLayout Spacing="20" HorizontalOptions="Center">
+
+                    <!-- Success Icon -->
+                    <Frame BackgroundColor="#E8F5E9"
+                           CornerRadius="50"
+                           HeightRequest="80"
+                           WidthRequest="80"
+                           Padding="0"
+                           HorizontalOptions="Center">
+                        <Label Text="✓"
+                               FontSize="40"
+                               FontAttributes="Bold"
+                               TextColor="#2E7D32"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Frame>
+
+                    <!-- Success Message -->
+                    <Label x:Name="SuccessTitleLabel"
+                           Text="Complaint Submitted!"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="#2E7D32"
+                           HorizontalOptions="Center"/>
+
+                    <Label x:Name="SuccessMessageLabel"
+                           Text="Your complaint has been received."
+                           FontSize="14"
+                           TextColor="#666666"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"/>
+
+                    <Label x:Name="SuccessDetailsLabel"
+                           Text=""
+                           FontSize="12"
+                           TextColor="#999999"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"/>
+
+                    <!-- OK Button -->
+                    <Button Text="OK"
+                            BackgroundColor="#2E7D32"
+                            TextColor="White"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="45"
+                            WidthRequest="200"
+                            Clicked="OnSuccessModalOkClicked"/>
+                </StackLayout>
+            </Frame>
+        </Grid>
+
+        <!-- Loading Overlay -->
+        <Grid x:Name="LoadingOverlay"
+              BackgroundColor="#80000000"
+              IsVisible="False"
+              HorizontalOptions="FillAndExpand"
+              VerticalOptions="FillAndExpand">
+            <Frame BackgroundColor="White"
+                   CornerRadius="20"
+                   Padding="30"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   HasShadow="True">
+                <StackLayout Spacing="20" HorizontalOptions="Center">
+                    <ActivityIndicator IsRunning="True" Color="#2E7D32" HeightRequest="50" WidthRequest="50"/>
+                    <Label Text="Processing..." TextColor="#333333" FontSize="14"/>
+                </StackLayout>
+            </Frame>
+        </Grid>
+
+    </Grid>
+</ContentPage>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ServiceCo.Driver_Chat"
+    BackgroundColor="#F0F2F5"
+    Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- HEADER -->
+        <Frame
+            Grid.Row="0"
+            BackgroundColor="#2E7D32"
+            CornerRadius="0"
+            HasShadow="True"
+            HeightRequest="70"
+            Padding="15,10">
+
+            <Grid ColumnDefinitions="Auto,*,Auto">
+
+                <!-- Back Button -->
+                <ImageButton
+                    Grid.Column="0"
+                    Source="white_back.png"
+                    BackgroundColor="Transparent"
+                    WidthRequest="30"
+                    HeightRequest="30"
+                    VerticalOptions="Center"
+                    Clicked="OnBackClicked" />
+
+                <!-- Commuter Name -->
+                <Label
+                    Grid.Column="1"
+                    x:Name="CommuterNameLabel"
+                    Text="Commuter"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center" />
+
+                <!-- Call Button -->
+                <ImageButton
+                    Grid.Column="2"
+                    Source="phone_white.png"
+                    BackgroundColor="Transparent"
+                    WidthRequest="25"
+                    HeightRequest="25"
+                    VerticalOptions="Center"
+                    Clicked="OnCallCommuterClicked" />
+            </Grid>
+        </Frame>
+
+        <!-- MESSAGES AREA -->
+        <CollectionView
+            Grid.Row="1"
+            x:Name="MessagesCollectionView"
+            SelectionMode="None"
+            VerticalScrollBarVisibility="Never"
+            Margin="10">
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,5">
+
+                        <!-- RECEIVED MESSAGE (From Commuter - LEFT SIDE) -->
+                        <Frame
+                            Padding="12,8"
+                            CornerRadius="15"
+                            BackgroundColor="White"
+                            HasShadow="True"
+                            HorizontalOptions="Start"
+                            MaximumWidthRequest="250"
+                            IsVisible="{Binding IsFromCommuter}">
+
+                            <StackLayout Spacing="2">
+                                <!-- Message Text -->
+                                <Label
+                                    Text="{Binding Message}"
+                                    FontSize="14"
+                                    TextColor="Black"
+                                    LineBreakMode="WordWrap" />
+                                <!-- Time -->
+                                <Label
+                                    Text="{Binding TimeDisplay}"
+                                    FontSize="10"
+                                    TextColor="#888888"
+                                    HorizontalOptions="End" />
+                            </StackLayout>
+                        </Frame>
+
+                        <!-- SENT MESSAGE (From Driver - RIGHT SIDE) -->
+                        <Frame
+                            Padding="12,8"
+                            CornerRadius="15"
+                            BackgroundColor="#2E7D32"
+                            HasShadow="True"
+                            HorizontalOptions="End"
+                            MaximumWidthRequest="250"
+                            IsVisible="{Binding IsFromDriver}">
+
+                            <StackLayout Spacing="2">
+                                <!-- Message Text -->
+                                <Label
+                                    Text="{Binding Message}"
+                                    FontSize="14"
+                                    TextColor="White"
+                                    LineBreakMode="WordWrap" />
+                                <!-- Time -->
+                                <Label
+                                    Text="{Binding TimeDisplay}"
+                                    FontSize="10"
+                                    TextColor="#CCCCCC"
+                                    HorizontalOptions="End" />
+                            </StackLayout>
+                        </Frame>
+
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- MESSAGE INPUT -->
+        <Grid
+            Grid.Row="2"
+            BackgroundColor="White"
+            Padding="10"
+            RowSpacing="0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Input Field -->
+            <Entry
+                Grid.Column="0"
+                x:Name="MessageEntry"
+                Placeholder="Type message..."
+                FontSize="14"
+                VerticalOptions="Center"
+                Margin="5,0"
+                HeightRequest="45"
+                BackgroundColor="#F0F0F0"
+                TextColor="Black"
+                ReturnType="Send"
+                Completed="OnMessageEntryCompleted" />
+
+            <!-- Send Button -->
+            <Button
+                Grid.Column="1"
+                Text="SEND"
+                BackgroundColor="#2E7D32"
+                TextColor="White"
+                FontSize="13"
+                FontAttributes="Bold"
+                CornerRadius="8"
+                WidthRequest="80"
+                HeightRequest="45"
+                Margin="5,0"
+                Clicked="OnSendMessageClicked" />
+        </Grid>
+    </Grid>
+</ContentPage>

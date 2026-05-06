@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.Commuter_Home"
+             BackgroundColor="White"
+             Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Header -->
+        <Grid Grid.Row="0" BackgroundColor="#2E7D32" Padding="0,15,0,15" HeightRequest="80">
+            <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="8">
+                <Image Source="tricycle.png" HeightRequest="45" WidthRequest="45" VerticalOptions="Center"/>
+                <Label VerticalOptions="Center" FontSize="22" FontAttributes="Bold" TextColor="White">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Go" FontAttributes="Bold"/>
+                            <Span Text="Tryke" TextColor="#FFC107" FontAttributes="Bold"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </HorizontalStackLayout>
+        </Grid>
+
+        <Grid Grid.Row="1" RowDefinitions="Auto,*">
+
+            <!-- Main Content with RefreshView -->
+            <RefreshView x:Name="MainRefreshView" Grid.Row="1" RefreshColor="#2E7D32" Refreshing="OnRefreshing">
+                <ScrollView Padding="0">
+                    <VerticalStackLayout Spacing="0">
+
+                        <!-- No Internet Connection Banner - Floating Style -->
+                        <Border x:Name="ConnectionErrorGrid"
+                                IsVisible="False"
+                                BackgroundColor="#FAFFEBEE"
+                                Stroke="#F44336"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 10"
+                                Padding="15,10"
+                                Margin="20,10,20,0"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Start"
+                                ZIndex="999">
+                            <Border.Shadow>
+                                <Shadow Brush="#40000000" Offset="0,2" Radius="8" />
+                            </Border.Shadow>
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                <Label Grid.Column="0" 
+                                       x:Name="ConnectionErrorLabel" 
+                                       Text="No internet connection. Some features may be limited." 
+                                       TextColor="#D32F2F" 
+                                       FontSize="13" 
+                                       VerticalOptions="Center" 
+                                       LineBreakMode="WordWrap"/>
+                                <Button Grid.Column="1" 
+                                        x:Name="RetryConnectionButton" 
+                                        Text="Retry" 
+                                        TextColor="White" 
+                                        BackgroundColor="#D32F2F" 
+                                        CornerRadius="5" 
+                                        Padding="15,5" 
+                                        FontSize="12" 
+                                        FontAttributes="Bold" 
+                                        Clicked="OnRetryConnectionClicked"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Main Content -->
+                        <VerticalStackLayout Padding="20,15,20,20" Spacing="22">
+
+                            <Label x:Name="GreetingLabel" Text="Good day!" FontSize="20" FontAttributes="Bold" TextColor="Black" />
+
+                            <!-- Search Location Frame -->
+                            <Frame BorderColor="#E0E0E0" CornerRadius="15" HasShadow="True" Padding="20,15" BackgroundColor="White" Margin="0,0,0,10">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnSearchFrameTapped"/>
+                                </Frame.GestureRecognizers>
+                                <HorizontalStackLayout Spacing="15">
+                                    <Frame BackgroundColor="#2E7D32" Padding="12" CornerRadius="10" HeightRequest="45" WidthRequest="45">
+                                        <Image Source="nav.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                    </Frame>
+                                    <VerticalStackLayout VerticalOptions="Center">
+                                        <Label Text="Where to?" FontSize="16" FontAttributes="Bold" TextColor="Black"/>
+                                        <Label Text="Tap to set pickup and drop-off locations" FontSize="12" TextColor="#666"/>
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+                            </Frame>
+
+                            <!-- Book Ride and Saved Route Buttons -->
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="15" Margin="0,10,0,0">
+                                <Frame BackgroundColor="#FFB300" CornerRadius="15" Padding="20,15" HasShadow="True">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnBookRideClicked"/>
+                                    </Frame.GestureRecognizers>
+                                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                                        <Frame BackgroundColor="White" Padding="10" CornerRadius="10" HeightRequest="40" WidthRequest="40">
+                                            <Image Source="bookride.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                        </Frame>
+                                        <Label Text="Book Ride" FontSize="14" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center"/>
+                                    </VerticalStackLayout>
+                                </Frame>
+                                <Frame BackgroundColor="White" CornerRadius="15" Padding="20,15" HasShadow="True" BorderColor="#E0E0E0" Grid.Column="1">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnSavedRouteClicked"/>
+                                    </Frame.GestureRecognizers>
+                                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                                        <Frame BackgroundColor="#FFB300" Padding="10" CornerRadius="10" HeightRequest="40" WidthRequest="40">
+                                            <Image Source="savedroute.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                        </Frame>
+                                        <Label Text="Saved Route" FontSize="14" FontAttributes="Bold" TextColor="#FFB300" HorizontalOptions="Center"/>
+                                    </VerticalStackLayout>
+                                </Frame>
+                            </Grid>
+
+                            <!-- Banner Section -->
+                            <StackLayout Spacing="10" Margin="0,20,0,0">
+                                <Label Text="How to Book a Ride" FontSize="16" FontAttributes="Bold" TextColor="Black"/>
+
+                                <Frame x:Name="BannerFrame" HasShadow="True" CornerRadius="15" Padding="0" BorderColor="#E0E0E0" BackgroundColor="White" HeightRequest="270">
+                                    <Grid>
+                                        <CarouselView x:Name="BannerCarousel" Loop="True" HeightRequest="300" IsVisible="False">
+                                            <CarouselView.ItemsLayout>
+                                                <LinearItemsLayout Orientation="Horizontal" />
+                                            </CarouselView.ItemsLayout>
+                                            <CarouselView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Frame BackgroundColor="White" Padding="5" CornerRadius="10" HeightRequest="200" Margin="10,30,10,0">
+                                                            <Frame.GestureRecognizers>
+                                                                <TapGestureRecognizer Tapped="OnBannerTapped" CommandParameter="{Binding .}"/>
+                                                            </Frame.GestureRecognizers>
+                                                            <Image Source="{Binding ImageUrl}" Aspect="AspectFill" HorizontalOptions="Fill" VerticalOptions="Fill" HeightRequest="200" WidthRequest="300"/>
+                                                        </Frame>
+                                                        <Frame BackgroundColor="#2E7D32" Opacity="0.9" Padding="8,4" CornerRadius="10" WidthRequest="190" HeightRequest="30" HorizontalOptions="Center" VerticalOptions="Start" Margin="10,25,0,0">
+                                                            <Label Text="{Binding Title}" FontSize="12" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                                        </Frame>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </CarouselView.ItemTemplate>
+                                        </CarouselView>
+
+                                        <VerticalStackLayout x:Name="EmptyBannerContent" IsVisible="True" HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+                                            <Image Source="tricycle.png" HeightRequest="100" WidthRequest="100" Opacity="0.3"/>
+                                            <Label x:Name="BannerStatusLabel" Text="No promotions at the moment" FontSize="14" TextColor="#666"/>
+                                            <Label Text="Check back later for updates" FontSize="12" TextColor="#999"/>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Frame>
+
+                                <HorizontalStackLayout x:Name="IndicatorContainer" HorizontalOptions="Center" Spacing="8"/>
+                            </StackLayout>
+
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </RefreshView>
+        </Grid>
+
+        <!-- Active Ride Banner -->
+        <Border x:Name="ActiveRideBanner"
+                Grid.RowSpan="2"
+                Padding="20"
+                Margin="20"
+                BackgroundColor="#FAFFFFFF"
+                Stroke="#E0E0E0"
+                StrokeShape="RoundRectangle 20"
+                VerticalOptions="End"
+                HorizontalOptions="Fill"
+                ZIndex="999"
+                IsVisible="False">
+            <Border.Shadow>
+                <Shadow Brush="#40000000" Offset="0,4" Radius="12" />
+            </Border.Shadow>
+
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnActiveRideBannerTapped"/>
+            </Border.GestureRecognizers>
+
+            <Grid RowDefinitions="Auto,Auto" Padding="0">
+
+                <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10" Margin="0,0,0,5">
+                    <Frame Grid.Column="0" x:Name="RideStatusBadge" BackgroundColor="#2E7D32" Padding="8,4" CornerRadius="8" VerticalOptions="Center">
+                        <Label x:Name="RideStatusBadgeText" Text="Loading..." FontSize="10" FontAttributes="Bold" TextColor="White"/>
+                    </Frame>
+                    <Label Grid.Column="1" x:Name="RideStatusLabel" Text="Loading..." FontSize="14" FontAttributes="Bold" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Start" LineBreakMode="TailTruncation" MaxLines="1"/>
+                    <Label Grid.Column="2" x:Name="RideTimeLabel" Text="-- mins" FontSize="12" TextColor="#666" VerticalOptions="Center" HorizontalOptions="End"/>
+                </Grid>
+
+                <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10" Margin="0,5,0,0">
+                    <Frame Grid.Column="0" BackgroundColor="#F0F9F0" Padding="8" CornerRadius="8" HeightRequest="40" WidthRequest="40" VerticalOptions="Center">
+                        <Image Source="tricycle.png" HeightRequest="24" WidthRequest="24" VerticalOptions="Center" HorizontalOptions="Center"/>
+                    </Frame>
+                    <Grid Grid.Column="1" RowDefinitions="Auto,Auto" RowSpacing="2" VerticalOptions="Center">
+                        <Label x:Name="PickupLabel" Grid.Row="0" Text="Loading address..." FontSize="13" FontAttributes="Bold" TextColor="Black" LineBreakMode="TailTruncation" MaxLines="1"/>
+                        <Label x:Name="DropoffLabel" Grid.Row="1" Text="Loading address..." FontSize="12" TextColor="#666" LineBreakMode="TailTruncation" MaxLines="1"/>
+                    </Grid>
+                    <Frame Grid.Column="2" BackgroundColor="#2E7D32" Padding="10" CornerRadius="8" HeightRequest="40" WidthRequest="40" VerticalOptions="Center">
+                        <Image Source="ride_icon.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                    </Frame>
+                </Grid>
+            </Grid>
+        </Border>
+
+    </Grid>
+</ContentPage>

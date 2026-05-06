@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ServiceCo"
+             x:Class="ServiceCo.Commuter_SearchLocation"
+             BackgroundColor="White"
+             Shell.NavBarIsVisible="False">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:BoolToStarConverter x:Key="BoolToStarConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Header with nice curve -->
+        <Border Grid.Row="0"
+                StrokeThickness="0"
+                Padding="20,15"
+                BackgroundColor="#2E7D32">
+            <Border.Shadow>
+                <Shadow Brush="#20000000" Offset="0,4" Radius="12" />
+            </Border.Shadow>
+
+            <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+                <Image Source="white_back.png"
+                       HeightRequest="22"
+                       WidthRequest="22"
+                       VerticalOptions="Center">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBackTapped"/>
+                    </Image.GestureRecognizers>
+                </Image>
+                <Label Text="Where to?"
+                       FontSize="22"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+        </Border>
+
+        <!-- Main Content -->
+        <ScrollView Grid.Row="1" BackgroundColor="#F8F9FA">
+            <VerticalStackLayout Padding="20" Spacing="20">
+
+                <!-- Subtitle -->
+                <Label Text="Set your pickup and drop-off points below"
+                       FontSize="14"
+                       TextColor="#6B7280"
+                       FontAttributes="Bold"/>
+
+                <!-- Pickup + Swap + Dropoff -->
+                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="12">
+
+                    <!-- Pickup -->
+                    <Frame Grid.Row="0" Grid.Column="0"
+                           BorderColor="#E0E0E0"
+                           CornerRadius="12"
+                           HasShadow="False"
+                           Padding="10,5"
+                           BackgroundColor="White">
+                        <VerticalStackLayout Spacing="6">
+                            <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="10">
+                                <Image Source="pickup.png"
+                                       HeightRequest="18"
+                                       WidthRequest="18"
+                                       VerticalOptions="Center"
+                                       Grid.Column="0"/>
+                                <Entry x:Name="PickupEntry"
+                                       Placeholder="Enter pick-up location"
+                                       FontSize="15"
+                                       TextColor="#212121"
+                                       PlaceholderColor="#9E9E9E"
+                                       TextChanged="OnPickupTextChanged"
+                                       Focused="OnPickupFocused"
+                                       Unfocused="OnPickupUnfocused"
+                                       Grid.Column="1"
+                                       HorizontalOptions="FillAndExpand"
+                                       BackgroundColor="Transparent"/>
+                                <Image x:Name="PickupClearButton"
+                                       Source="x_mark.png"
+                                       HeightRequest="18"
+                                       WidthRequest="18"
+                                       VerticalOptions="Center"
+                                       Grid.Column="2"
+                                       IsVisible="False">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnPickupClearTapped"/>
+                                    </Image.GestureRecognizers>
+                                </Image>
+                                <Image Source="map.png"
+                                       HeightRequest="24"
+                                       WidthRequest="24"
+                                       VerticalOptions="Center"
+                                       Grid.Column="3">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnPickupMapTapped"/>
+                                    </Image.GestureRecognizers>
+                                </Image>
+                            </Grid>
+
+                            <!-- Current Location Button -->
+                            <Frame CornerRadius="8"
+                                   Padding="8"
+                                   HeightRequest="38"
+                                   BackgroundColor="#E8F5E9"
+                                   HasShadow="False"
+                                   BorderColor="Transparent">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnUseCurrentLocationClicked"/>
+                                </Frame.GestureRecognizers>
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                    <Image Source="current_location.png"
+                                           HeightRequest="15"
+                                           WidthRequest="15"
+                                           VerticalOptions="Center"
+                                           Grid.Column="0"/>
+                                    <Label Text="Use current location"
+                                           FontSize="13"
+                                           TextColor="#2E7D32"
+                                           FontAttributes="Bold"
+                                           VerticalOptions="Center"
+                                           Grid.Column="1"/>
+                                </Grid>
+                            </Frame>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- Swap Button -->
+                    <Frame Grid.RowSpan="2" Grid.Column="1"
+                           BackgroundColor="White"
+                           Padding="12"
+                           CornerRadius="30"
+                           HasShadow="True"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           HeightRequest="40"
+                           WidthRequest="40">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnSwapTapped"/>
+                        </Frame.GestureRecognizers>
+                        <Image Source="swap.png"
+                               HeightRequest="20"
+                               WidthRequest="20"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"/>
+                    </Frame>
+
+                    <!-- Dropoff -->
+                    <Frame Grid.Row="1" Grid.Column="0"
+                           BorderColor="#E0E0E0"
+                           CornerRadius="12"
+                           HasShadow="False"
+                           Padding="10,5"
+                           BackgroundColor="White"
+                           Margin="0,8,0,0">
+                        <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="10">
+                            <Image Source="dropoff.png"
+                                   HeightRequest="18"
+                                   WidthRequest="18"
+                                   VerticalOptions="Center"
+                                   Grid.Column="0"/>
+                            <Entry x:Name="DropoffEntry"
+                                   Placeholder="Enter drop-off location"
+                                   FontSize="15"
+                                   TextColor="#212121"
+                                   PlaceholderColor="#9E9E9E"
+                                   TextChanged="OnDropoffTextChanged"
+                                   Focused="OnDropoffFocused"
+                                   Unfocused="OnDropoffUnfocused"
+                                   Grid.Column="1"
+                                   HorizontalOptions="FillAndExpand"
+                                   BackgroundColor="Transparent"/>
+                            <Image x:Name="DropoffClearButton"
+                                   Source="x_mark.png"
+                                   HeightRequest="18"
+                                   WidthRequest="18"
+                                   VerticalOptions="Center"
+                                   Grid.Column="2"
+                                   IsVisible="False">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnDropoffClearTapped"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+                            <Image Source="map.png"
+                                   HeightRequest="24"
+                                   WidthRequest="24"
+                                   VerticalOptions="Center"
+                                   Grid.Column="3">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnDropoffMapTapped"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </Grid>
+                    </Frame>
+                </Grid>
+
+                <!-- Validation Message -->
+                <Frame x:Name="ValidationContainer"
+                       IsVisible="False"
+                       BackgroundColor="#FEE2E2"
+                       Padding="12"
+                       CornerRadius="10"
+                       HasShadow="False"
+                       BorderColor="Transparent">
+                    <Grid ColumnDefinitions="Auto,*">
+                        <Image Source="complaint.png"
+                               HeightRequest="20"
+                               WidthRequest="20"
+                               Grid.Column="0"/>
+                        <Label x:Name="ValidationLabel"
+                               TextColor="#000000"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               Grid.Column="1"
+                               Margin="8,0,0,0"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </Frame>
+
+                <!-- Enter Button -->
+                <Frame BackgroundColor="#2E7D32"
+                       Padding="0"
+                       CornerRadius="12"
+                       HeightRequest="55"
+                       Margin="0,5,0,0"
+                       HasShadow="True">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnEnterClicked"/>
+                    </Frame.GestureRecognizers>
+                    <Grid>
+                        <Label Text="Find Ride"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </Frame>
+
+                <!-- Suggestions Section -->
+                <Grid x:Name="SuggestionsSection"
+                      IsVisible="True"
+                      Margin="0,15,0,0"
+                      HeightRequest="450">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Tabs: Recent | Favorite -->
+                    <Frame Grid.Row="0"
+                           BackgroundColor="#F5F5F5"
+                           Padding="4"
+                           CornerRadius="30"
+                           Margin="0,0,0,15"
+                           HasShadow="False"
+                           BorderColor="Transparent">
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                            <Frame x:Name="RecentTab"
+                                   Grid.Column="0"
+                                   BackgroundColor="#2E7D32"
+                                   Padding="12"
+                                   CornerRadius="25"
+                                   HasShadow="False"
+                                   BorderColor="Transparent">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnRecentTabTapped"/>
+                                </Frame.GestureRecognizers>
+                                <Label Text="Recent"
+                                       FontSize="14"
+                                       TextColor="White"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Center"/>
+                            </Frame>
+                            <Frame x:Name="FavoriteTab"
+                                   Grid.Column="1"
+                                   BackgroundColor="Transparent"
+                                   Padding="12"
+                                   CornerRadius="25"
+                                   HasShadow="False"
+                                   BorderColor="Transparent">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnFavoriteTabTapped"/>
+                                </Frame.GestureRecognizers>
+                                <Label Text="Favorites"
+                                       FontSize="14"
+                                       TextColor="#9E9E9E"
+                                       HorizontalOptions="Center"/>
+                            </Frame>
+                        </Grid>
+                    </Frame>
+
+                    <!-- Content Area -->
+                    <Grid Grid.Row="1">
+
+                        <!-- Searching Indicator -->
+                        <VerticalStackLayout x:Name="SearchingIndicator"
+                                             IsVisible="False"
+                                             VerticalOptions="Center"
+                                             HorizontalOptions="Center"
+                                             Spacing="15">
+                            <ActivityIndicator IsRunning="True"
+                                             Color="#2E7D32"
+                                             HeightRequest="50"
+                                             WidthRequest="50"/>
+                            <Label Text="Searching for locations..."
+                                   FontSize="14"
+                                   TextColor="#757575"/>
+                        </VerticalStackLayout>
+
+                        <!-- Google Places Suggestions -->
+                        <CollectionView x:Name="SuggestionsList"
+                                        IsVisible="False"
+                                        BackgroundColor="Transparent"
+                                        Margin="0,5,0,0"
+                                        SelectionMode="None"
+                                        ItemsSource="{Binding .}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame Padding="12" 
+                                           Margin="0,0,0,8"
+                                           BorderColor="#E0E0E0"
+                                           CornerRadius="12"
+                                           BackgroundColor="White"
+                                           HasShadow="False">
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer 
+                                                Tapped="OnSuggestionItemTapped"
+                                                CommandParameter="{Binding .}"/>
+                                        </Frame.GestureRecognizers>
+                                        <Grid ColumnDefinitions="Auto,*,Auto" 
+                                              ColumnSpacing="12"
+                                              RowDefinitions="Auto,Auto"
+                                              VerticalOptions="Center">
+
+                                            <!-- Icon -->
+                                            <Frame Grid.RowSpan="2" Grid.Column="0"
+                                                    BackgroundColor="#F0F9F0"
+                                                    Padding="10"
+                                                    CornerRadius="10"
+                                                    HeightRequest="44"
+                                                    WidthRequest="44"
+                                                    HasShadow="False"
+                                                    BorderColor="Transparent">
+                                                <Image Source="{Binding IconSource}"
+                                                       HeightRequest="20"
+                                                       WidthRequest="20"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center"/>
+                                            </Frame>
+
+                                            <!-- Main Text -->
+                                            <Label Grid.Row="0" Grid.Column="1"
+                                                   Text="{Binding MainText}"
+                                                   FontSize="15"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#212121"
+                                                   LineBreakMode="TailTruncation"/>
+
+                                            <!-- Secondary Text -->
+                                            <Label Grid.Row="1" Grid.Column="1"
+                                                   Text="{Binding SecondaryText}"
+                                                   FontSize="13"
+                                                   TextColor="#757575"
+                                                   LineBreakMode="TailTruncation"/>
+
+                                            <!-- Star Icon -->
+                                            <Frame Grid.RowSpan="2" Grid.Column="2"
+                                                    BackgroundColor="Transparent"
+                                                    Padding="6"
+                                                    CornerRadius="20"
+                                                    HasShadow="False"
+                                                    BorderColor="Transparent">
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer 
+                                                        Tapped="OnSuggestionStarTapped"
+                                                        CommandParameter="{Binding .}"/>
+                                                </Frame.GestureRecognizers>
+                                                <Image Source="{Binding StarIcon}"
+                                                       HeightRequest="22"
+                                                       WidthRequest="22"
+                                                       VerticalOptions="Center"/>
+                                            </Frame>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <!-- Recent List -->
+                        <CollectionView x:Name="RecentList"
+                                        IsVisible="True"
+                                        BackgroundColor="Transparent"
+                                        SelectionMode="None"
+                                        ItemsSource="{Binding .}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame Padding="12" 
+                                           Margin="0,0,0,8"
+                                           BorderColor="#E0E0E0"
+                                           CornerRadius="12"
+                                           BackgroundColor="White"
+                                           HasShadow="False">
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer 
+                                                Tapped="OnRecentItemTapped"
+                                                CommandParameter="{Binding .}"/>
+                                        </Frame.GestureRecognizers>
+                                        <Grid ColumnDefinitions="Auto,*,Auto" 
+                                              ColumnSpacing="12"
+                                              RowDefinitions="Auto,Auto"
+                                              VerticalOptions="Center">
+
+                                            <!-- Icon -->
+                                            <Frame Grid.RowSpan="2" Grid.Column="0"
+                                                    BackgroundColor="#F0F9F0"
+                                                    Padding="10"
+                                                    CornerRadius="10"
+                                                    HeightRequest="44"
+                                                    WidthRequest="44"
+                                                    HasShadow="False"
+                                                    BorderColor="Transparent">
+                                                <Image Source="recent_location.png"
+                                                       HeightRequest="20"
+                                                       WidthRequest="20"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center"/>
+                                            </Frame>
+
+                                            <!-- Name -->
+                                            <Label Grid.Row="0" Grid.Column="1"
+                                                   Text="{Binding Name}"
+                                                   FontSize="15"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#212121"
+                                                   LineBreakMode="TailTruncation"/>
+
+                                            <!-- Time Ago -->
+                                            <Label Grid.Row="1" Grid.Column="1"
+                                                   Text="{Binding TimeAgo}"
+                                                   FontSize="12"
+                                                   TextColor="#757575"/>
+
+                                            <!-- Star Icon -->
+                                            <Frame Grid.RowSpan="2" Grid.Column="2"
+                                                    BackgroundColor="Transparent"
+                                                    Padding="6"
+                                                    CornerRadius="20"
+                                                    HasShadow="False"
+                                                    BorderColor="Transparent">
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer 
+                                                        Tapped="OnRecentStarTapped"
+                                                        CommandParameter="{Binding .}"/>
+                                                </Frame.GestureRecognizers>
+                                                <Image Source="{Binding IsFavorite, Converter={StaticResource BoolToStarConverter}}"
+                                                       HeightRequest="22"
+                                                       WidthRequest="22"
+                                                       VerticalOptions="Center"/>
+                                            </Frame>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <!-- Favorite List -->
+                        <CollectionView x:Name="FavoriteList"
+                                        IsVisible="False"
+                                        BackgroundColor="Transparent"
+                                        SelectionMode="None"
+                                        ItemsSource="{Binding .}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame Padding="12" 
+                                           Margin="0,0,0,8"
+                                           BorderColor="#E0E0E0"
+                                           CornerRadius="12"
+                                           BackgroundColor="White"
+                                           HasShadow="False">
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer 
+                                                Tapped="OnFavoriteItemTapped"
+                                                CommandParameter="{Binding .}"/>
+                                        </Frame.GestureRecognizers>
+                                        <Grid ColumnDefinitions="Auto,*,Auto" 
+                                              ColumnSpacing="12"
+                                              RowDefinitions="Auto,Auto"
+                                              VerticalOptions="Center">
+
+                                            <!-- Icon -->
+                                            <Frame Grid.RowSpan="2" Grid.Column="0"
+                                                    BackgroundColor="#FFF3E0"
+                                                    Padding="10"
+                                                    CornerRadius="10"
+                                                    HeightRequest="44"
+                                                    WidthRequest="44"
+                                                    HasShadow="False"
+                                                    BorderColor="Transparent">
+                                                <Image Source="star_filled.png"
+                                                       HeightRequest="20"
+                                                       WidthRequest="20"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center"/>
+                                            </Frame>
+
+                                            <!-- Name -->
+                                            <Label Grid.Row="0" Grid.Column="1"
+                                                   Text="{Binding Name}"
+                                                   FontSize="15"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#212121"
+                                                   LineBreakMode="TailTruncation"/>
+
+                                            <!-- Address -->
+                                            <Label Grid.Row="1" Grid.Column="1"
+                                                   Text="{Binding Address}"
+                                                   FontSize="13"
+                                                   TextColor="#757575"
+                                                   LineBreakMode="TailTruncation"/>
+
+                                            <!-- Delete Icon -->
+                                            <Frame Grid.RowSpan="2" Grid.Column="2"
+                                                    BackgroundColor="Transparent"
+                                                    Padding="6"
+                                                    CornerRadius="20"
+                                                    HasShadow="False"
+                                                    BorderColor="Transparent">
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer 
+                                                        Tapped="OnFavoriteDeleteTapped"
+                                                        CommandParameter="{Binding .}"/>
+                                                </Frame.GestureRecognizers>
+                                                <Image Source="x_mark.png"
+                                                       HeightRequest="18"
+                                                       WidthRequest="18"
+                                                       VerticalOptions="Center"/>
+                                            </Frame>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <!-- Empty State -->
+                        <VerticalStackLayout x:Name="EmptyState" 
+                                             IsVisible="False"
+                                             VerticalOptions="Center"
+                                             HorizontalOptions="Center"
+                                             Spacing="15">
+                            <Image x:Name="EmptyStateImage"
+                                   Source="search.png"
+                                   HeightRequest="100"
+                                   WidthRequest="100"
+                                   Opacity="0.5"/>
+                            <Label x:Name="EmptyStateLabel1"
+                                   Text="No results found"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#9E9E9E"/>
+                            <Label x:Name="EmptyStateLabel2"
+                                   Text="Try a different search"
+                                   FontSize="14"
+                                   TextColor="#BDBDBD"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Grid>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

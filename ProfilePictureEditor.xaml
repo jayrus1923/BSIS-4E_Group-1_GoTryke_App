@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ServiceCo.ProfilePictureEditor"
+             BackgroundColor="#F4F6F8"
+             Shell.NavBarIsVisible="False">
+
+    <Grid>
+        <StackLayout Spacing="0">
+
+            <!-- HEADER -->
+            <Grid BackgroundColor="#2E7D32" HeightRequest="80" Padding="15,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <ImageButton Source="white_back.png"
+                           Grid.Column="0"
+                           HeightRequest="24" WidthRequest="24"
+                           BackgroundColor="Transparent"
+                           Clicked="OnBackClicked"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center"
+                           Margin="0,30,0,0"/>
+
+                <Label Text="Edit Profile Picture"
+                       Grid.Column="1"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       Margin="0,30,0,0"/>
+
+                <Label x:Name="SaveButton"
+                       Grid.Column="2"
+                       Text="Save"
+                       TextColor="White"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       HorizontalOptions="End"
+                       VerticalOptions="Center"
+                       IsVisible="False"
+                       Margin="0,30,0,0">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnSaveClicked"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+
+            <!-- PROFILE PREVIEW AREA -->
+            <Grid BackgroundColor="White" HeightRequest="280">
+
+                <!-- Perfect Circle Container -->
+                <Frame HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       HeightRequest="200"
+                       WidthRequest="200"
+                       CornerRadius="100"
+                       Padding="0"
+                       HasShadow="True"
+                       BackgroundColor="#F0F0F0"
+                       Margin="0,20,0,0">
+
+                    <Grid>
+                        <!-- Profile Image - Fills the entire circle -->
+                        <Image x:Name="ProfileImage"
+                               Aspect="AspectFill"/>
+
+                        <!-- Default Avatar - Shows when no image -->
+                        <Image x:Name="DefaultAvatar"
+                               Source="profile_icon.png"
+                               HeightRequest="350"
+                               WidthRequest="350"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               IsVisible="True"/>
+                    </Grid>
+                </Frame>
+
+                <!-- Camera icon on top right of profile picture -->
+                <ImageButton Source="camera.png"
+                           HeightRequest="40"
+                           WidthRequest="40"
+                           BackgroundColor="LightGreen"
+                           CornerRadius="20"
+                           Padding="5"
+                           HorizontalOptions="End"
+                           VerticalOptions="Start"
+                           Margin="0,150,20,0"
+                           Clicked="OnTakePhotoClicked"/>
+            </Grid>
+
+            <!-- ACTION BUTTONS -->
+            <Border BackgroundColor="White"
+                    StrokeShape="RoundRectangle 20,20,0,0"
+                    Padding="25,30,25,20"
+                    Margin="0,-20,0,0">
+
+                <StackLayout Spacing="15">
+
+                    <Button x:Name="TakePhotoButton"
+                           Text="Take Photo"
+                           BackgroundColor="#2E7D32"
+                           TextColor="White"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           CornerRadius="15"
+                           HeightRequest="55"
+                           Clicked="OnTakePhotoClicked"/>
+
+                    <Button x:Name="ChooseGalleryButton"
+                           Text="Choose from Gallery"
+                           BackgroundColor="#4CAF50"
+                           TextColor="White"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           CornerRadius="15"
+                           HeightRequest="55"
+                           Clicked="OnChooseGalleryClicked"/>
+
+                    <Button x:Name="RemovePhotoButton"
+                           Text="Remove Photo"
+                           BackgroundColor="#F44336"
+                           TextColor="White"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           CornerRadius="15"
+                           HeightRequest="55"
+                           Clicked="OnRemovePhotoClicked"
+                           IsVisible="False"/>
+
+                    <Button x:Name="CancelButton"
+                           Text="Cancel"
+                           BackgroundColor="Transparent"
+                           TextColor="#666666"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           CornerRadius="15"
+                           HeightRequest="50"
+                           BorderColor="#E0E0E0"
+                           BorderWidth="1"
+                           Clicked="OnCancelClicked"/>
+                </StackLayout>
+            </Border>
+
+        </StackLayout>
+
+        <!-- LOADING -->
+        <Grid x:Name="LoadingOverlay" 
+              IsVisible="False"
+              BackgroundColor="#80000000">
+
+            <StackLayout HorizontalOptions="Center" 
+                         VerticalOptions="Center">
+
+                <Frame CornerRadius="20"
+                       BackgroundColor="White"
+                       Padding="30"
+                       WidthRequest="200"
+                       HeightRequest="200">
+
+                    <StackLayout Spacing="25" 
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center">
+
+                        <ActivityIndicator IsRunning="True" 
+                                         Color="#2E7D32"
+                                         Scale="1.5"/>
+
+                        <Label Text="Uploading..."
+                               TextColor="#333333"
+                               FontSize="16"
+                               FontAttributes="Bold"/>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </Grid>
+
+    </Grid>
+</ContentPage>
